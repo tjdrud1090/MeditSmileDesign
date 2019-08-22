@@ -1,0 +1,77 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:PointInterpolation.View="clr-namespace:Process_Page.ToothTemplate"
+	xmlns:ViewModel="clr-namespace:Process_Page.ViewModel"
+	xmlns:AttachedProperty="clr-namespace:Process_Page.ToothTemplate.AttachedProperties">
+
+    <!--    Data template for points-->
+    <DataTemplate DataType="{x:Type ViewModel:PointViewModel}">
+        <DataTemplate.Resources>
+            <Storyboard x:Key="OnMouseEnter1">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.Fill)" Storyboard.TargetName="ellipse">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Brushes.Red}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="OnMouseLeave1">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.Fill)" Storyboard.TargetName="ellipse">
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Brushes.CornflowerBlue}"/>
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+        </DataTemplate.Resources>
+        <Grid>
+            <Ellipse  x:Name="ellipse" Fill="CornflowerBlue" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1" Height="1" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-0.5" Y="-0.5"/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </Grid>
+        <DataTemplate.Triggers>
+            <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                <BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave1}"/>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                <BeginStoryboard x:Name="OnMouseEnter1_BeginStoryboard" Storyboard="{StaticResource OnMouseEnter1}"/>
+            </EventTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <Style x:Key="PointListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Canvas.Left" Value="{Binding X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="Canvas.Top" Value="{Binding Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="AttachedProperty:DragInsideCanvasBehavior.DragInsideCanvas" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BorderStyle" TargetType="Border" >
+        <Setter Property="Opacity" Value="0.1"/>
+        <Setter Property="Background" Value="Gray"/>
+    </Style>
+
+    <Style x:Key="SmileControlStyle" TargetType="Ellipse">
+        <Setter Property="Width" Value="10"/>
+        <Setter Property="Height" Value="10"/>
+        <Setter Property="Fill" Value="SkyBlue"/>
+        <Setter Property="Stroke" Value="Blue"/>
+        <Setter Property="StrokeThickness" Value="2"/>
+    </Style>
+
+    <Style x:Key="SmileLineStyle" TargetType="Polyline">
+        <Setter Property="Stroke" Value="SkyBlue"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+    </Style>
+</ResourceDictionary>

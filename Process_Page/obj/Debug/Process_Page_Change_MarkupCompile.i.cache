@@ -1,0 +1,20 @@
+﻿Process_Page_Change
+
+
+winexe
+C#
+.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\
+Process_Page_Change
+none
+false
+DEBUG;TRACE
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\App.xaml
+27-723860257
+2-558633401
+62-1118756673
+131-2106209472
+Cards\FaceAlign_Step.xaml;Cards\ImageCanvas.xaml;Cards\layoutTemplate.xaml;Cards\Measurement_Step.xaml;Cards\TeethFineTuningControl.xaml;Cards\TeethTemplate_Step.xaml;Cards\TeethTuningControl.xaml;Cards\TranslationControl\slider1.xaml;Cards\TranslationControl\slider2.xaml;Cards\TranslationControl\slider3.xaml;Domain\Sample4Dialog.xaml;Domain\SampleDialog.xaml;Domain\SampleMessageDialog.xaml;Domain\SampleSaveDialog.xaml;Login_Page.xaml;PatientInfo_Page.xaml;Resource\MainColor.xaml;Resource\MainColorPrimary.xaml;SmileDesign_Page.xaml;ToothTemplate\DictionaryResources\MainResourceDictionary.xaml;FaceAlign_Page.xaml;MainWindow.xaml;ToothTemplate\DrawTeeth.xaml;ToothTemplate\Teeth.xaml;ToothTemplate\Tooth.xaml;ToothTemplate\WrapTeeth.xaml;TranslationDemo\Slider1.xaml;
+
+True
+

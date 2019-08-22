@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Process_Page.ToothTemplate.DrawTeeth"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Process_Page.ToothTemplate"
+             mc:Ignorable="d" 
+             x:Name="DrawTeethControl"
+             d:DesignHeight="860" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <ImageBrush x:Key="color1" ImageSource="/Resource/th1.PNG" TileMode="Tile"/>
+        <ImageBrush x:Key="color2" ImageSource="/Resource/th2.PNG" TileMode="Tile"/>
+        <ImageBrush x:Key="color3" ImageSource="/Resource/th3.PNG" TileMode="Tile"/>
+
+        <SolidColorBrush x:Key="FillBrush" Color="LightCoral" Opacity="0.2"/>
+        <SolidColorBrush x:Key="Selected_StrokeBrush" Color="Coral" Opacity="1"/>
+        <SolidColorBrush x:Key="NonSelected_StrokeBrush" Color="MidnightBlue" Opacity="1"/>
+    </UserControl.Resources>
+
+    <Canvas>
+        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" StrokeThickness="0.5"/>
+    </Canvas>
+
+</UserControl>

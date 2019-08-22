@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Process_Page.Cards.TranslationControl.slider2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Process_Page.Cards.TranslationControl"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="900">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="80*"></ColumnDefinition>
+                <ColumnDefinition Width="10*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Column="0">
+                <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
+                        Command="{x:Static materialDesign:Transitioner.MovePreviousCommand}"
+                        VerticalAlignment="Center" HorizontalAlignment="Left"
+                        Margin="16">
+                    <materialDesign:PackIcon Kind="StepBackward" />
+                </Button>
+            </Viewbox>
+            <Viewbox Grid.Column="2">
+                <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"                     
+                        Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"                    
+                        Margin="16" RenderTransformOrigin="9.282,0.533" HorizontalAlignment="Right">
+                    <materialDesign:PackIcon Kind="StepForward" />
+                </Button>
+            </Viewbox>
+            <Viewbox Grid.Column="1" Stretch="Uniform">
+                <TextBlock HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        Measurement
+                    </TextBlock.Text>
+                </TextBlock>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</UserControl>

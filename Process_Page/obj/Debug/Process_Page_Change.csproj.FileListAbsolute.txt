@@ -1,0 +1,200 @@
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\DlibDotNetNative.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\DlibDotNetNativeDnn.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\dll\x86\OpenCvSharpExtern.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\dll\x86\opencv_ffmpeg400.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\dll\x64\OpenCvSharpExtern.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\dll\x64\opencv_ffmpeg400_64.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\Process_Page_Change.exe.config
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\Process_Page_Change.exe
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\Process_Page_Change.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\CommonServiceLocator.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\DlibDotNet.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\MaterialDesignColors.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\MaterialDesignColors.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\GalaSoft.MvvmLight.Platform.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\GalaSoft.MvvmLight.Platform.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\GalaSoft.MvvmLight.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\GalaSoft.MvvmLight.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.Blob.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.Blob.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.Extensions.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.Extensions.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.UserInterface.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.UserInterface.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.dll
+C:\Users\bit\source\repos\Process_Page\Process_Page\bin\Debug\OpenCvSharp.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\SampleMessageDialog.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\SampleProgressDialog.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Resource\MainColor.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Resource\MainColorPrimary.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\FaceAlign_Step.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\ImageCanvas.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\Measurement_Step.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TeethFineTuningControl.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TeethTemplate_Step.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TeethTuningControl.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TranslationControl\slider1.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TranslationControl\slider2.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TranslationControl\slider3.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\Sample4Dialog.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\SampleDialog.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\SampleMessageDialog.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\SampleProgressDialog.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Login_Page.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\PatientInfo_Page.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\SmileDesign_Page.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\FaceAlign_Page.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\MainWindow.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\DrawTeeth.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\Teeth.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\Tooth.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\WrapTeeth.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\TranslationDemo\Slider1.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\App.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change_Content.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change_MarkupCompile.cache
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change_MarkupCompile.lref
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\App.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\FaceAlign_Step.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\ImageCanvas.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\Measurement_Step.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TeethFineTuningControl.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TeethTemplate_Step.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TeethTuningControl.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TranslationControl\slider1.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TranslationControl\slider2.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Cards\TranslationControl\slider3.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\Sample4Dialog.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Domain\SampleDialog.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Login_Page.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\PatientInfo_Page.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\SmileDesign_Page.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\DictionaryResources\MainResourceDictionary.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\FaceAlign_Page.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\MainWindow.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\DrawTeeth.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\Teeth.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\Tooth.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\ToothTemplate\WrapTeeth.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\TranslationDemo\Slider1.baml
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.g.resources
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.Properties.Resources.resources
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.csproj.GenerateResource.cache
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.csproj.CoreCompileInputs.cache
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.csproj.CopyComplete
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.exe
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.pdb
+C:\Users\bit\source\repos\Process_Page\Process_Page\obj\Debug\Process_Page_Change.csprojAssemblyReference.cache
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\SampleMessageDialog.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Resource\MainColor.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Resource\MainColorPrimary.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\FaceAlign_Step.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\ImageCanvas.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\Measurement_Step.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate_Step.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTuningControl.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TranslationControl\slider1.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TranslationControl\slider2.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TranslationControl\slider3.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\Sample4Dialog.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\SampleDialog.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\SampleMessageDialog.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Login_Page.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\PatientInfo_Page.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\SmileDesign_Page.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\MainWindow.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\DrawTeeth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\Teeth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\Tooth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\WrapTeeth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\TranslationDemo\Slider1.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\App.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\DlibDotNetNative.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\DlibDotNetNativeDnn.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\dll\x86\OpenCvSharpExtern.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\dll\x86\opencv_ffmpeg400.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\dll\x64\OpenCvSharpExtern.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\dll\x64\opencv_ffmpeg400_64.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\CommonServiceLocator.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\DlibDotNet.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\MaterialDesignColors.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\MaterialDesignColors.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\GalaSoft.MvvmLight.Platform.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\GalaSoft.MvvmLight.Platform.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\GalaSoft.MvvmLight.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\GalaSoft.MvvmLight.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.Blob.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.Blob.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.Extensions.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.Extensions.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.UserInterface.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.UserInterface.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.dll
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\OpenCvSharp.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\App.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\FaceAlign_Step.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\ImageCanvas.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\Measurement_Step.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate_Step.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTuningControl.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TranslationControl\slider1.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TranslationControl\slider2.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TranslationControl\slider3.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\Sample4Dialog.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\SampleDialog.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Login_Page.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\PatientInfo_Page.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\SmileDesign_Page.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\DictionaryResources\MainResourceDictionary.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\MainWindow.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\DrawTeeth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\Teeth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\Tooth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\WrapTeeth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\TranslationDemo\Slider1.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_Change.csproj.GenerateResource.cache
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_Change.csproj.CoreCompileInputs.cache
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_Change.csproj.CopyComplete
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\SampleSaveDialog.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Domain\SampleSaveDialog.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\layoutTemplate.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\layoutTemplate.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\LowerTooth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\RotateTeeth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\UpperTooth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\WrapTooth.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_Content.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_MarkupCompile.cache
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_MarkupCompile.lref
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\Process_Page.exe.config
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\Process_Page.exe
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\bin\Debug\Process_Page.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\LowerTooth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\RotateTeeth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\UpperTooth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\ToothTemplate\WrapTooth.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page.g.resources
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page.Properties.Resources.resources
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page.exe
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page.pdb
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\FaceAlign_Step2.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate_Step2.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate_Step3.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\FaceAlign_Step2.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate_Step2.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate_Step3.baml
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_Change.csprojAssemblyReference.cache
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Util\NumericUpDown.g.cs
+C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Util\NumericUpDown.baml
