@@ -2,3 +2,5 @@
 *.baml
 *.cache
 *.lref
+*.g.cs
+*.g.i.cs

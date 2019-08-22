@@ -294,8 +294,6 @@ C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\x64\Debug\Process_Page_Ch
 C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\x64\Debug\Process_Page.exe
 C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\x64\Debug\Process_Page.pdb
 C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\x64\Debug\Process_Page_Change.csprojAssemblyReference.cache
-D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.exe
-D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.pdb
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\DlibDotNetNative.dll
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\DlibDotNetNativeDnn.dll
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
@@ -402,3 +400,5 @@ D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.Properties
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csproj.GenerateResource.cache
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csproj.CoreCompileInputs.cache
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csproj.CopyComplete
+D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.exe
+D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.pdb
