@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0E83A99-B7DD-458C-87E1-E783740682DC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Process_Page</RootNamespace>
+    <AssemblyName>Process_Page</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Process_Page.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Cards\FaceAlign_Step.xaml.cs">
+      <DependentUpon>FaceAlign_Step.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\FaceAlign_Step2.xaml.cs">
+      <DependentUpon>FaceAlign_Step2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\ImageCanvas.xaml.cs">
+      <DependentUpon>ImageCanvas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\layoutTemplate.xaml.cs">
+      <DependentUpon>layoutTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\Measurement_Step.xaml.cs">
+      <DependentUpon>Measurement_Step.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\RectConvertor.cs" />
+    <Compile Include="Cards\TeethTemplate_Step.xaml.cs">
+      <DependentUpon>TeethTemplate_Step.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\TeethTemplate_Step2.xaml.cs">
+      <DependentUpon>TeethTemplate_Step2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\TeethTemplate_Step3.xaml.cs">
+      <DependentUpon>TeethTemplate_Step3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\TeethTuningControl.xaml.cs">
+      <DependentUpon>TeethTuningControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\TranslationControl\slider1.xaml.cs">
+      <DependentUpon>slider1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\TranslationControl\slider2.xaml.cs">
+      <DependentUpon>slider2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\TranslationControl\slider3.xaml.cs">
+      <DependentUpon>slider3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\AnotherCommandImplementation.cs" />
+    <Compile Include="Domain\DocumentationLinkType.cs" />
+    <Compile Include="Domain\FutureDateValidationRule.cs" />
+    <Compile Include="Domain\IsCheckedValidationRule.cs" />
+    <Compile Include="Domain\ListsAndGridsViewModel.cs" />
+    <Compile Include="Domain\NotEmptyValidationRule.cs" />
+    <Compile Include="Domain\NotifyPropertyChangedExtension.cs" />
+    <Compile Include="Domain\Sample4Dialog.xaml.cs" />
+    <Compile Include="Domain\SampleDialog.xaml.cs" />
+    <Compile Include="Domain\SampleDialogViewModel.cs" />
+    <Compile Include="Domain\SampleMessageDialog.xaml.cs" />
+    <Compile Include="Domain\SampleSaveDialog.xaml.cs" />
+    <Compile Include="Domain\SelectableViewModel.cs" />
+    <Compile Include="Domain\SimpleDataTemplateSelector.cs" />
+    <Compile Include="Domain\SimpleDateValidationRule.cs" />
+    <Compile Include="Domain\TreesViewModel.cs" />
+    <Compile Include="Login_Page.xaml.cs">
+      <DependentUpon>Login_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatientInfo_Page.xaml.cs">
+      <DependentUpon>PatientInfo_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SmileDesign_Page.xaml.cs">
+      <DependentUpon>SmileDesign_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToothTemplate\ArrowLine\ArrowEnds.cs" />
+    <Compile Include="ToothTemplate\ArrowLine\ArrowLine.cs" />
+    <Compile Include="ToothTemplate\ArrowLine\ArrowLineBase.cs" />
+    <Compile Include="ToothTemplate\ArrowLine\DragArrow.cs" />
+    <Compile Include="ToothTemplate\AttachedProperties\DragInsideCanvasBehavior.cs" />
+    <Compile Include="ToothTemplate\DrawTeeth.xaml.cs">
+      <DependentUpon>DrawTeeth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToothTemplate\LowerTooth.xaml.cs">
+      <DependentUpon>LowerTooth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToothTemplate\RotateTeeth.xaml.cs">
+      <DependentUpon>RotateTeeth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToothTemplate\UpperTooth.xaml.cs">
+      <DependentUpon>UpperTooth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\KeyBoardBehaviors.cs" />
+    <Compile Include="ToothTemplate\Utils\MouseBehaviors.cs" />
+    <Compile Include="ToothTemplate\WrapTooth.xaml.cs">
+      <DependentUpon>WrapTooth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TranslationDemo\Slider1.xaml.cs">
+      <DependentUpon>Slider1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\NumericUpDown.xaml.cs">
+      <DependentUpon>NumericUpDown.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\PatientInfo.cs" />
+    <Compile Include="Util\XamlDisplayEx.cs" />
+    <Compile Include="ViewModel\FaceControlViewModel.cs" />
+    <Compile Include="ViewModel\DialogsViewModel.cs" />
+    <Compile Include="ViewModel\layoutViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\PointViewModel.cs" />
+    <Compile Include="ToothTemplate\Teeth.xaml.cs">
+      <DependentUpon>Teeth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToothTemplate\Tooth.xaml.cs">
+      <DependentUpon>Tooth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToothTemplate\Utils\InterpolationUtils.cs" />
+    <Compile Include="ToothTemplate\Utils\Numerics.cs" />
+    <Compile Include="ToothTemplate\Utils\ViewUtils.cs" />
+    <Compile Include="ToothTemplate\WrapTeeth.xaml.cs">
+      <DependentUpon>WrapTeeth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\FaceAlign_PageViewModel.cs" />
+    <Compile Include="Util\DrawFaceAlign.cs" />
+    <Compile Include="Util\FaceDetector.cs" />
+    <Compile Include="Util\MouseBehaviour.cs" />
+    <Compile Include="ViewModel\SampleSaveDialogViewModel.cs" />
+    <Compile Include="ViewModel\TeethControlViewModel.cs" />
+    <Page Include="Cards\FaceAlign_Step.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\FaceAlign_Step2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\ImageCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\layoutTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\Measurement_Step.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TeethTemplate_Step.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TeethTemplate_Step2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TeethTemplate_Step3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TeethTuningControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TranslationControl\slider1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TranslationControl\slider2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\TranslationControl\slider3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Domain\Sample4Dialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleMessageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Domain\SampleSaveDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Login_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PatientInfo_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\MainColor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\MainColorPrimary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SmileDesign_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\DictionaryResources\MainResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ToothTemplate\DrawTeeth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\LowerTooth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\RotateTeeth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\Teeth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\Tooth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\UpperTooth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\WrapTeeth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToothTemplate\WrapTooth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TranslationDemo\Slider1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Util\NumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resource\shape_predictor_68_face_landmarks.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DlibDotNet">
+      <Version>19.17.0.20190623</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignColors">
+      <Version>1.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignThemes">
+      <Version>2.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLightLibs">
+      <Version>5.4.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="OpenCvSharp3-AnyCPU">
+      <Version>4.0.0.20181129</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\meditsm_Z2f_icon.ico" />
+    <Resource Include="Resource\ProfilePic.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\llog.png" />
+    <Resource Include="image\logo_1.png" />
+    <Resource Include="image\pro.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\downface.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\frontface.png" />
+    <Resource Include="image\Lface.png" />
+    <Resource Include="image\openface.png" />
+    <Resource Include="image\Rface.png" />
+    <Resource Include="image\Rface1.png" />
+    <Resource Include="image\upface.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\th1.PNG" />
+    <Resource Include="Resource\th2.PNG" />
+    <Resource Include="Resource\th3.PNG" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

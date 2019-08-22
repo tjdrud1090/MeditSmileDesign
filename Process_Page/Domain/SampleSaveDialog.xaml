@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="MaterialDesignColors.WpfExample.Domain.SampleSaveDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             x:Name="SavePage"
+             mc:Ignorable="d" Height="800" Width="900">
+    <Grid>
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" Grid.Row="1"/>
+        <StackPanel Orientation="Horizontal" Margin="0,704,0,0">
+            <Label Width="784"/>
+
+            <Button IsCancel="True" Margin="0,4,0,6" Width="48"  Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{Binding createfile}" Content="{materialDesign:PackIcon CheckBold}" Height="Auto"  ToolTip="저장" Click="click"  >
+
+            </Button>
+            <Button IsCancel="True" Margin="8,3,0,4" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Content="{materialDesign:PackIcon CloseOutline}" Width="48" ToolTip="취소">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+        <Image x:Name="image" Width="{Binding ElementName=SavePage, Path=ActualWidth}"
+               Height="700"
+               Source="{Binding finalimage}" Margin="0" Stretch="UniformToFill" />
+
+
+        <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="2">
+        </materialDesign:DialogHost>
+        <CheckBox x:Name="checkline" Margin="616,704,150,35" IsChecked="{Binding checkfaceline}">face line</CheckBox>
+        <CheckBox x:Name="checkupteeth" Margin="326,704,440,35" IsChecked="{Binding checkteeth}">Upper tooth</CheckBox>
+        <CheckBox x:Name="checkdownteeth" Margin="471,704,295,35" IsChecked="{Binding checkdownfaceline}">Lower tooth</CheckBox>
+        <CheckBox x:Name="checksmile" Margin="181,704,585,35" IsChecked="{Binding checksmile}">Smile image</CheckBox>
+        <CheckBox x:Name="checkopener" Margin="36,704,730,35" IsChecked="{Binding checkopener}">Opener image</CheckBox>
+    </Grid>
+</UserControl>
