@@ -44,7 +44,7 @@ namespace Process_Page
         public static BitmapImage infoLFileName;
         public static BitmapImage infoRFileName;
         //
-        public static readonly string localDir = @"C:\Users\bit\Documents\GitHub\MeditSmileDesign\Process_Page";
+        public static readonly string localDir = @"D:\ho-ho\WPF\MeditSmileDesign\Process_Page";
         //
         public DialogsViewModel()
         {
