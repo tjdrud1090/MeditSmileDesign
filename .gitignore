@@ -1,9 +1,0 @@
-
-*.baml
-*.cache
-*.lref
-*.g.cs
-*.g.i.cs
-*.ide-shm
-*.ide-wal
-*.ide
