@@ -4,3 +4,9 @@
 *.lref
 *.g.cs
 *.g.i.cs
+*.ide
+*.ide-shm
+*.ide-wal
+*.ide
+Process_Page/.vs/Process_Page_Demo/v16/Server/sqlite3/storage.ide
+Process_Page/.vs/Process_Page_Demo/v16/Server/sqlite3/storage.ide
