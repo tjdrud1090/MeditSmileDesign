@@ -56,12 +56,12 @@ namespace Process_Page
             //    string[] Flines = File.ReadAllLines(@"C:\Users\bit-user\Desktop\Process_Page_Copy\Process_Page\save\" + show);
             //    foreach (string Fshow in Flines)
             //    {
-            FileInfo fileInfo = new FileInfo(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\DrInfo\" + currentPage.IDtext.Text + "(" + currentPage.PasswordBox.Password + ")" + ".txt");
+            FileInfo fileInfo = new FileInfo(DialogsViewModel.localDir+"\\DrInfo\\" + currentPage.IDtext.Text + "(" + currentPage.PasswordBox.Password + ")" + ".txt");
 
             if (fileInfo.Exists)
             {
 
-                string[] lines = File.ReadAllLines(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\DrInfo\" + currentPage.IDtext.Text + "(" + currentPage.PasswordBox.Password + ")" + ".txt");
+                string[] lines = File.ReadAllLines(DialogsViewModel.localDir+"\\DrInfo\\"+  currentPage.IDtext.Text + "(" + currentPage.PasswordBox.Password + ")" + ".txt");
                 foreach (string show in lines)
                 {
                     logDr_name = show;
@@ -82,7 +82,7 @@ namespace Process_Page
         public void Signup()
         {
             string[] lines = { Dr_name, Dr_num, Dr_ID, Dr_Password };
-            using (StreamWriter outputFile = new StreamWriter(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\DrInfo\" + Dr_ID + "(" + Dr_Password + ")" + ".txt"))
+            using (StreamWriter outputFile = new StreamWriter(DialogsViewModel.localDir+"\\DrInfo\\" + Dr_ID + "(" + Dr_Password + ")" + ".txt"))
             {
                 foreach (string line in lines)
                 {
