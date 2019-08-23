@@ -135,6 +135,9 @@
     <Compile Include="Domain\SimpleDataTemplateSelector.cs" />
     <Compile Include="Domain\SimpleDateValidationRule.cs" />
     <Compile Include="Domain\TreesViewModel.cs" />
+    <Compile Include="FaceAlign_Page.xaml.cs">
+      <DependentUpon>FaceAlign_Page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Login_Page.xaml.cs">
       <DependentUpon>Login_Page.xaml</DependentUpon>
     </Compile>
@@ -174,7 +177,7 @@
     </Compile>
     <Compile Include="Util\PatientInfo.cs" />
     <Compile Include="Util\XamlDisplayEx.cs" />
-    <Compile Include="ViewModel\FaceControlViewModel.cs" />
+    <Compile Include="ViewModel\SmilePageViewModel.cs" />
     <Compile Include="ViewModel\DialogsViewModel.cs" />
     <Compile Include="ViewModel\layoutViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -260,6 +263,10 @@
     <Page Include="Domain\SampleSaveDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FaceAlign_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Login_Page.xaml">
       <SubType>Designer</SubType>

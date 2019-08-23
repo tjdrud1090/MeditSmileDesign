@@ -6,9 +6,7 @@
       xmlns:local="clr-namespace:Process_Page.Cards"
       xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:trans="clr-namespace:Process_Page.Cards.TranslationControl"
       xmlns:View="clr-namespace:Process_Page.ToothTemplate"
-      xmlns:local1="clr-namespace:Process_Page_Change.Cards"
       mc:Ignorable="d" 
       x:Name="FunctionPage"
       d:DesignHeight="900" d:DesignWidth="1200"
@@ -29,7 +27,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -104,12 +102,6 @@
                     <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="1" Fill="Black"
                            Visibility="{Binding ElementName=FunctionPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="EyeLine" Data="{Binding eyeline}" Stroke="Black" StrokeThickness="1" Fill="Black"
-                          Visibility="{Binding ElementName=FunctionPage, Path=DataContext.LineVisiblity}"
-                              ></Path>
-                    <Path Name="LipLine" Data="{Binding lipline}" Stroke="Black" StrokeThickness="1" Fill="Black"
-                          Visibility="{Binding ElementName=FunctionPage, Path=DataContext.LineVisiblity}"
-                              ></Path>
                 </Canvas>
                 <Canvas.RenderTransform>
                     <ScaleTransform CenterX="{Binding ElementName=FunctionPage, Path=DataContext.FrontalPoints[0].X}" 
@@ -120,23 +112,21 @@
             </Canvas>
         </Grid>
 
-
-
         <!--Menu Bar-->
         <materialDesign:ColorZone Grid.Row="0" Grid.ColumnSpan="3" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                             Mode="PrimaryMid" DockPanel.Dock="Top" Height="53">
             <DockPanel>
                 <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="42" Foreground="White" HorizontalAlignment="Left" Height="22" >
                     <StackPanel >
-                        <Button Content="로그아웃" Click="Button_Click" />
+                        <Button Content="로그아웃" Click="logout" />
                         <Separator/>
-                        <Button Content="끝내기" Click="Button_Click_1" />
+                        <Button Content="끝내기" Click="processEnd" />
                     </StackPanel>
                 </materialDesign:PopupBox>
 
                 <materialDesign:Chip Content="James Willock" Margin="0,-1,0,-7" Width="136" Height="29" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <materialDesign:Chip.Icon>
-                        <Image Source="C:/Users/bit/source/repos/dental align exam1/image/dental.PNG" />
+                        <Image Source="./Resource/ProfilePic.jpg" />
                     </materialDesign:Chip.Icon>
                 </materialDesign:Chip>
                 <TextBlock FontSize="22" Foreground="White" Width="232" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-4">Medit Design</TextBlock>
@@ -154,39 +144,29 @@
                 </Grid.ColumnDefinitions>
                 <Viewbox HorizontalAlignment="Left" Grid.Column="0">
                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 
-                        Command="{Binding prevFlowClick}"
+                        Command="{Binding PrePageClick}"
                         VerticalAlignment="Center" HorizontalAlignment="Left"
                         Margin="0">
                         <materialDesign:PackIcon Kind="StepBackward" />
                     </Button>
                 </Viewbox>
-                <TextBlock Grid.Column="1" Margin="0" Text="{Binding changeText}"
+                <TextBlock Grid.Column="1" Margin="0" Text="Tooth Template"
                            VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16">
                 </TextBlock>
-
-                <Viewbox Grid.Column="2" HorizontalAlignment="Right">
-                    <Button Style="{DynamicResource MaterialDesignFloatingActionAccentButton}"                     
-                        Command="{Binding nextFlowClick}"                    
-                        Margin="0" RenderTransformOrigin="9.282,0.533" HorizontalAlignment="Right">
-                        <materialDesign:PackIcon Kind="StepForward" />
-                    </Button>
-                </Viewbox>
             </Grid>
         </Grid>
 
         <!--기본 기능 구현 : 확대, 축소, redo, undo, Measurement-->
         <Grid Grid.Row="2" Grid.Column="0" Margin="10,0,0,10">
-            <local:FaceAlign_Step2 x:Name="FaceAlignControl_ReUnDoSearCh" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl0}"/>
-            <local:Measurement_Step x:Name="MeasureControl" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl1}" Margin="0,0,-10,0"/>
-            <local:TeethTemplate_Step2 x:Name="ToothControl2" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl2}" Margin="0,0,-10,0"></local:TeethTemplate_Step2>
+            <local:TeethTemplate_Step2 x:Name="ToothControl2" Margin="0,0,-10,0"></local:TeethTemplate_Step2>
         </Grid>
 
         <!--control changed panel :  Clear, TeethTemplate/다시-->
         <Grid x:Name="control_Changed" Grid.Row="3" Grid.Column="0" Grid.RowSpan="2" Margin="35,0,0,0">
-            <local:TeethTemplate_Step x:Name="ToothControl" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl2}" Margin="-24,0,-10,0"></local:TeethTemplate_Step>
-            <local:FaceAlign_Step x:Name="FaceControl" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl0}" Margin="-10"></local:FaceAlign_Step>
+            <local:TeethTemplate_Step x:Name="ToothControl" Margin="-24,0,-10,0"></local:TeethTemplate_Step>
         </Grid>
 
+        <!--치아 색 및 미세 조정 기능 컨트롤-->
 
         <!--환자 정보 및 상세 조정 기능 추가 부분 : 미세 조정-->
         <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="2">
@@ -228,15 +208,15 @@
             </Grid>
         </Grid>
 
-        <!--치아 색 및 미세 조정 기능 컨트롤-->
 
         <!--layout template-->
-        <local1:layoutTemplate x:Name="layoutcontrol" Grid.Row="4" Grid.Column="1"
+        <local:layoutTemplate x:Name="layoutcontrol" Grid.Row="4" Grid.Column="1"
                                   VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                   Visibility="Visible"/>
 
-        <Button x:Name="SaveButton" Click="Button1_Click" Content="save" Grid.Column="0" HorizontalAlignment="Stretch" Margin="20" Grid.Row="5" VerticalAlignment="Top"
-                Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl2}"  Command="{Binding Savecommand}" />
+        <Button x:Name="SaveButton" Click="Button1_Click" Content="save" Grid.Column="0" Grid.Row="5" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20"
+                Command="{Binding Savecommand}" />
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="5" Grid.ColumnSpan="3" >
         </materialDesign:DialogHost>
 

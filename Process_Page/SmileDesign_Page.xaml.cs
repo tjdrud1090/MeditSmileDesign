@@ -27,7 +27,7 @@ namespace Process_Page
         public SmileDesign_Page()
         {
             InitializeComponent();
-            this.DataContext = new FaceAlign_PageViewModel();
+            this.DataContext = new SmilePageViewModel();
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
@@ -77,13 +77,13 @@ namespace Process_Page
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void logout(object sender, RoutedEventArgs e)
         {
             Login_Page page = new Login_Page();
             System.Windows.Application.Current.MainWindow.Content = page;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void processEnd(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }

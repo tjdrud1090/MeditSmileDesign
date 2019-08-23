@@ -26,7 +26,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid  Margin="0,10,0,10" Grid.Row="0"  HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                    <Button x:Name="search_pic" Content="searchpic" HorizontalAlignment="Center"
+                    <Button x:Name="Reset" Content="Reset" HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Style="{DynamicResource MaterialDesignRaisedAccentButton}"
                             Command="{Binding openFileClick}" Margin="10,0" Width="760"  />

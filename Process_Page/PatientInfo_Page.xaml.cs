@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Process_Page.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -75,7 +76,6 @@ namespace Process_Page
 
             using (drawingContext)
             {
-                //drawingContext.PushTransform(new ScaleTransform(scale, scale));
                 drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(actualWidth, actualHeight)));
             }
             renderTarget.Render(drawingVisual);
@@ -84,7 +84,7 @@ namespace Process_Page
             jpgEncoder.QualityLevel = quality;
             jpgEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
 
-            using (FileStream stm = File.OpenWrite(DialogsViewModel.localDir+"\\save\\test2.png"))
+            using (FileStream stm = File.OpenWrite(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\test2.png"))
                 jpgEncoder.Save(stm);
         }
 

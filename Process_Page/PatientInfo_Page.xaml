@@ -27,14 +27,6 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-
-    <Page.DataContext>
-        <local:DialogsViewModel/>
-    </Page.DataContext>
-
-
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

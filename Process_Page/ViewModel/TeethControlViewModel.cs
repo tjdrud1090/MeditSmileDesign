@@ -17,7 +17,7 @@ using Process_Page.ToothTemplate;
 using Process_Page.ToothTemplate.ArrowLine;
 using Process_Page.ToothTemplate.Utils;
 using Process_Page.Util;
-using Process_Page_Change.Cards;
+using Process_Page.Cards;
 
 namespace Process_Page.ViewModel
 {
