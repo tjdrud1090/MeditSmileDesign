@@ -30,9 +30,9 @@ namespace Process_Page
             this.DataContext = new SmilePageViewModel();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void SaveSnapshot(object sender, RoutedEventArgs e)
         {
-            Snapshot(image_view, 1, 100);
+            Snapshot(CanvasView, 1, 100);
         }
 
         private void Snapshot(UIElement source, double scale, int quality)

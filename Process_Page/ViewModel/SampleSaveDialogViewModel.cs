@@ -38,14 +38,14 @@ namespace Process_Page.ViewModel
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
                         currentPage.Faceline_layer0.Visibility = Visibility.Visible;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     if (value == false)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
                         currentPage.Faceline_layer0.Visibility = Visibility.Hidden;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     RaisePropertyChanged("checkfaceline");
@@ -66,14 +66,14 @@ namespace Process_Page.ViewModel
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
                         currentPage.UserUpper.Visibility = Visibility.Visible;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     if (value == false)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
                         currentPage.UserUpper.Visibility = Visibility.Hidden;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     RaisePropertyChanged("checkfaceline");
@@ -93,14 +93,14 @@ namespace Process_Page.ViewModel
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
                         currentPage.UserLower.Visibility = Visibility.Visible;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     if (value == false)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
                         currentPage.UserLower.Visibility = Visibility.Hidden;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     RaisePropertyChanged("checkfaceline");
@@ -119,15 +119,15 @@ namespace Process_Page.ViewModel
                     if (value == true)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                        currentPage.image_layer1.Visibility = Visibility.Visible;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        currentPage.FrontalFaceImage.Visibility = Visibility.Visible;
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     if (value == false)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                        currentPage.image_layer1.Visibility = Visibility.Hidden;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        currentPage.FrontalFaceImage.Visibility = Visibility.Hidden;
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     RaisePropertyChanged("checkfaceline");
@@ -146,15 +146,15 @@ namespace Process_Page.ViewModel
                     if (value == true)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                        currentPage.image_layer2.Visibility = Visibility.Visible;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        currentPage.GagFaceImage.Visibility = Visibility.Visible;
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     if (value == false)
                     {
                         SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                        currentPage.image_layer2.Visibility = Visibility.Hidden;
-                        Snapshot(currentPage.image_view, 1, 100);
+                        currentPage.GagFaceImage.Visibility = Visibility.Hidden;
+                        Snapshot(currentPage.CanvasView, 1, 100);
                         RaisePropertyChanged("finalimage");
                     }
                     RaisePropertyChanged("checkfaceline");

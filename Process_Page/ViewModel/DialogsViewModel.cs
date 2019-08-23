@@ -185,6 +185,8 @@ namespace Process_Page.ViewModel
 
         public void nextPage(object obj)
         {
+            // 만약 selected된 객체가 없으면 message 띄워주기
+
             FaceAlign_Page page = new FaceAlign_Page();
             System.Windows.Application.Current.MainWindow.Content = page;
         }

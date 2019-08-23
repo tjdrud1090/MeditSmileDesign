@@ -26,7 +26,6 @@ namespace Process_Page.Cards
         public ImageCanvas()
         {
             InitializeComponent();
-            this.DataContext = new SmilePageViewModel();
         }
 
         //Image Source Property

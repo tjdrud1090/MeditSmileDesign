@@ -84,7 +84,7 @@ namespace Process_Page
             jpgEncoder.QualityLevel = quality;
             jpgEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
 
-            using (FileStream stm = File.OpenWrite(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\test2.png"))
+            using (FileStream stm = File.OpenWrite(@"\save\test2.png"))
                 jpgEncoder.Save(stm);
         }
 

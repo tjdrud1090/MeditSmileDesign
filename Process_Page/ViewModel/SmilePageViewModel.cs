@@ -39,44 +39,23 @@ namespace Process_Page.ViewModel
     public class SmilePageViewModel : ViewModelBase
     {
         SmileDesign_Page main;
-        
+
+        // page간 중간 정보 객체
+        public FaceAlign_Page faceAlignInfo;
+
         #region constructor
         public SmilePageViewModel()
         {
+            faceAlignInfo = ((MainWindow)System.Windows.Application.Current.MainWindow).OldPage as FaceAlign_Page;
+
             isSizing = false;
             isFirstTimeMovedOnSizingTooth = true;
             firstRotate = Enumerable.Repeat(true, 10).ToList();
 
-            fp.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp.midline.Add(new OpenCvSharp.Point(0, 0));
-            fp.midline.Add(new OpenCvSharp.Point(0, 0));
-
-            fp1.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp1.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp1.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp1.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp1.midline.Add(new OpenCvSharp.Point(0, 0));
-            fp1.midline.Add(new OpenCvSharp.Point(0, 0));
-
-            flowname.Add("ToothTemplate");
-
-            _showControl0 = Visibility.Visible;
-            _showControl1 = Visibility.Hidden;
-            _showControl2 = Visibility.Hidden;
             _FaceLineVisiblity = Visibility.Visible;
-            _LineVisiblity = Visibility.Visible;
-
-            RaisePropertyChanged("showControl0");
-            RaisePropertyChanged("showControl1");
-            RaisePropertyChanged("showControl2");
             RaisePropertyChanged("FaceLineVisiblity");
-            RaisePropertyChanged("LineVisiblity");
 
-            RaisePropertyChanged("changeText");
-            RaisePropertyChanged("openFileClick");
+            Init();
         }
         #endregion
 
@@ -115,195 +94,7 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
-        #region Change Page Command
-        //command binding
-        private RelayCommand<object> _nextFlowClick;
-        public RelayCommand<object> nextFlowClick
-        {
-            get
-            {
-                if (_nextFlowClick == null)
-                    return _nextFlowClick = new RelayCommand<object>(param => this.NextFlowClicked());
-                return _nextFlowClick;
-            }
-            set
-            {
-                _nextFlowClick = value;
-            }
-        }
-        private RelayCommand<object> _prevFlowClick;
-        public RelayCommand<object> prevFlowClick
-        {
-            get
-            {
-                if (_prevFlowClick == null)
-                    return _prevFlowClick = new RelayCommand<object>(param => this.PrevFlowClicked());
-                return _prevFlowClick;
-            }
-            set
-            {
-                _prevFlowClick = value;
-            }
-        }
-
-        List<string> flowname = new List<string>();
-
-        public void NextFlowClicked()
-        {
-            int index = flowname.IndexOf(changeText) + 1;
-            switch (index)
-            {
-                case 1:
-                    _showControl0 = Visibility.Hidden;
-                    _showControl1 = Visibility.Visible;
-                    _FaceLineVisiblity = Visibility.Hidden;
-                    _LineVisiblity = Visibility.Hidden;
-
-                    _changeText = flowname.ElementAt(1);
-                    RaisePropertyChanged("showControl0");
-                    RaisePropertyChanged("showControl1");
-                    RaisePropertyChanged("FaceLineVisiblity");
-                    RaisePropertyChanged("LineVisiblity");
-
-                    RaisePropertyChanged("changeText");
-                    break;
-                case 2:
-                    _showControl1 = Visibility.Hidden;
-                    _showControl2 = Visibility.Visible;
-                    _FaceLineVisiblity = Visibility.Visible;
-
-                    _changeText = flowname.ElementAt(2);
-                    RaisePropertyChanged("showControl1");
-                    RaisePropertyChanged("showControl2");
-                    RaisePropertyChanged("FaceLineVisiblity");
-
-                    RaisePropertyChanged("changeText");
-
-                    // Upper Tooth 위치 선정
-                    _ToothUpperCenter.X = midline.StartPoint.X;
-                    _ToothUpperCenter.Y = lipline.EndPoint.Y;
-                    RaisePropertyChanged("ToothUpperCenter");
-
-                    offset_LeftUpperTooth = _ToothUpperCenter.X;
-                    offset_TopUpperTooth = _ToothUpperCenter.Y;
-
-                    // Lower Tooth 위치 선정
-                    _ToothLowerCenter.X = midline.StartPoint.X;
-                    _ToothLowerCenter.Y = lipline.EndPoint.Y + 10;
-                    RaisePropertyChanged("ToothLowerCenter");
-
-                    offset_LeftLowerTooth = _ToothLowerCenter.X;
-                    offset_TopLowerTooth = _ToothLowerCenter.Y;
-
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void PrevFlowClicked()
-        {
-            int index = flowname.IndexOf(changeText) - 1;
-            switch (index)
-            {
-                case 0:
-                    _showControl0 = Visibility.Visible;
-                    _showControl1 = Visibility.Hidden;
-                    _FaceLineVisiblity = Visibility.Visible;
-                    _LineVisiblity = Visibility.Visible;
-
-                    _changeText = flowname.ElementAt(0);
-                    RaisePropertyChanged("showControl0");
-                    RaisePropertyChanged("showControl1");
-                    RaisePropertyChanged("FaceLineVisiblity");
-                    RaisePropertyChanged("LineVisiblity");
-
-                    RaisePropertyChanged("changeText");
-                    break;
-                case 1:
-                    _showControl1 = Visibility.Visible;
-                    _showControl2 = Visibility.Hidden;
-                    _FaceLineVisiblity = Visibility.Hidden;
-
-                    _changeText = flowname.ElementAt(1);
-                    RaisePropertyChanged("showControl1");
-                    RaisePropertyChanged("showControl2");
-                    RaisePropertyChanged("FaceLineVisiblity");
-
-                    RaisePropertyChanged("changeText");
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private string _changeText;
-        public string changeText
-        {
-            get { return _changeText; }
-            set
-            {
-                if (_changeText != value)
-                {
-                    _changeText = value;
-                    RaisePropertyChanged("changeText");
-                }
-            }
-        }
-
-        private Visibility _showControl0;
-        public Visibility showControl0
-        {
-            get { return _showControl0; }
-            set
-            {
-                if (_showControl0 != value)
-                {
-                    _showControl0 = value;
-                    RaisePropertyChanged("showControl0");
-                }
-            }
-        }
-        private Visibility _showControl1;
-        public Visibility showControl1
-        {
-            get { return _showControl1; }
-            set
-            {
-                if (_showControl1 != value)
-                {
-                    _showControl1 = value;
-                    RaisePropertyChanged("showControl1");
-                }
-            }
-        }
-        private Visibility _showControl2;
-        public Visibility showControl2
-        {
-            get { return _showControl2; }
-            set
-            {
-                if (_showControl2 != value)
-                {
-                    _showControl2 = value;
-                    RaisePropertyChanged("showControl2");
-                }
-            }
-        }
-        private Visibility _showControl3;
-        public Visibility showControl3
-        {
-            get { return _showControl3; }
-            set
-            {
-                if (_showControl3 != value)
-                {
-                    _showControl3 = value;
-                    RaisePropertyChanged("showControl3");
-                }
-            }
-        }
-
+        #region Visibility Set
         private Visibility _FaceLineVisiblity;
         public Visibility FaceLineVisiblity
         {
@@ -317,29 +108,10 @@ namespace Process_Page.ViewModel
                 }
             }
         }
-
-        private Visibility _LineVisiblity;
-        public Visibility LineVisiblity
-        {
-            get { return _LineVisiblity; }
-            set
-            {
-                if (_LineVisiblity != value)
-                {
-                    _LineVisiblity = value;
-                    RaisePropertyChanged("LineVisiblity");
-                }
-            }
-        }
         #endregion
 
         #region face_landmark line draw property
-        public FaceDetector.face_point fp = new FaceDetector.face_point();
-        public FaceDetector.face_point fp1 = new FaceDetector.face_point();
-
-        DrawFaceAlign df = new DrawFaceAlign();
-
-        //landmark
+        // landmark
         private ObservableCollection<Point> _FrontalPoints;
         public ObservableCollection<Point> FrontalPoints
         {
@@ -358,21 +130,11 @@ namespace Process_Page.ViewModel
             }
         }
 
-        //opencv_point -> W_Point로 바꾸기
-        private Point OpenCVPoint2W_Point(OpenCvSharp.Point pt)
-        {
-            Point result = new Point();
-            result = new Point(pt.X, pt.Y);
-
-            return result;
-        }
-
         //face line
         LineGeometry _midline = new LineGeometry();
         LineGeometry _noseline_L = new LineGeometry();
         LineGeometry _noseline_R = new LineGeometry();
-        LineGeometry _eyeline = new LineGeometry();
-        LineGeometry _lipline = new LineGeometry();
+        public LineGeometry _lipline = new LineGeometry();
 
         public LineGeometry midline
         {
@@ -392,286 +154,109 @@ namespace Process_Page.ViewModel
             set { }
         }
 
-        public LineGeometry eyeline
-        {
-            get { return _eyeline; }
-            set { }
-        }
-
-
         public LineGeometry lipline
         {
             get { return _lipline; }
             set { }
         }
-
         #endregion
 
-        #region image file loading by openfileDialog
-        //command binding
-        private RelayCommand<object> _openFileClick;
-        public RelayCommand<object> openFileClick
-        {
-            get
-            {
-                openFile();
-                if (_openFileClick == null)
-                    return _openFileClick = new RelayCommand<object>(param => this.openFile());
-                return _openFileClick;
-            }
-            set
-            {
-                _openFileClick = value;
-            }
-        }
-
+        #region Init image layer
         //image source property binding
-        public ImageSource Source
+        public ImageSource GagFaceSource
         {
-            get { return bi; }
+            get { return GagFaceImage; }
             set
             {
-                RaisePropertyChanged("Source");
+                RaisePropertyChanged("GagFaceSource");
             }
         }
-
-        public ImageSource Source1
+        public ImageSource FrontalFaceSource
         {
-            get { return bi1; }
+            get { return FrontalFaceImage; }
             set
             {
-                RaisePropertyChanged("Source1");
+                RaisePropertyChanged("FrontalFaceSource");
             }
         }
 
         //image original
-        private BitmapImage bi1;
-        private BitmapImage bi;
+        public BitmapImage FrontalFaceImage;
+        public BitmapImage GagFaceImage;
 
-
-        //openfile dialog
-        OpenFileDialog ofd = new OpenFileDialog();
-
-        int count = 0;
-
-        //command에 들어갈 file 열기 명령
-        private void openFile()
+        private void Init()
         {
-            // 파일 열기
-            FaceDetector faceDetector = new FaceDetector(PatientInfo.Patient_Info.frontfilename);
-            bi = faceDetector.face;
-
-            // face align data draw
-            this.fp = faceDetector.fp;
-
-            ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
-
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[1]));
-
-            _FrontalPoints = savepoint;
-
-            //face point
-            RaisePropertyChanged("FrontalPoints");
-            RaisePropertyChanged("Source");
+            FrontalFaceImage = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalFaceImage;
+            GagFaceImage = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).GagFaceImage;
 
             draw_faceline();
-
-            // 파일 열기
-            FaceDetector faceDetector2 = new FaceDetector(PatientInfo.Patient_Info.teeth_opener_filename);
-            bi1 = faceDetector2.face;
-
-            // face align data draw
-            this.fp1 = faceDetector2.fp;
-
-            ObservableCollection<Point> savepoint2 = new ObservableCollection<Point>();
-
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.midline[0]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.midline[1]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.eye[0]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.eye[1]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.mouse[0]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.mouse[1]));
-
-            _GagPoints = savepoint2;
-
-            //face point
-            RaisePropertyChanged("GagPoints");
-            RaisePropertyChanged("Source1");
-
             SetAlign();
-        }
 
-        //face point 보정
-        public FaceDetector.face_point change_point_position(double percentage, double curposition, FaceDetector.face_point points)
-        {
-            FaceDetector.face_point sizechange = new FaceDetector.face_point();
+            _ViewScale= ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).ViewScale;
+            RaisePropertyChanged("ViewScale");
 
-            OpenCvSharp.Point changing;
-            changing.X = (int)(((double)points.eye[0].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.eye[0].Y) * percentage);
-            sizechange.eye.Add(changing);
+            // Upper Tooth 위치 선정
+            _ToothUpperCenter.X = midline.StartPoint.X;
+            _ToothUpperCenter.Y = lipline.EndPoint.Y;
+            RaisePropertyChanged("ToothUpperCenter");
 
-            changing.X = (int)(((double)points.eye[1].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.eye[1].Y) * percentage);
-            sizechange.eye.Add(changing);
+            offset_LeftUpperTooth = _ToothUpperCenter.X;
+            offset_TopUpperTooth = _ToothUpperCenter.Y;
 
-            changing.X = (int)(((double)points.midline[0].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.midline[0].Y) * percentage);
-            sizechange.midline.Add(changing);
+            // Lower Tooth 위치 선정
+            _ToothLowerCenter.X = midline.StartPoint.X;
+            _ToothLowerCenter.Y = lipline.EndPoint.Y + 10;
+            RaisePropertyChanged("ToothLowerCenter");
 
-            changing.X = (int)(((double)points.midline[1].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.midline[1].Y) * percentage);
-            sizechange.midline.Add(changing);
-
-            changing.X = (int)(((double)points.mouse[0].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.mouse[0].Y) * percentage);
-            sizechange.mouse.Add(changing);
-
-            changing.X = (int)(((double)points.mouse[1].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.mouse[1].Y) * percentage);
-            sizechange.mouse.Add(changing);
-
-            changing.X = (int)(((double)points.nose[0].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.nose[0].Y) * percentage);
-            sizechange.nose.Add(changing);
-
-            changing.X = (int)(((double)points.nose[1].X) * percentage + curposition);
-            changing.Y = (int)(((double)points.nose[1].Y) * percentage);
-            sizechange.nose.Add(changing);
-
-            return sizechange;
+            offset_LeftLowerTooth = _ToothLowerCenter.X;
+            offset_TopLowerTooth = _ToothLowerCenter.Y;
         }
 
         public void draw_faceline()
         {
-            // 현재 이미지 캔버스의 사이즈를 측정
-            System.Windows.Application.Current.MainWindow.UpdateLayout();
-            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            double height = currentPage.image_view.ActualHeight;
-            double width = currentPage.image_view.ActualWidth;
-
-            double imageCanvasHeight = currentPage.image_layer1.ActualHeight;
-            double imageCanvasWidth = currentPage.image_layer1.ActualWidth;
-
-            double imageHeight = bi.Height;
-            double imagewidth = bi.Width;
-
-            double percentage = imageCanvasHeight / imageHeight;
-
-            double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
-
-            fp = change_point_position(percentage, curimagePosition, fp);
-            ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
-
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[1]));
-
-            _FrontalPoints = savepoint;
-            RaisePropertyChanged("FrontalPoints");
-
             //set picture center
-            _Center.X = width / 2 - fp.midline[0].X;
-            _Center.Y = 50;
+            _GagPoints = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).GagPoints;
 
-            _noseline_L = new LineGeometry();
-            _noseline_L.StartPoint = new Point((_Center.X + fp.eye[0].X) + (fp.midline[0].X - fp.eye[0].X) / 2, 0);
-            _noseline_L.EndPoint = new Point((_Center.X + fp.eye[0].X) + (fp.midline[0].X - fp.eye[0].X) / 2, height);
+            _noseline_L = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).noseline_L;
+            _noseline_R = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).noseline_R;
 
-            _noseline_R = new LineGeometry();
-            _noseline_R.StartPoint = new Point((_Center.X + fp.eye[1].X) - (fp.eye[1].X - fp.midline[0].X) / 2, 0);
-            _noseline_R.EndPoint = new Point((_Center.X + fp.eye[1].X) - (fp.eye[1].X - fp.midline[0].X) / 2, height);
+            _midline = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).midline;
 
-            _midline = new LineGeometry();
-            _midline.StartPoint = new Point(width / 2, 0);
-            _midline.EndPoint = new Point(width / 2, height);
+            _GagCenter = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).GagCenter;
+            _GagAngle = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).GagAngle;
 
-            _eyeline = new LineGeometry();
-            _eyeline.StartPoint = new Point(0, _Center.Y + fp.eye[0].Y);
-            _eyeline.EndPoint = new Point(width, _Center.Y + fp.eye[0].Y);
-
-            _lipline = new LineGeometry();
-            _lipline.StartPoint = new Point(0, _Center.Y + fp.mouse[0].Y);
-            _lipline.EndPoint = new Point(width, _Center.Y + fp.mouse[0].Y);
-
-            // Align set
-            double angle = ((double)(fp.eye[1].Y - fp.eye[0].Y)) / ((double)(fp.eye[1].X - fp.eye[0].X));
-            double rotate = (Math.Atan(angle)) * (180 / Math.PI);
-            _Angle = -rotate;
-
-            RaisePropertyChanged("Angle");
-            RaisePropertyChanged("Center");
-
-            //propertychanged 알리기
+            RaisePropertyChanged("GagPoints");
+            RaisePropertyChanged("GagAngle");
+            RaisePropertyChanged("GagCenter");
             RaisePropertyChanged("midline");
             RaisePropertyChanged("noseline_L");
             RaisePropertyChanged("noseline_R");
-            RaisePropertyChanged("eyeline");
-            RaisePropertyChanged("lipline");
-
         }
 
         public void SetAlign()
         {
-            // 현재 이미지 캔버스의 사이즈를 측정
-            System.Windows.Application.Current.MainWindow.UpdateLayout();
-            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            double height = currentPage.image_view.ActualHeight;
-            double width = currentPage.image_view.ActualWidth;
+            _FrontalPoints = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalPoints;
 
-            double imageCanvasHeight = currentPage.image_layer2.ActualHeight;
-            double imageCanvasWidth = currentPage.image_layer2.ActualWidth;
+            _FrontalScale = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalScale;
 
-            double imageHeight = bi1.Height;
-            double imagewidth = bi1.Width;
+            _FrontalAngle = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalAngle;
 
-            double percentage = imageCanvasHeight / imageHeight;
+            _FrontalCenter = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalCenter;
 
-            double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
+            RaisePropertyChanged("FrontalPoints");
+            RaisePropertyChanged("FrontalCenter");
+            RaisePropertyChanged("FrontalScale");
+            RaisePropertyChanged("FrontalAngle");
 
-            fp1 = change_point_position(percentage, curimagePosition, fp1);
-            ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
+            _lipline = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).lipline;
+            RaisePropertyChanged("lipline");
 
-            savepoint.Add(OpenCVPoint2W_Point(fp1.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.mouse[1]));
+            // mouse wheel center set
+            _WheelMouseCenter = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).WheelMouseCenter;
+            RaisePropertyChanged("WheelMouseCenter");
 
-            _GagPoints = savepoint;
-            RaisePropertyChanged("GagPoints");
-
-            // Scale set
-            double scalesize = (_FrontalPoints.ElementAt(3).X - _FrontalPoints.ElementAt(2).X) / (_GagPoints.ElementAt(3).X - _GagPoints.ElementAt(2).X);
-            _GagScale = scalesize;
-
-            // Align set
-            double angle = ((double)(fp1.eye[1].Y - fp1.eye[0].Y)) / ((double)(fp1.eye[1].X - fp1.eye[0].X));
-            double rotate = (Math.Atan(angle)) * (180 / Math.PI);       //angle
-
-            _GagAngle = -rotate;
-
-            // GagCenter Set
-            // Gag Center X offset
-            _GagCenter.X = _midline.StartPoint.X - fp1.eye[0].X - (fp.midline[0].X - fp.eye[0].X);
-            _GagCenter.Y = _eyeline.StartPoint.Y - fp1.eye[0].Y;
-
-            RaisePropertyChanged("GagCenter");
-            RaisePropertyChanged("GagScale");
-            RaisePropertyChanged("GagAngle");
-
-
-            offset_Left = _Center.X;
-            offset_Top = _Center.Y;
+            offset_Left = _FrontalCenter.X;
+            offset_Top = _FrontalCenter.Y;
             offset_LeftGag = _GagCenter.X;
             offset_TopGag = _GagCenter.Y;
         }
@@ -682,24 +267,24 @@ namespace Process_Page.ViewModel
         public double ratio = 0;
 
         // Frontal Face Canvas Center
-        private Point _Center;
-        public Point Center
+        private Point _FrontalCenter;
+        public Point FrontalCenter
         {
-            get { return _Center; }
+            get { return _FrontalCenter; }
             set { }
         }
 
-        private double _Angle;
-        public double Angle
+        private double _FrontalAngle;
+        public double FrontalAngle
         {
-            get { return _Angle; }
+            get { return _FrontalAngle; }
             set { }
         }
 
-        private double _Scale;
-        public double Scale
+        private double _FrontalScale;
+        public double FrontalScale
         {
-            get { return _Scale; }
+            get { return _FrontalScale; }
             set { }
         }
 
@@ -743,17 +328,25 @@ namespace Process_Page.ViewModel
 
         #endregion
 
-        //scale 조정에 따른 확대 축소시 face line 조정 
         #region sizeChange MouseWheel
-        //Mouse Wheel size changed
-        private double _rectsc = 1;
-        public double rectsc
+
+        // mouse wheel sizechanged Center point
+        private Point _WheelMouseCenter;
+        public Point WheelMouseCenter
         {
-            get { return _rectsc; }
+            get { return _WheelMouseCenter; }
+            set { }
+        }
+
+        //Mouse Wheel size changed
+        private double _ViewScale = 1;
+        public double ViewScale
+        {
+            get { return _ViewScale; }
             set
             {
-                _rectsc = value;
-                RaisePropertyChanged("rectsc");
+                _ViewScale = value;
+                RaisePropertyChanged("ViewScale");
             }
         }
 
@@ -772,20 +365,18 @@ namespace Process_Page.ViewModel
         {
             if (e.Delta > 0)
             {
-                if (_rectsc < 7)
+                if (_ViewScale < 7)
                 {
-                    _rectsc += 0.1;
-                    RaisePropertyChanged("rectsc");
-
-
+                    _ViewScale += 0.1;
+                    RaisePropertyChanged("ViewScale");
                 }
             }
             else
             {
-                if (_rectsc > 0.3)
+                if (_ViewScale > 1)
                 {
-                    _rectsc -= 0.1;
-                    RaisePropertyChanged("rectsc");
+                    _ViewScale -= 0.1;
+                    RaisePropertyChanged("ViewScale");
                 }
             }
         }
@@ -799,35 +390,27 @@ namespace Process_Page.ViewModel
         private double orginal_height;
         private Point origMouseDownPoint;
 
-        //canvas offset
+        // Frontal image offset
         double offset_Left;
         double offset_Top;
-
-        // translate Property
         private double _TransX;
         private double _TransY;
 
-        //canvas offset
+        // Gag image offset
         double offset_LeftGag;
         double offset_TopGag;
-
-        // translate Property
         private double _TransGagX;
         private double _TransGagY;
 
-        //canvas offset
+        // Upper Tooth template offset
         double offset_LeftUpperTooth;
         double offset_TopUpperTooth;
-
-        // translate Property
         private double _TransUpperToothX;
         private double _TransUpperToothY;
 
-        //canvas offset
+        // Lower tooth template offset
         double offset_LeftLowerTooth;
         double offset_TopLowerTooth;
-
-        // translate Property
         private double _TransLowerToothX;
         private double _TransLowerToothY;
 
@@ -894,24 +477,21 @@ namespace Process_Page.ViewModel
                     _TransLowerToothX += offset_LeftLowerTooth;
                     _TransLowerToothY += offset_TopLowerTooth;
 
-                    ObservableCollection<ImageCanvas> imagelayers = new ObservableCollection<ImageCanvas>();
+                    _FrontalCenter.X = _TransX;
+                    _FrontalCenter.Y = _TransY;
+                    RaisePropertyChanged("FrontalCenter");
 
-                    foreach (var layer in imageCanvas.Children)
-                    {
-                        if (layer.GetType() == typeof(ImageCanvas))
-                            imagelayers.Add((ImageCanvas)layer);
-                    }
+                    _GagCenter.X = _TransGagX;
+                    _GagCenter.Y = _TransGagY;
+                    RaisePropertyChanged("GagCenter");
 
-                    Canvas.SetLeft(imagelayers.ElementAt(1), _TransX);
-                    Canvas.SetTop(imagelayers.ElementAt(1), _TransY);
+                    _ToothUpperCenter.X = _TransUpperToothX;
+                    _ToothUpperCenter.Y = _TransUpperToothY;
+                    RaisePropertyChanged("ToothUpperCenter");
 
-                    Canvas.SetLeft(imagelayers.ElementAt(0), _TransGagX);
-                    Canvas.SetTop(imagelayers.ElementAt(0), _TransGagY);
-
-                    Canvas.SetLeft(Uppertooth, _TransUpperToothX);
-                    Canvas.SetTop(Uppertooth, _TransUpperToothY);
-                    Canvas.SetLeft(Lowertooth, _TransLowerToothX);
-                    Canvas.SetTop(Lowertooth, _TransLowerToothY);
+                    _ToothLowerCenter.X = _TransLowerToothX;
+                    _ToothLowerCenter.Y = _TransLowerToothY;
+                    RaisePropertyChanged("ToothLowerCenter");
 
                     //face line moving
                     double diffX = (curMouseDownPoint.X - orginal_width);
@@ -925,9 +505,6 @@ namespace Process_Page.ViewModel
 
                     noseline_R.StartPoint = new Point(_noseline_R.StartPoint.X + diffX, _noseline_R.StartPoint.Y);
                     noseline_R.EndPoint = new Point(_noseline_R.EndPoint.X + diffX, _noseline_R.EndPoint.Y);
-
-                    eyeline.StartPoint = new Point(_eyeline.StartPoint.X, _eyeline.StartPoint.Y + diffY);
-                    eyeline.EndPoint = new Point(_eyeline.EndPoint.X, _eyeline.EndPoint.Y + diffY);
 
                     lipline.StartPoint = new Point(_lipline.StartPoint.X, _lipline.StartPoint.Y + diffY);
                     lipline.EndPoint = new Point(_lipline.EndPoint.X, _lipline.EndPoint.Y + diffY);
@@ -972,18 +549,6 @@ namespace Process_Page.ViewModel
                         RaisePropertyChanged("noseline_R");
 
                         orginal_width = e.GetPosition((IInputElement)e.Source).X;
-                    }
-                    else if (((Path)e.Source).Data == eyeline)
-                    {
-                        double diff = e.GetPosition((IInputElement)e.Source).Y - orginal_height;
-                        Point pt = new Point(_eyeline.StartPoint.X, _eyeline.StartPoint.Y + diff);
-                        _eyeline.StartPoint = pt;
-
-                        Point pt2 = new Point(_eyeline.EndPoint.X, _eyeline.EndPoint.Y + diff);
-                        _eyeline.EndPoint = pt2;
-                        RaisePropertyChanged("eyeline");
-
-                        orginal_height = e.GetPosition((IInputElement)e.Source).Y;
                     }
                     else if (((Path)e.Source).Data == lipline)
                     {
@@ -2628,7 +2193,6 @@ namespace Process_Page.ViewModel
             #endregion
 
             #endregion
-
         }
     }
 }

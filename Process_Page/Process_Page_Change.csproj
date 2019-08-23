@@ -164,6 +164,7 @@
     <Compile Include="ToothTemplate\UpperTooth.xaml.cs">
       <DependentUpon>UpperTooth.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\FaceAlignInfo.cs" />
     <Compile Include="Util\KeyBoardBehaviors.cs" />
     <Compile Include="ToothTemplate\Utils\MouseBehaviors.cs" />
     <Compile Include="ToothTemplate\WrapTooth.xaml.cs">

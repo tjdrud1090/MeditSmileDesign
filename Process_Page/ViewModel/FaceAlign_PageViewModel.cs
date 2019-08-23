@@ -31,9 +31,6 @@ using Process_Page.ToothTemplate.ArrowLine;
 
 namespace Process_Page.ViewModel
 {
-    using ToothType = ObservableCollection<ObservableCollection<PointViewModel>>;
-    using TeethType = ObservableCollection<PointViewModel>;
-
     public class FaceAlign_PageViewModel : ViewModelBase
     {
         #region constructor
@@ -126,7 +123,6 @@ namespace Process_Page.ViewModel
                     break;
                 case 2:
                     SetnewPage();
-
                     break;
                 default:
                     break;
@@ -147,6 +143,9 @@ namespace Process_Page.ViewModel
             }
 
             mainWnd.OldPage = (FrameworkElement)(System.Windows.Application.Current.MainWindow.Content);
+
+            // 다음 페이지에 넘겨주어야할 정보
+
             SmileDesign_Page page = new SmileDesign_Page();
             System.Windows.Application.Current.MainWindow.Content = page;
         }
@@ -280,11 +279,11 @@ namespace Process_Page.ViewModel
         }
 
         #region Face Line
-        LineGeometry _midline = new LineGeometry();
-        LineGeometry _noseline_L = new LineGeometry();
-        LineGeometry _noseline_R = new LineGeometry();
-        LineGeometry _eyeline = new LineGeometry();
-        LineGeometry _lipline = new LineGeometry();
+        public LineGeometry _midline = new LineGeometry();
+        public LineGeometry _noseline_L = new LineGeometry();
+        public LineGeometry _noseline_R = new LineGeometry();
+        public LineGeometry _eyeline = new LineGeometry();
+        public LineGeometry _lipline = new LineGeometry();
 
         public LineGeometry midline
         {
@@ -356,8 +355,8 @@ namespace Process_Page.ViewModel
         }
 
         //image original
-        private BitmapImage FrontalFaceImage;
-        private BitmapImage GagFaceImage;
+        public BitmapImage FrontalFaceImage;
+        public BitmapImage GagFaceImage;
 
         //command에 들어갈 file 열기 명령
         private void Init()
@@ -695,7 +694,9 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
-        //이미지 Drag시 face line 조정
+        // mouse event 수정해야될 부분
+        //  - 치아 두 개의 point를 찍고 scale set 및 point 일치 시켜 이를 통해 완벽한 align
+        //  - 사진 rotation 기능 추가 imagecanvas control을 회전
         #region MouseEvent
 
         private bool captured = false;
@@ -777,19 +778,13 @@ namespace Process_Page.ViewModel
                     _TransLowerToothX += offset_LeftLowerTooth;
                     _TransLowerToothY += offset_TopLowerTooth;
 
-                    ObservableCollection<ImageCanvas> imagelayers = new ObservableCollection<ImageCanvas>();
+                    _FrontalCenter.X = _TransX;
+                    _FrontalCenter.Y = _TransY;
+                    RaisePropertyChanged("FrontalCenter");
 
-                    foreach (var layer in imageCanvas.Children)
-                    {
-                        if (layer.GetType() == typeof(ImageCanvas))
-                            imagelayers.Add((ImageCanvas)layer);
-                    }
-
-                    Canvas.SetLeft(imagelayers.ElementAt(0), _TransX);
-                    Canvas.SetTop(imagelayers.ElementAt(0), _TransY);
-
-                    Canvas.SetLeft(imagelayers.ElementAt(1), _TransGagX);
-                    Canvas.SetTop(imagelayers.ElementAt(1), _TransGagY);
+                    _GagCenter.X = _TransGagX;
+                    _GagCenter.Y = _TransGagY;
+                    RaisePropertyChanged("GagCenter");
 
                     Canvas.SetLeft(Uppertooth, _TransUpperToothX);
                     Canvas.SetTop(Uppertooth, _TransUpperToothY);

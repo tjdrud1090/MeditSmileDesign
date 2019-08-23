@@ -140,7 +140,7 @@
                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"                     
                         Command="{Binding PrePageClick}" Visibility="{Binding showControl1}"
                         Margin="0" RenderTransformOrigin="9.282,0.533" HorizontalAlignment="Right">
-                        <materialDesign:PackIcon Kind="StepForward" />
+                        <materialDesign:PackIcon Kind="StepBackward" />
                     </Button>
                 </Viewbox>
 
