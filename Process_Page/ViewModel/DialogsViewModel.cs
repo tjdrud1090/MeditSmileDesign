@@ -81,7 +81,7 @@ namespace Process_Page
 
                     _collection.Insert(i, new Person1 { Name = infoName1, Age = infoNum1, Memo = InfoMemo, Date = InfoDate, file = infoFileName, GGfile = infoGGFileName, downfile = infodownFileName, upfile = infoupFileName, Lfile = infoLFileName, Rfile = infoRFileName });
 
-                    string dir = @"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\" + originName + "(" + originDate + ")" + ".txt";
+                    string dir = @"./save/" + originName + "(" + originDate + ")" + ".txt";
                     FileInfo file = new FileInfo(dir);
                     if (file.Exists) //삭제할 파일이 있는지
                     {
@@ -91,7 +91,8 @@ namespace Process_Page
                     }
                     string[] lines = { infoName1, infoNum1, InfoMemo, InfoDate, LoginViewModel.front_img, LoginViewModel.opener_img, LoginViewModel.down_img, LoginViewModel.up_img, LoginViewModel.L_img, LoginViewModel.R_img };
 
-                    using (StreamWriter outputFile = new StreamWriter(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\" + originName + "(" + originDate + ")" + ".txt"))
+                    //C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\
+                    using (StreamWriter outputFile = new StreamWriter(@"./save/" + originName + "(" + originDate + ")" + ".txt"))
                     {
                         foreach (string line in lines)
                         {
@@ -108,7 +109,7 @@ namespace Process_Page
 
         private void deletePatient(object obj)
         {
-            string dir = @"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\" + infoName1 + "(" + InfoDate + ")" + ".txt";
+            string dir = @"./save/" + infoName1 + "(" + InfoDate + ")" + ".txt";
             FileInfo file = new FileInfo(dir);
             if (file.Exists) //삭제할 파일이 있는지
             {
@@ -128,7 +129,7 @@ namespace Process_Page
 
             List<string> lines = new List<string>();
 
-            using (TextReader tReader = new StreamReader(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\TitleList.txt"))
+            using (TextReader tReader = new StreamReader(@"./save/TitleList.txt"))
             {
                 string line = string.Empty;
                 while ((line = tReader.ReadLine()) != null)
@@ -146,7 +147,7 @@ namespace Process_Page
                 }
             }
 
-            using (TextWriter tWriter = new StreamWriter(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\TitleList.txt"))
+            using (TextWriter tWriter = new StreamWriter(@"./save/TitleList.txt"))
             {
                 foreach (var line in lines)
                 {
@@ -286,11 +287,11 @@ namespace Process_Page
             string RfileFname = null;
 
 
-            string[] lines = File.ReadAllLines(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\TitleList.txt");
+            string[] lines = File.ReadAllLines(@"./save/TitleList.txt");
             foreach (string show in lines)
             {
                 int count = 0;
-                string[] Flines = File.ReadAllLines(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\" + show);
+                string[] Flines = File.ReadAllLines(@"./save/" + show);
                 foreach (string Fshow in Flines)
                 {
                     if (count == 0)
@@ -501,12 +502,12 @@ namespace Process_Page
 
             string[] lines = { Name1, Num1, Memo1, Date1, LoginViewModel.front_img, LoginViewModel.opener_img, LoginViewModel.down_img, LoginViewModel.up_img, LoginViewModel.L_img, LoginViewModel.R_img };
 
-            using (StreamWriter outputFile = new StreamWriter(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\TitleList.txt", true))
+            using (StreamWriter outputFile = new StreamWriter(@"./save/TitleList.txt", true))
             {
                 outputFile.WriteLine(Name1 + "(" + Date1 + ")" + ".txt");
             }
 
-            using (StreamWriter outputFile = new StreamWriter(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\save\" + Name1 + "(" + Date1 + ")" + ".txt"))
+            using (StreamWriter outputFile = new StreamWriter(@"./save/" + Name1 + "(" + Date1 + ")" + ".txt"))
             {
                 foreach (string line in lines)
                 {

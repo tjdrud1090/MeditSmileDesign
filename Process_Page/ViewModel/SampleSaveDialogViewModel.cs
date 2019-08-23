@@ -225,7 +225,7 @@ namespace Process_Page.ViewModel
 
         private void saveFile()
         {
-            using (FileStream stm = File.OpenWrite(@"C:\Users\bit\Desktop\Process_Page (4)\Process_Page\finalimage\" + PatientInfo.Patient_Info.Name + ".png"))
+            using (FileStream stm = File.OpenWrite(@"./finalimage/" + PatientInfo.Patient_Info.Name + ".png"))
 
                 SmileDesign_Page.jpgEncoder.Save(stm);
 
