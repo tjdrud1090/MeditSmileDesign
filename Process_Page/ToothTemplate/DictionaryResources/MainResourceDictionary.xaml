@@ -57,8 +57,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="BorderStyle" TargetType="Border" >
-        <Setter Property="Opacity" Value="0.1"/>
+    <Style x:Key="TeethBorderStyle" TargetType="Border" >
+        <Setter Property="Opacity" Value="0"/>
         <Setter Property="Background" Value="Gray"/>
     </Style>
 

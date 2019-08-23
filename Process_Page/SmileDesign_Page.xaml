@@ -3,16 +3,17 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      
       xmlns:local="clr-namespace:Process_Page.Cards"
       xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:trans="clr-namespace:Process_Page.Cards.TranslationControl"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"      
       xmlns:View="clr-namespace:Process_Page.ToothTemplate"
       xmlns:local1="clr-namespace:Process_Page_Change.Cards"
-      mc:Ignorable="d" 
-      x:Name="FunctionPage"
-      d:DesignHeight="900" d:DesignWidth="1200"
-      Title="FaceAlign_Page">
+      
+      x:Name="FunctionPage" Title="FaceAlign_Page"
+      d:DesignHeight="900" d:DesignWidth="1200">
+    
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -119,8 +120,6 @@
                 </Canvas.RenderTransform>
             </Canvas>
         </Grid>
-
-
 
         <!--Menu Bar-->
         <materialDesign:ColorZone Grid.Row="0" Grid.ColumnSpan="3" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"

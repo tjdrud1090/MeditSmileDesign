@@ -38,11 +38,10 @@ namespace Process_Page
     {
         SmileDesign_Page main;
 
-        #region constructor
+        #region Constructor
+
         public FaceAlign_PageViewModel()
         {
-            isSizing = false;
-            isFirstTimeMovedOnSizingTooth = true;
             firstRotate = Enumerable.Repeat(true, 10).ToList();
 
             fp.eye.Add(new OpenCvSharp.Point(0, 0));
@@ -79,6 +78,7 @@ namespace Process_Page
             RaisePropertyChanged("changeText");
             RaisePropertyChanged("openFileClick");
         }
+
         #endregion
 
         #region Change Page Command
@@ -1006,6 +1006,7 @@ namespace Process_Page
             {
                 return;
             }
+
             Path rewrite = new Path();
             rewrite.Name = ((Path)e.Source).Name;
             rewrite.Data = ((Path)e.Source).Data.CloneCurrentValue();
@@ -1316,7 +1317,7 @@ namespace Process_Page
         }
         #endregion
 
-        #region Tooth mouse events
+        #region Events for Tooth Control
 
         List<Teeth> SelectedList = new List<Teeth>();
 
@@ -1589,9 +1590,8 @@ namespace Process_Page
         }
         public void ExecuteMouseLeftDownForDragAndDropTooth(MouseEventArgs e)
         {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
+            //ArrowLine me = e.Source as ArrowLine;
+            Ellipse me = e.Source as Ellipse;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
             foreach (Teeth del in SelectedList)
             {
@@ -1617,7 +1617,6 @@ namespace Process_Page
             originalPoint.Y += 5;
 
             orgBrush2 = me_border.BorderBrush;
-            //me.Stroke = Brushes.Red;
             me_border.BorderBrush = Brushes.Red;
 
             leftdown = true;
@@ -1637,9 +1636,8 @@ namespace Process_Page
         }
         public void ExecuteMouseMoveForDragAndDropTooth(MouseEventArgs e)
         {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
+            //ArrowLine me = e.Source as ArrowLine;
+            Ellipse me = e.Source as Ellipse;
             WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
             if (leftdown == true)
             {
@@ -1669,14 +1667,9 @@ namespace Process_Page
         }
         public void ExecuteMouseLeftUpForDragAndDropTooth(MouseEventArgs e)
         {
-            //rect2.Stroke = orgBrush2;
-            //border2.BorderBrush = orgBrush2;
-
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
+            //ArrowLine me = e.Source as ArrowLine;
+            Ellipse me = e.Source as Ellipse;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
-            //me.Stroke = orgBrush2;
             me_border.BorderBrush = orgBrush2;
 
             leftdown = false;
@@ -1695,6 +1688,7 @@ namespace Process_Page
         private bool[] isFirstTimeMovedOnSizing = new bool[10];
         private Point[] anchorMin = new Point[10];
         private Point[] anchorMax = new Point[10];
+
         #region Resize for Teeth
 
 
@@ -1760,11 +1754,6 @@ namespace Process_Page
                 if (e.LeftButton != MouseButtonState.Pressed)
                     return;
 
-                //double actualWidth1 = minPoint.X + wrapTeeth.ActualWidth;
-                //double actualHeight1 = minPoint.Y + wrapTeeth.ActualHeight;
-                //double actualWidth2 = maxPoint.X - wrapTeeth.ActualWidth;
-                //double actualHeight2 = maxPoint.X - wrapTeeth.ActualHeight;
-
                 Point moved = e.GetPosition(e.Source as IInputElement);
                 double changedWidth = maxPoint.X - minPoint.X + moved.X;
                 double changedHeight = maxPoint.Y - minPoint.Y + moved.Y;
@@ -1774,10 +1763,6 @@ namespace Process_Page
                 double changedWidth_ori = maxPoint.X - minPoint.X;
                 double changedHeight_ori = maxPoint.Y - minPoint.Y;
 
-                Console.WriteLine("moved : " + moved);
-                Console.WriteLine("maxPoint : " + maxPoint);
-
-
                 //double dx = Math.Abs((actualWidth1 + curPoint.X) - anchorMin.X);
                 //double dy = Math.Abs((actualHeight1 + curPoint.Y) - anchorMin.Y);
 
@@ -1785,7 +1770,6 @@ namespace Process_Page
                 {
                     foreach (PointViewModel point in teeth.Points)
                     {
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
                         if (changedHeight_rev > sizeThreshold)
                         {
                             //double RatioY = Math.Abs((maxPoint.Y - moved.Y) / maxPoint.Y);
@@ -2336,7 +2320,6 @@ namespace Process_Page
                         RotateAnchor.Clear();
                     RotateAnchor.Add(new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2));
                     firstRotate[i] = false;
-                    Console.WriteLine($"{i}, {RotateAnchor[i]}");
                     i++;
                 }
             }
@@ -2496,7 +2479,6 @@ namespace Process_Page
                             && Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == normalline)
                         {
                             dst = Numerics.Distance(curPoint, tolist[i]);
-                            Console.WriteLine($"{i}, {dst}, {min_dst}");
                             if (dst < min_dst)
                             {
                                 min_dst = dst;
@@ -2504,8 +2486,6 @@ namespace Process_Page
                             }
                         }
                     }
-
-                    Console.WriteLine($"{mem}");
 
                     int pos = nearest1.I < mem ? mem : nearest1.I;
                     if (nearest1.I == 0 && nearest2.I == tolist.Count - 1 || nearest1.I == tolist.Count - 1 && nearest2.I == 0)
