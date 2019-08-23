@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="Primary100">#bbdefb</Color>
+    <Color x:Key="Primary100Foreground">#DDFFFFFF</Color>
+
+
+    <Color x:Key="Primary50">#A1C8FC</Color>
+    <!--배경 #d3d3d3-->
+    <Color x:Key="Primary50Foreground">#000000</Color>
+    <!--글자-->
+</ResourceDictionary>

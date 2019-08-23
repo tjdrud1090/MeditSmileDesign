@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Process_Page.ToothTemplate.Teeth"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Process_Page.ToothTemplate"
+             xmlns:cmd="clr-namespace:Process_Page.Util"
+             mc:Ignorable="d" 
+             
+             x:Name="TeethControl"
+             d:DesignHeight="860" d:DesignWidth="1280">
+    <Canvas x:Name="Canvas_Teeth">
+
+        <local:RotateTeeth x:Name="rotateTeeth"
+            Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+        <local:DrawTeeth x:Name="drawTeeth"
+            Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            IsClosedCurve="{Binding IsClosedCurve}"/>
+
+        <local:WrapTeeth x:Name="wrapTeeth"
+            Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            ShowLength="{Binding Path=ShowLengthXY, ElementName=TeethControl}"/>
+
+        <ListBox x:Name="list" Visibility="Hidden"
+            ItemsSource="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            ItemContainerStyle="{StaticResource PointListBoxItemStyle}">
+            <ListBox.Template>
+                <ControlTemplate>
+                    <Canvas IsItemsHost="True"/>
+                </ControlTemplate>
+            </ListBox.Template>
+        </ListBox>
+    </Canvas>
+</UserControl>

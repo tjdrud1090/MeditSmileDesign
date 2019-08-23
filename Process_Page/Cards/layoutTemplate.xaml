@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Process_Page_Change.Cards.layoutTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Process_Page_Change.Cards"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             x:Name="layouttemplate"
+               d:DesignHeight="200" d:DesignWidth="900">
+    <UserControl.Resources>
+        <DataTemplate x:Key="DataTemplate1">
+            <Grid Height="90" Width="85">
+                <Image x:Name="image"  Source="{Binding layoutfile}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <materialDesign:DialogHost 
+                                IsOpen="{Binding IsSample4DialogOpen}" DialogContent="{Binding Sample4Content}">
+
+            <Border BorderThickness="1" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                   ClipToBounds="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="patient" ItemTemplate="{DynamicResource DataTemplate1}"
+                              RenderTransformOrigin="0.5,0.5" 
+                              SelectedItem="{Binding ElementName=layouttemplate, Path=Selected}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+
+                    <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1" Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                        <TextBlock Margin="16" Text="Photo"/>
+                    </materialDesign:ColorZone>
+                </Grid>
+            </Border>
+        </materialDesign:DialogHost>
+    </Grid>
+</UserControl>
