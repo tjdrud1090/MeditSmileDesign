@@ -196,43 +196,36 @@ namespace Process_Page.Cards
             // Set data for UpperTooth.
             UpperTooth = new ToothList();
             UpperGuide = new Point(0, 0);
+
+            LowerTooth = new ToothList();
+            LowerGuide = new Point(0, 0);
+
             for (int k = 0; k < 9; k++)
             {
-                ToothType template = new ToothType();
+                ToothType tooth_upper = new ToothType();
+                ToothType tooth_lower = new ToothType();
                 for (int i = 0; i < 6; i++)
                 {
-                    TeethType teeth = new TeethType();
+                    TeethType teeth_upper = new TeethType();
+                    TeethType teeth_lower = new TeethType();
                     for (int j = 0; j < 10; j++)
                     {
                         if (i >= 0 && i < 3)
-                            teeth.Add(new PointViewModel(UpperX[k, i, j] + UpperGuide.X, UpperY[k, i, j] + UpperGuide.Y, j));
+                        {
+                            teeth_upper.Add(new PointViewModel(UpperX[k, i, j] + UpperGuide.X, UpperY[k, i, j] + UpperGuide.Y, j));
+                            teeth_lower.Add(new PointViewModel(LowerX[k, i, j] + LowerGuide.X, LowerY[k, i, j] + LowerGuide.Y, j));
+                        }
                         else
-                            teeth.Add(new PointViewModel(-1 * UpperX[k, i - 3, j] + UpperGuide.X, UpperY[k, i - 3, j] + UpperGuide.Y, j));
+                        {
+                            teeth_upper.Add(new PointViewModel(-1 * UpperX[k, i - 3, j] + UpperGuide.X, UpperY[k, i - 3, j] + UpperGuide.Y, j));
+                            teeth_lower.Add(new PointViewModel(-1 * LowerX[k, i - 3, j] + LowerGuide.X, LowerY[k, i - 3, j] + LowerGuide.Y, j));
+                        }
                     }
-                    template.Add(teeth);
+                    tooth_upper.Add(teeth_upper);
+                    tooth_lower.Add(teeth_lower);
                 }
-                UpperTooth.Add(template);
-            }
-
-            // Set data for LowerTooth.
-            LowerTooth = new ToothList();
-            LowerGuide = new Point(0, 0);
-            for (int k = 0; k < 9; k++)
-            {
-                ToothType tooth = new ToothType();
-                for (int i = 0; i < 6; i++)
-                {
-                    TeethType teeth = new TeethType();
-                    for (int j = 0; j < 10; j++)
-                    {
-                        if (i >= 0 && i < 2)
-                            teeth.Add(new PointViewModel(LowerX[k, i, j] + LowerGuide.X, LowerY[k, i, j] + LowerGuide.Y, j));
-                        else
-                            teeth.Add(new PointViewModel(-1 * LowerX[k, i - 2, j] + LowerGuide.X, LowerY[k, i - 2, j] + LowerGuide.Y, j));
-                    }
-                    tooth.Add(teeth);
-                }
-                LowerTooth.Add(tooth);
+                UpperTooth.Add(tooth_upper);
+                LowerTooth.Add(tooth_lower);
             }
 
             // Set global dictionary.

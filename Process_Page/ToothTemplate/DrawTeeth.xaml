@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <Canvas>
-        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" StrokeThickness="0.5"/>
+        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" StrokeThickness="0.3"/>
     </Canvas>
 
 </UserControl>

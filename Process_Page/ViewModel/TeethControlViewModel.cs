@@ -36,8 +36,8 @@ namespace Process_Page.ViewModel
 
         public TeethControlViewModel()
         {
-            UpperToothList = Enumerable.Repeat(false, 6).ToList();
-            LowerToothList = Enumerable.Repeat(false, 6).ToList();
+            UpperToothList = Enumerable.Repeat(false, 10).ToList();
+            LowerToothList = Enumerable.Repeat(false, 10).ToList();
         }
 
         #region ToothSelection

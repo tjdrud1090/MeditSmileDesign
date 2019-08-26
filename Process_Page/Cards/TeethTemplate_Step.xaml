@@ -27,7 +27,7 @@
                         <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <CheckBox Name="ColorTeeth" Grid.Row="2" Margin="5" IsChecked="{Binding ColorTeeth}">치아색</CheckBox>
-                    <CheckBox Name="mirror"  Grid.Row="0" Content="대칭 이동" Margin="5"></CheckBox>
+                    <CheckBox Name="mirror" Grid.Row="0" Content="대칭 이동" Margin="5"></CheckBox>
                     <CheckBox Name="lengthTeeth"  Grid.Row="1" Content="치아 길이" Margin="5" IsChecked="{Binding ShowLength}"></CheckBox>
                     <CheckBox Name="EditPoints"  Grid.Row="3" Content="점 추가 및 삭제" Margin="5"></CheckBox>
                 </Grid>
