@@ -1,6 +1,11 @@
-
 *.baml
 *.cache
 *.lref
 *.g.cs
+<<<<<<< HEAD
 *.g.i.cs
+=======
+*.g.i.cs
+*.suo
+*.exe
+>>>>>>> origin/ho-ho

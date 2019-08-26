@@ -41,11 +41,15 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" x:Name="Upper" Orientation="Vertical" Width="auto" Height="auto">
                         <RadioButton x:Name="Upper_no" Margin="10" IsChecked="{Binding UpperTmpNo}">No Upper</RadioButton>
-                        <RadioButton x:Name="radioUpper0" Grid.Column="1" Margin="10" IsChecked="{Binding UpperTmp1}">Upper Template #1</RadioButton>
-                        <RadioButton x:Name="radioUpper1" Grid.Column="2" Margin="10" IsChecked="{Binding UpperTmp2}">Upper Template #2</RadioButton>
-                        <RadioButton x:Name="radioUpper2" Grid.Column="3" Margin="10" IsChecked="{Binding UpperTmp3}">Upper Template #3</RadioButton>
-                        <RadioButton x:Name="radioUpper3" Grid.Column="4" Margin="10" IsChecked="{Binding UpperTmp4}">Upper Template #4</RadioButton>
-                        <RadioButton x:Name="radioUpper4" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp5}">Upper Template #5</RadioButton>
+                        <RadioButton x:Name="radioUpper1" Grid.Column="1" Margin="10" IsChecked="{Binding UpperTmp1}">Upper Template #1</RadioButton>
+                        <RadioButton x:Name="radioUpper2" Grid.Column="2" Margin="10" IsChecked="{Binding UpperTmp2}">Upper Template #2</RadioButton>
+                        <RadioButton x:Name="radioUpper3" Grid.Column="3" Margin="10" IsChecked="{Binding UpperTmp3}">Upper Template #3</RadioButton>
+                        <RadioButton x:Name="radioUpper4" Grid.Column="4" Margin="10" IsChecked="{Binding UpperTmp4}">Upper Template #4</RadioButton>
+                        <RadioButton x:Name="radioUpper5" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp5}">Upper Template #5</RadioButton>
+                        <RadioButton x:Name="radioUpper6" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp6}">Upper Template #6</RadioButton>
+                        <RadioButton x:Name="radioUpper7" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp7}">Upper Template #7</RadioButton>
+                        <RadioButton x:Name="radioUpper8" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp8}">Upper Template #8</RadioButton>
+                        <RadioButton x:Name="radioUpper9" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp9}">Upper Template #9</RadioButton>
                     </StackPanel>
                     <StackPanel Grid.Column="1" x:Name="Lower" Orientation="Vertical" Width="auto" Height="auto">
                         <RadioButton x:Name="Lower_no" Grid.Column="0" Margin="10" IsChecked="{Binding LowerTmpNo}">No Lower</RadioButton>
@@ -54,6 +58,10 @@
                         <RadioButton x:Name="radioLower3" Grid.Column="3" Margin="10" IsChecked="{Binding LowerTmp3}">Lower Template #3</RadioButton>
                         <RadioButton x:Name="radioLower4" Grid.Column="4" Margin="10" IsChecked="{Binding LowerTmp4}">Lower Template #4</RadioButton>
                         <RadioButton x:Name="radioLower5" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp5}">Lower Template #5</RadioButton>
+                        <RadioButton x:Name="radioLower6" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp6}">Lower Template #6</RadioButton>
+                        <RadioButton x:Name="radioLower7" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp7}">Lower Template #7</RadioButton>
+                        <RadioButton x:Name="radioLower8" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp8}">Lower Template #8</RadioButton>
+                        <RadioButton x:Name="radioLower9" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp9}">Lower Template #9</RadioButton>
                     </StackPanel>
                 </Grid>
 

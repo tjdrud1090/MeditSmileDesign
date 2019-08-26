@@ -4,12 +4,20 @@
 winexe
 C#
 .cs
+<<<<<<< HEAD
 C:\Users\bit\Documents\GitHub\MeditSmileDesign\Process_Page\obj\x64\Debug\
+=======
+D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\
+>>>>>>> origin/ho-ho
 Process_Page
 none
 false
 DEBUG;TRACE
+<<<<<<< HEAD
 C:\Users\bit\Documents\GitHub\MeditSmileDesign\Process_Page\App.xaml
+=======
+D:\ho-ho\WPF\MeditSmileDesign\Process_Page\App.xaml
+>>>>>>> origin/ho-ho
 331588368031
 2-558633401
 71-376389127

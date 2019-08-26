@@ -15,9 +15,9 @@ namespace Process_Page.ToothTemplate.ArrowLine
         PathFigure pathfigHead2;
         PolyLineSegment polysegHead2;
 
-        /// <summary>
-        ///     Identifies the ArrowAngle dependency property.
-        /// </summary>
+
+        #region ArrowAngle
+
         public static readonly DependencyProperty ArrowAngleProperty =
             DependencyProperty.Register("ArrowAngle",
                 typeof(double), typeof(ArrowLineBase),
@@ -36,17 +36,22 @@ namespace Process_Page.ToothTemplate.ArrowLine
                 new FrameworkPropertyMetadata(12.0,
                         FrameworkPropertyMetadataOptions.AffectsMeasure));
 
+        #endregion
+
+        #region ArrowLength
+
         public double ArrowLength
         {
             set { SetValue(ArrowLengthProperty, value); }
             get { return (double)GetValue(ArrowLengthProperty); }
         }
 
-        /// <summary>
-        ///     Identifies the ArrowEnds dependency property.
-        /// </summary>
+        #endregion
+
+        #region ArrowEnds
+
         public static readonly DependencyProperty ArrowEndsProperty =
-            DependencyProperty.Register("ArrowEnds", typeof(ArrowEnds), typeof(ArrowLineBase), 
+            DependencyProperty.Register("ArrowEnds", typeof(ArrowEnds), typeof(ArrowLineBase),
                 new FrameworkPropertyMetadata(ArrowEnds.End, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public ArrowEnds ArrowEnds
@@ -54,6 +59,10 @@ namespace Process_Page.ToothTemplate.ArrowLine
             set { SetValue(ArrowEndsProperty, value); }
             get { return (ArrowEnds)GetValue(ArrowEndsProperty); }
         }
+
+        #endregion
+
+        #region IsArrowClosed
 
         public static readonly DependencyProperty IsArrowClosedProperty =
             DependencyProperty.Register("IsArrowClosed",
@@ -66,6 +75,8 @@ namespace Process_Page.ToothTemplate.ArrowLine
             set { SetValue(IsArrowClosedProperty, value); }
             get { return (bool)GetValue(IsArrowClosedProperty); }
         }
+
+        #endregion
 
         public ArrowLineBase()
         {
@@ -83,7 +94,7 @@ namespace Process_Page.ToothTemplate.ArrowLine
             polysegHead2 = new PolyLineSegment();
             pathfigHead2.Segments.Add(polysegHead2);
         }
- 
+
         protected override Geometry DefiningGeometry
         {
             get

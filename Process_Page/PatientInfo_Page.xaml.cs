@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace Process_Page
 {
-    /// <summary>
-    /// PatientInfo_Page.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class PatientInfo_Page : Page
     {
         public PatientInfo_Page()
@@ -84,7 +81,11 @@ namespace Process_Page
             jpgEncoder.QualityLevel = quality;
             jpgEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
 
+<<<<<<< HEAD
             using (FileStream stm = File.OpenWrite(@".\save\test2.png"))
+=======
+            using (FileStream stm = File.OpenWrite(@"\save\test2.png"))
+>>>>>>> origin/ho-ho
                 jpgEncoder.Save(stm);
         }
 
