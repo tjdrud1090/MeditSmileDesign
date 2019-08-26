@@ -9,3 +9,5 @@
 *.suo
 *.exe
 >>>>>>> origin/ho-ho
+*.sqlite
+Process_Page/.vs/Process_Page_Demo/v16/.suo

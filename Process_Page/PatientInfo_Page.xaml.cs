@@ -80,12 +80,8 @@ namespace Process_Page
             JpegBitmapEncoder jpgEncoder = new JpegBitmapEncoder();
             jpgEncoder.QualityLevel = quality;
             jpgEncoder.Frames.Add(BitmapFrame.Create(renderTarget));
-
-<<<<<<< HEAD
-            using (FileStream stm = File.OpenWrite(@".\save\test2.png"))
-=======
             using (FileStream stm = File.OpenWrite(@"\save\test2.png"))
->>>>>>> origin/ho-ho
+
                 jpgEncoder.Save(stm);
         }
 
