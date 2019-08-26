@@ -325,7 +325,6 @@ D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\OpenCvSharp.UserInterfa
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\OpenCvSharp.UserInterface.pdb
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\OpenCvSharp.dll
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\bin\x64\Debug\OpenCvSharp.pdb
-D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csprojAssemblyReference.cache
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Domain\SampleMessageDialog.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Domain\SampleSaveDialog.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Resource\MainColor.baml
@@ -402,3 +401,4 @@ D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csp
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csproj.CopyComplete
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.exe
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page.pdb
+D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\Process_Page_Change.csprojAssemblyReference.cache

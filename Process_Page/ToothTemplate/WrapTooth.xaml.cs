@@ -171,8 +171,6 @@ namespace Process_Page.ToothTemplate
 
             Border_WrapTooth.Visibility = Visibility.Visible;
             MoveTop.Visibility = Visibility.Visible;
-            //foreach (Shape shape in Canvas_Smile.Children)
-            //    shape.Opacity = 1;
 
             var pointses = new List<List<Point>>();
             foreach (TeethType high in Points)
@@ -206,26 +204,29 @@ namespace Process_Page.ToothTemplate
 
         public double Top;
         public double Left;
-        readonly double padding = 50;
+        readonly double padding = 20;
 
         private void DrawRect()
         {
             Point MinPoint = Numerics.GetMinXY_Tooth(Points);
             Point MaxPoint = Numerics.GetMaxXY_Tooth(Points);
 
-            Border_WrapTooth.Height = MaxPoint.Y - MinPoint.Y + padding;
             Border_WrapTooth.Width = MaxPoint.X - MinPoint.X + padding;
+            Border_WrapTooth.Height = MaxPoint.Y - MinPoint.Y + padding;
 
-            Top = MinPoint.Y - padding / 2;
             Left = MinPoint.X - padding / 2;
+            Top = MinPoint.Y - padding / 2;
 
             Canvas.SetTop(this, Top);
             Canvas.SetLeft(this, Left);
 
-            MoveTop.X1 = Border_WrapTooth.Width / 2;
-            MoveTop.Y1 = -50;
-            MoveTop.X2 = Border_WrapTooth.Width / 2;
-            MoveTop.Y2 = -30;
+            //MoveTop.X1 = Border_WrapTooth.Width / 2;
+            //MoveTop.Y1 = MaxPoint.Y - 30;
+            //MoveTop.X2 = Border_WrapTooth.Width / 2;
+            //MoveTop.Y2 = MaxPoint.Y - 25;
+            Canvas.SetTop(MoveTop, Top - 10);
+            Canvas.SetLeft(MoveTop, Border_WrapTooth.Width / 2);
+            Console.WriteLine($"{Top}");
         }
 
         #endregion

@@ -4,15 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using MaterialDesignColors.WpfExample.Domain;
-using MaterialDesignDemo.Domain;
-using MaterialDesignThemes.Wpf;
 using Process_Page_Change.Util;
 
 namespace Process_Page
