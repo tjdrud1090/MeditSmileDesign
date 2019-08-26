@@ -1,4 +1,4 @@
-*.baml
+﻿*.baml
 *.cache
 *.lref
 *.g.cs
