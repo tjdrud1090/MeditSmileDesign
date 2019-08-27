@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Process_Page.ToothTemplate.UpperTooth"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Process_Page.ToothTemplate"
+             mc:Ignorable="d" 
+             
+             xmlns:Utils="clr-namespace:Process_Page.Util"
+             Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForAddPoints}"
+             
+             x:Name="UpperToothControl"
+             d:DesignHeight="860" d:DesignWidth="1280">
+
+    <Canvas x:Name="CanvasInTooth">
+        <local:WrapTooth x:Name="WrapToothInTooth" 
+                         Points="{Binding ElementName=UpperToothControl, Path=Tooth_Points}"
+                         Fill="{Binding Path=Fill, ElementName=UpperToothControl}"/>
+
+        <Grid Name="GridInTooth">
+            <local:Teeth x:Name="CanineL" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[5]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
+            <local:Teeth x:Name="CanineR" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[2]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
+            <local:Teeth x:Name="LateralIncisorL" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[4]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
+            <local:Teeth x:Name="LateralIncisorR" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[1]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
+            <local:Teeth x:Name="CentralIncisorL" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[3]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
+            <local:Teeth x:Name="CentralIncisorR" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[0]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
+        </Grid>
+    </Canvas>
+</UserControl>

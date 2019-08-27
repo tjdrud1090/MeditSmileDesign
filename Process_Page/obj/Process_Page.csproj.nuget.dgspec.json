@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\bit\\source\\repos\\Process_Page\\Process_Page\\Process_Page.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\bit\\source\\repos\\Process_Page\\Process_Page\\Process_Page.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\bit\\source\\repos\\Process_Page\\Process_Page\\Process_Page.csproj",
+        "projectName": "Process_Page",
+        "projectPath": "C:\\Users\\bit\\source\\repos\\Process_Page\\Process_Page\\Process_Page.csproj",
+        "packagesPath": "C:\\Users\\bit\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bit\\source\\repos\\Process_Page\\Process_Page\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\bit\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "D:\\Visual\\Process_Page\\MigrationBackup\\a118739c\\Process_Page\\obj": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "DlibDotNet": {
+              "target": "Package",
+              "version": "[19.17.0.20190623, )"
+            },
+            "MaterialDesignColors": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[2.6.0, )"
+            },
+            "MvvmLight": {
+              "target": "Package",
+              "version": "[5.4.1.1, )"
+            },
+            "MvvmLightLibs": {
+              "target": "Package",
+              "version": "[5.4.1.1, )"
+            },
+            "OpenCvSharp3-AnyCPU": {
+              "target": "Package",
+              "version": "[4.0.0.20181129, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

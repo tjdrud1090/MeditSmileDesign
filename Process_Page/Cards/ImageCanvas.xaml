@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Process_Page.Cards.ImageCanvas"
+             xmlns:this="Process_Page.Cards.ImageCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Process_Page.Cards"
+             xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
+             mc:Ignorable="d"
+             x:Name="Image_Layer"
+             d:DesignHeight="600" d:DesignWidth="600"
+             AllowDrop="True">
+
+    <Grid x:Name="dental_img">
+
+        <Path x:Name="image_source" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Path.Fill>
+                <ImageBrush Stretch="Uniform" ImageSource="{Binding ElementName=Image_Layer, Path=ImageSource}"></ImageBrush>
+            </Path.Fill>
+            <Path.Data>
+                <RectangleGeometry>
+                    <RectangleGeometry.Rect>
+                        <Rect X="0" Y="0" Width="600" Height="600"></Rect>
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Path.Data>
+        </Path>
+
+        <!--<Canvas x:Name="Face_Points">
+            <Path Name="eye_LDot" Stroke="DeepSkyBlue" StrokeThickness="5" Fill="DeepSkyBlue">
+                <Path.Data>
+                    <EllipseGeometry Center="{Binding  ElementName=Image_Layer, Path=FacePoints[2]}" RadiusX="2" RadiusY="2"></EllipseGeometry>
+                </Path.Data>
+            </Path>
+            <Path Name="eye_RDot" Stroke="DeepSkyBlue" StrokeThickness="5" Fill="DeepSkyBlue">
+                <Path.Data>
+                    <EllipseGeometry Center="{Binding  ElementName=Image_Layer, Path=FacePoints[3]}" RadiusX="2" RadiusY="2"></EllipseGeometry>
+                </Path.Data>
+            </Path>
+            <Path Name="mouth_LDot" Stroke="DeepSkyBlue" StrokeThickness="5" Fill="DeepSkyBlue">
+                <Path.Data>
+                    <EllipseGeometry Center="{Binding  ElementName=Image_Layer, Path=FacePoints[4]}" RadiusX="2" RadiusY="2"></EllipseGeometry>
+                </Path.Data>
+            </Path>
+            <Path Name="mouth_RDot" Stroke="DeepSkyBlue" StrokeThickness="5" Fill="DeepSkyBlue">
+                <Path.Data>
+                    <EllipseGeometry Center="{Binding  ElementName=Image_Layer, Path=FacePoints[5]}" RadiusX="2" RadiusY="2"></EllipseGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>-->
+
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform CenterX="{Binding ElementName=Image_Layer, Path=FacePoints[2].X}"
+                                CenterY="{Binding ElementName=Image_Layer, Path=FacePoints[2].Y}"
+                                ScaleX="{Binding ElementName=Image_Layer, Path=ScaleXY}"
+                                ScaleY="{Binding ElementName=Image_Layer, Path=ScaleXY}"
+                    ></ScaleTransform>
+                <RotateTransform Angle="{Binding ElementName=Image_Layer, Path=RotateAngle}"
+                    CenterX="{Binding ElementName=Image_Layer, Path=FacePoints[2].X}" 
+                    CenterY="{Binding ElementName=Image_Layer, Path=FacePoints[2].Y}" ></RotateTransform>
+            </TransformGroup>
+        </Grid.RenderTransform>
+    </Grid>
+</UserControl>
