@@ -34,13 +34,14 @@ namespace Process_Page
     using ToothType = ObservableCollection<ObservableCollection<PointViewModel>>;
     using TeethType = ObservableCollection<PointViewModel>;
 
-    public class FaceAlign_PageViewModel : ViewModelBase {
+    public class FaceAlign_PageViewModel : ViewModelBase
+    {
         SmileDesign_Page main;
 
-        #region constructor
-        public FaceAlign_PageViewModel() {
-            isSizing = false;
-            isFirstTimeMovedOnSizingTooth = true;
+        #region Constructor
+
+        public FaceAlign_PageViewModel()
+        {
             firstRotate = Enumerable.Repeat(true, 10).ToList();
             isFirstTimeMovedOnSizing = Enumerable.Repeat(true, 10).ToList();
             isFirstTimeMovedOnSizing_you = Enumerable.Repeat(true, 10).ToList();
@@ -79,38 +80,47 @@ namespace Process_Page
             RaisePropertyChanged("changeText");
             RaisePropertyChanged("openFileClick");
         }
+
         #endregion
 
         #region Change Page Command
         //command binding
         private RelayCommand<object> _nextFlowClick;
-        public RelayCommand<object> nextFlowClick {
-            get {
-                if(_nextFlowClick == null)
+        public RelayCommand<object> nextFlowClick
+        {
+            get
+            {
+                if (_nextFlowClick == null)
                     return _nextFlowClick = new RelayCommand<object>(param => this.NextFlowClicked());
                 return _nextFlowClick;
             }
-            set {
+            set
+            {
                 _nextFlowClick = value;
             }
         }
         private RelayCommand<object> _prevFlowClick;
-        public RelayCommand<object> prevFlowClick {
-            get {
-                if(_prevFlowClick == null)
+        public RelayCommand<object> prevFlowClick
+        {
+            get
+            {
+                if (_prevFlowClick == null)
                     return _prevFlowClick = new RelayCommand<object>(param => this.PrevFlowClicked());
                 return _prevFlowClick;
             }
-            set {
+            set
+            {
                 _prevFlowClick = value;
             }
         }
 
         List<string> flowname = new List<string>();
 
-        public void NextFlowClicked() {
+        public void NextFlowClicked()
+        {
             int index = flowname.IndexOf(changeText) + 1;
-            switch(index) {
+            switch (index)
+            {
                 case 1:
                     _showControl0 = Visibility.Hidden;
                     _showControl1 = Visibility.Visible;
@@ -159,9 +169,11 @@ namespace Process_Page
             }
         }
 
-        public void PrevFlowClicked() {
+        public void PrevFlowClicked()
+        {
             int index = flowname.IndexOf(changeText) - 1;
-            switch(index) {
+            switch (index)
+            {
                 case 0:
                     _showControl0 = Visibility.Visible;
                     _showControl1 = Visibility.Hidden;
@@ -194,10 +206,13 @@ namespace Process_Page
         }
 
         private string _changeText;
-        public string changeText {
+        public string changeText
+        {
             get { return _changeText; }
-            set {
-                if(_changeText != value) {
+            set
+            {
+                if (_changeText != value)
+                {
                     _changeText = value;
                     RaisePropertyChanged("changeText");
                 }
@@ -205,40 +220,52 @@ namespace Process_Page
         }
 
         private Visibility _showControl0;
-        public Visibility showControl0 {
+        public Visibility showControl0
+        {
             get { return _showControl0; }
-            set {
-                if(_showControl0 != value) {
+            set
+            {
+                if (_showControl0 != value)
+                {
                     _showControl0 = value;
                     RaisePropertyChanged("showControl0");
                 }
             }
         }
         private Visibility _showControl1;
-        public Visibility showControl1 {
+        public Visibility showControl1
+        {
             get { return _showControl1; }
-            set {
-                if(_showControl1 != value) {
+            set
+            {
+                if (_showControl1 != value)
+                {
                     _showControl1 = value;
                     RaisePropertyChanged("showControl1");
                 }
             }
         }
         private Visibility _showControl2;
-        public Visibility showControl2 {
+        public Visibility showControl2
+        {
             get { return _showControl2; }
-            set {
-                if(_showControl2 != value) {
+            set
+            {
+                if (_showControl2 != value)
+                {
                     _showControl2 = value;
                     RaisePropertyChanged("showControl2");
                 }
             }
         }
         private Visibility _showControl3;
-        public Visibility showControl3 {
+        public Visibility showControl3
+        {
             get { return _showControl3; }
-            set {
-                if(_showControl3 != value) {
+            set
+            {
+                if (_showControl3 != value)
+                {
                     _showControl3 = value;
                     RaisePropertyChanged("showControl3");
                 }
@@ -246,10 +273,13 @@ namespace Process_Page
         }
 
         private Visibility _FaceLineVisiblity;
-        public Visibility FaceLineVisiblity {
+        public Visibility FaceLineVisiblity
+        {
             get { return _FaceLineVisiblity; }
-            set {
-                if(_FaceLineVisiblity != value) {
+            set
+            {
+                if (_FaceLineVisiblity != value)
+                {
                     _FaceLineVisiblity = value;
                     RaisePropertyChanged("FaceLineVisiblity");
                 }
@@ -257,10 +287,13 @@ namespace Process_Page
         }
 
         private Visibility _LineVisiblity;
-        public Visibility LineVisiblity {
+        public Visibility LineVisiblity
+        {
             get { return _LineVisiblity; }
-            set {
-                if(_LineVisiblity != value) {
+            set
+            {
+                if (_LineVisiblity != value)
+                {
                     _LineVisiblity = value;
                     RaisePropertyChanged("LineVisiblity");
                 }
@@ -276,21 +309,26 @@ namespace Process_Page
 
         //landmark
         private ObservableCollection<Point> _FrontalPoints;
-        public ObservableCollection<Point> FrontalPoints {
-            get {
+        public ObservableCollection<Point> FrontalPoints
+        {
+            get
+            {
                 return _FrontalPoints;
             }
         }
 
         private ObservableCollection<Point> _GagPoints;
-        public ObservableCollection<Point> GagPoints {
-            get {
+        public ObservableCollection<Point> GagPoints
+        {
+            get
+            {
                 return _GagPoints;
             }
         }
 
         //opencv_point -> W_Point로 바꾸기
-        private Point OpenCVPoint2W_Point(OpenCvSharp.Point pt) {
+        private Point OpenCVPoint2W_Point(OpenCvSharp.Point pt)
+        {
             Point result = new Point();
             result = new Point(pt.X, pt.Y);
 
@@ -304,28 +342,33 @@ namespace Process_Page
         LineGeometry _eyeline = new LineGeometry();
         LineGeometry _lipline = new LineGeometry();
 
-        public LineGeometry midline {
+        public LineGeometry midline
+        {
             get { return _midline; }
             set { }
         }
 
-        public LineGeometry noseline_L {
+        public LineGeometry noseline_L
+        {
             get { return _noseline_L; }
             set { }
         }
 
-        public LineGeometry noseline_R {
+        public LineGeometry noseline_R
+        {
             get { return _noseline_R; }
             set { }
         }
 
-        public LineGeometry eyeline {
+        public LineGeometry eyeline
+        {
             get { return _eyeline; }
             set { }
         }
 
 
-        public LineGeometry lipline {
+        public LineGeometry lipline
+        {
             get { return _lipline; }
             set { }
         }
@@ -335,29 +378,36 @@ namespace Process_Page
         #region image file loading by openfileDialog
         //command binding
         private RelayCommand<object> _openFileClick;
-        public RelayCommand<object> openFileClick {
-            get {
+        public RelayCommand<object> openFileClick
+        {
+            get
+            {
                 openFile();
-                if(_openFileClick == null)
+                if (_openFileClick == null)
                     return _openFileClick = new RelayCommand<object>(param => this.openFile());
                 return _openFileClick;
             }
-            set {
+            set
+            {
                 _openFileClick = value;
             }
         }
 
         //image source property binding
-        public ImageSource Source {
+        public ImageSource Source
+        {
             get { return bi; }
-            set {
+            set
+            {
                 RaisePropertyChanged("Source");
             }
         }
 
-        public ImageSource Source1 {
+        public ImageSource Source1
+        {
             get { return bi1; }
-            set {
+            set
+            {
                 RaisePropertyChanged("Source1");
             }
         }
@@ -373,7 +423,8 @@ namespace Process_Page
         int count = 0;
 
         //command에 들어갈 file 열기 명령
-        private void openFile() {
+        private void openFile()
+        {
             // 파일 열기
             FaceDetector faceDetector = new FaceDetector(PatientInfo.Patient_Info.frontfilename);
             bi = faceDetector.face;
@@ -424,7 +475,8 @@ namespace Process_Page
         }
 
         //face point 보정
-        public FaceDetector.face_point change_point_position(double percentage, double curposition, FaceDetector.face_point points) {
+        public FaceDetector.face_point change_point_position(double percentage, double curposition, FaceDetector.face_point points)
+        {
             FaceDetector.face_point sizechange = new FaceDetector.face_point();
 
             OpenCvSharp.Point changing;
@@ -463,7 +515,8 @@ namespace Process_Page
             return sizechange;
         }
 
-        public void draw_faceline() {
+        public void draw_faceline()
+        {
             // 현재 이미지 캔버스의 사이즈를 측정
             System.Windows.Application.Current.MainWindow.UpdateLayout();
             SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
@@ -534,7 +587,8 @@ namespace Process_Page
 
         }
 
-        public void SetAlign() {
+        public void SetAlign()
+        {
             // 현재 이미지 캔버스의 사이즈를 측정
             System.Windows.Application.Current.MainWindow.UpdateLayout();
             SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
@@ -597,52 +651,60 @@ namespace Process_Page
 
         // Frontal Face Canvas Center
         private Point _Center;
-        public Point Center {
+        public Point Center
+        {
             get { return _Center; }
             set { }
         }
 
         private double _Angle;
-        public double Angle {
+        public double Angle
+        {
             get { return _Angle; }
             set { }
         }
 
         private double _Scale;
-        public double Scale {
+        public double Scale
+        {
             get { return _Scale; }
             set { }
         }
 
         // Gag Image
         private Point _GagCenter;
-        public Point GagCenter {
+        public Point GagCenter
+        {
             get { return _GagCenter; }
             set { }
         }
 
         private double _GagAngle;
-        public double GagAngle {
+        public double GagAngle
+        {
             get { return _GagAngle; }
             set { }
         }
 
         private double _GagScale;
-        public double GagScale {
+        public double GagScale
+        {
             get { return _GagScale; }
             set { }
         }
 
         // Upper Tooth Control
         private Point _ToothUpperCenter;
-        public Point ToothUpperCenter {
+        public Point ToothUpperCenter
+        {
             get { return _ToothUpperCenter; }
             set { }
         }
 
         // Lower Tooth Control
         private Point _ToothLowerCenter;
-        public Point ToothLowerCenter {
+        public Point ToothLowerCenter
+        {
             get { return _ToothLowerCenter; }
             set { }
         }
@@ -652,7 +714,7 @@ namespace Process_Page
         //scale 조정에 따른 확대 축소시 face line 조정 
         #region sizeChange MouseWheel
         //Mouse Wheel size changed
-        private readonly double _dotSize=5;
+        private readonly double _dotSize = 5;
         private readonly double _dotTranslation = -2.5;
         private readonly double _emphaDotSize = 10;
         private readonly double _emphaDotTranslation = -5.0;
@@ -678,8 +740,7 @@ namespace Process_Page
             }
         }
 
-        public double dotSize
-        {
+        public double dotSize {
             get {
                 Console.WriteLine($"get dotSize{_dotSize/_rectsc}");
                 return _dotSize/rectsc;
@@ -694,11 +755,9 @@ namespace Process_Page
         }
 
         private double _rectsc = 1;
-        public double rectsc
-        {
+        public double rectsc {
             get { return _rectsc; }
-            set
-            {
+            set {
                 _rectsc = value;
                 RaisePropertyChanged("rectsc");
                 RaisePropertyChanged("dotSize");
@@ -709,22 +768,17 @@ namespace Process_Page
         }
 
         private RelayCommand<object> _SizeChangedWheel;
-        public RelayCommand<object> SizeChangedWheel
-        {
-            get
-            {
-                if (_SizeChangedWheel == null) return _SizeChangedWheel = new RelayCommand<object>(param => ExecuteMouseWheel((MouseWheelEventArgs)param));
+        public RelayCommand<object> SizeChangedWheel {
+            get {
+                if(_SizeChangedWheel == null) return _SizeChangedWheel = new RelayCommand<object>(param => ExecuteMouseWheel((MouseWheelEventArgs)param));
                 return _SizeChangedWheel;
             }
             set { _SizeChangedWheel = value; }
         }
 
-        private void ExecuteMouseWheel(MouseWheelEventArgs e)
-        {
-            if (e.Delta > 0)
-            {
-                if (_rectsc < 8)
-                {
+        private void ExecuteMouseWheel(MouseWheelEventArgs e) {
+            if(e.Delta > 0) {
+                if(_rectsc < 8) {
                     _rectsc += 0.25;
                     RaisePropertyChanged("rectsc");
                     RaisePropertyChanged("dotSize");
@@ -735,10 +789,8 @@ namespace Process_Page
 
                 }
             }
-            else
-            {
-                if (_rectsc > 0.25)
-                {
+            else {
+                if(_rectsc > 0.25) {
                     _rectsc -= 0.25;
                     RaisePropertyChanged("rectsc");
                     RaisePropertyChanged("dotSize");
@@ -1005,6 +1057,7 @@ namespace Process_Page
             {
                 return;
             }
+
             Path rewrite = new Path();
             rewrite.Name = ((Path)e.Source).Name;
             rewrite.Data = ((Path)e.Source).Data.CloneCurrentValue();
@@ -1315,7 +1368,7 @@ namespace Process_Page
         }
         #endregion
 
-        #region Tooth mouse events
+        #region Events for Tooth Control
 
         List<Teeth> SelectedList = new List<Teeth>();
 
@@ -1585,9 +1638,8 @@ namespace Process_Page
         }
         public void ExecuteMouseLeftDownForDragAndDropTooth(MouseEventArgs e)
         {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
+            //ArrowLine me = e.Source as ArrowLine;
+            Ellipse me = e.Source as Ellipse;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
             foreach (Teeth del in SelectedList)
             {
@@ -1613,7 +1665,6 @@ namespace Process_Page
             originalPoint.Y += 5;
 
             orgBrush2 = me_border.BorderBrush;
-            //me.Stroke = Brushes.Red;
             me_border.BorderBrush = Brushes.Red;
 
             leftdown = true;
@@ -1633,9 +1684,8 @@ namespace Process_Page
         }
         public void ExecuteMouseMoveForDragAndDropTooth(MouseEventArgs e)
         {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
+            //ArrowLine me = e.Source as ArrowLine;
+            Ellipse me = e.Source as Ellipse;
             WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
             if (leftdown == true)
             {
@@ -1665,14 +1715,9 @@ namespace Process_Page
         }
         public void ExecuteMouseLeftUpForDragAndDropTooth(MouseEventArgs e)
         {
-            //rect2.Stroke = orgBrush2;
-            //border2.BorderBrush = orgBrush2;
-
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
+            //ArrowLine me = e.Source as ArrowLine;
+            Ellipse me = e.Source as Ellipse;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
-            //me.Stroke = orgBrush2;
             me_border.BorderBrush = orgBrush2;
 
             leftdown = false;
@@ -1746,7 +1791,6 @@ namespace Process_Page
                 // Sibling
                 foreach (Teeth sibling in SelectedList)
                 {
-
                     var pts_sibling = Numerics.TeethToList(sibling);
                     Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
                     Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
@@ -1762,7 +1806,6 @@ namespace Process_Page
                     double changedHeight = ori_Height - moved.Y;
                     foreach (PointViewModel point in sibling.Points)
                     {
-
                         if (changedHeight > sizeThreshold)
                         {
                             double RatioY = changedHeight / ori_Height;
@@ -2692,7 +2735,6 @@ namespace Process_Page
                         RotateAnchor.Clear();
                     RotateAnchor.Add(new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2));
                     firstRotate[i] = false;
-                    Console.WriteLine($"{i}, {RotateAnchor[i]}");
                     i++;
                 }
             }
@@ -2879,7 +2921,6 @@ namespace Process_Page
                             && Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == normalline)
                         {
                             dst = Numerics.Distance(curPoint, tolist[i]);
-                            Console.WriteLine($"{i}, {dst}, {min_dst}");
                             if (dst < min_dst)
                             {
                                 min_dst = dst;
@@ -2887,8 +2928,6 @@ namespace Process_Page
                             }
                         }
                     }
-
-                    Console.WriteLine($"{mem}");
 
                     int pos = nearest1.I < mem ? mem : nearest1.I;
                     if (nearest1.I == 0 && nearest2.I == tolist.Count - 1 || nearest1.I == tolist.Count - 1 && nearest2.I == 0)

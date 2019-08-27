@@ -123,7 +123,6 @@ namespace Process_Page.Util
 
         static void element_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Console.WriteLine(sender.ToString());
             FrameworkElement element = (FrameworkElement)sender;
 
             ICommand command = GetMouseLeftButtonDownCommand(element);

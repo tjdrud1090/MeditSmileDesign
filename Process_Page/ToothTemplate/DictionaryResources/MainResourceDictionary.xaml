@@ -1,9 +1,10 @@
 ﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:PointInterpolation.View="clr-namespace:Process_Page.ToothTemplate"
+	xmlns:ViewModel="clr-namespace:Process_Page.ViewModel"
     xmlns:ProcessPage="clr-namespace:Process_Page"
-    xmlns:AttachedProperty="clr-namespace:Process_Page.ToothTemplate.AttachedProperties"
-    xmlns:ViewModel="clr-namespace:Process_Page.ViewModel">
+	xmlns:AttachedProperty="clr-namespace:Process_Page.ToothTemplate.AttachedProperties">
 
     <!--    Data template for points-->
     <DataTemplate DataType="{x:Type ViewModel:PointViewModel}">
@@ -70,8 +71,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="BorderStyle" TargetType="Border" >
-        <Setter Property="Opacity" Value="0.1"/>
+    <Style x:Key="TeethBorderStyle" TargetType="Border" >
+        <Setter Property="Opacity" Value="0"/>
         <Setter Property="Background" Value="Gray"/>
     </Style>
 

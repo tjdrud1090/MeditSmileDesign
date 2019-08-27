@@ -1,7 +1,7 @@
-PSK
-012345
-this patient is extremly dangerous, Be careful ab c
-2019-08-01
+psk
+1023
+가나다라
+2019-08-27
 C:\Users\bit\Documents\GitHub\MeditSmileDesign\개구기사진\IMG_2745.JPG
 C:\Users\bit\Documents\GitHub\MeditSmileDesign\개구기사진\IMG_2750.JPG
 C:\Users\bit\Documents\GitHub\MeditSmileDesign\개구기사진\IMG_2747.JPG

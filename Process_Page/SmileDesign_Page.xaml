@@ -3,16 +3,16 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      
       xmlns:local="clr-namespace:Process_Page.Cards"
       xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      xmlns:trans="clr-namespace:Process_Page.Cards.TranslationControl"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"      
       xmlns:View="clr-namespace:Process_Page.ToothTemplate"
       xmlns:local1="clr-namespace:Process_Page_Change.Cards"
-      mc:Ignorable="d" 
-      x:Name="FunctionPage"
-      d:DesignHeight="900" d:DesignWidth="1200"
-      Title="FaceAlign_Page">
+      
+      x:Name="FunctionPage" Title="FaceAlign_Page"
+      d:DesignHeight="900" d:DesignWidth="1200">
     
     <Grid>
         <Grid.Background>
@@ -27,11 +27,11 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <!--실제 이미지 조정 부분 : face align, tooth template 조정-->
@@ -121,8 +121,6 @@
             </Canvas>
         </Grid>
 
-
-
         <!--Menu Bar-->
         <materialDesign:ColorZone Grid.Row="0" Grid.ColumnSpan="3" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                             Mode="PrimaryMid" DockPanel.Dock="Top" Height="53">
@@ -135,7 +133,7 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
 
-                <materialDesign:Chip Content="Dr.Koo" Margin="0,-1,0,-7" Width="136" Height="29" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <materialDesign:Chip Content="James Willock" Margin="0,-1,0,-7" Width="136" Height="29" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <materialDesign:Chip.Icon>
                         <Image Source="C:/Users/bit/source/repos/dental align exam1/image/dental.PNG" />
                     </materialDesign:Chip.Icon>
@@ -149,9 +147,9 @@
         <Grid x:Name="flow_chart" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid Margin="30,20,0,20">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="70*"/>
-                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
+                    <ColumnDefinition Width="70*"></ColumnDefinition>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Viewbox HorizontalAlignment="Left" Grid.Column="0">
                     <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}" 

@@ -42,8 +42,10 @@ namespace Process_Page.ViewModel
 
         #region ToothSelection
 
-        // Upper Tooth
         private List<bool> UpperToothList;
+        private List<bool> LowerToothList;
+
+        #region UpperTmp
 
         private bool _UpperTmpNo;
         public bool UpperTmpNo
@@ -147,9 +149,73 @@ namespace Process_Page.ViewModel
             }
         }
 
+        private bool _UpperTmp6;
+        public bool UpperTmp6
+        {
+            get { return _UpperTmp6; }
+            set
+            {
+                if (_UpperTmp6 != value)
+                {
+                    _UpperTmp6 = value;
+                    UpperToothList[6] = value;
+                    RaisePropertyChanged("UpperTmp6");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
 
-        // Lower Tooth
-        private List<bool> LowerToothList;
+        private bool _UpperTmp7;
+        public bool UpperTmp7
+        {
+            get { return _UpperTmp7; }
+            set
+            {
+                if (_UpperTmp7 != value)
+                {
+                    _UpperTmp7 = value;
+                    UpperToothList[7] = value;
+                    RaisePropertyChanged("UpperTmp7");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp8;
+        public bool UpperTmp8
+        {
+            get { return _UpperTmp8; }
+            set
+            {
+                if (_UpperTmp8 != value)
+                {
+                    _UpperTmp8 = value;
+                    UpperToothList[8] = value;
+                    RaisePropertyChanged("UpperTmp8");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp9;
+        public bool UpperTmp9
+        {
+            get { return _UpperTmp9; }
+            set
+            {
+                if (_UpperTmp9 != value)
+                {
+                    _UpperTmp9 = value;
+                    UpperToothList[9] = value;
+                    RaisePropertyChanged("UpperTmp9");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        #endregion
+
+        #region LowerTmp
 
         private bool _LowerTmpNo;
         public bool LowerTmpNo
@@ -250,6 +316,72 @@ namespace Process_Page.ViewModel
                 }
             }
         }
+
+        private bool _LowerTmp6;
+        public bool LowerTmp6
+        {
+            get { return _LowerTmp6; }
+            set
+            {
+                if (_LowerTmp6 != value)
+                {
+                    _LowerTmp6 = value;
+                    LowerToothList[6] = value;
+                    RaisePropertyChanged("LowerTmp6");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp7;
+        public bool LowerTmp7
+        {
+            get { return _LowerTmp7; }
+            set
+            {
+                if (_LowerTmp7 != value)
+                {
+                    _LowerTmp7 = value;
+                    LowerToothList[7] = value;
+                    RaisePropertyChanged("LowerTmp7");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp8;
+        public bool LowerTmp8
+        {
+            get { return _LowerTmp8; }
+            set
+            {
+                if (_LowerTmp8 != value)
+                {
+                    _LowerTmp8 = value;
+                    LowerToothList[8] = value;
+                    RaisePropertyChanged("LowerTmp8");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp9;
+        public bool LowerTmp9
+        {
+            get { return _LowerTmp9; }
+            set
+            {
+                if (_LowerTmp9 != value)
+                {
+                    _LowerTmp9 = value;
+                    LowerToothList[9] = value;
+                    RaisePropertyChanged("LowerTmp9");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        #endregion
 
         #endregion
 
