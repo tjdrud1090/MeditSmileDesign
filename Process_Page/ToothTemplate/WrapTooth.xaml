@@ -6,7 +6,6 @@
              mc:Ignorable="d" 
              
              xmlns:MouseBehaviors="clr-namespace:Process_Page.Util"  
-             xmlns:Arrow="clr-namespace:Process_Page.ToothTemplate.ArrowLine"
              d:DesignHeight="860" d:DesignWidth="1280">
     <UserControl.Resources>
         <ImageBrush x:Key="DragImage" ImageSource="/image/DragArrow1.png"></ImageBrush>

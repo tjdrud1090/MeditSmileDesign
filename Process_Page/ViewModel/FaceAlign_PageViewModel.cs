@@ -1328,11 +1328,12 @@ namespace Process_Page
         private bool leftdown = false;
         private bool leftdown_with_ctrl = false;
         private bool dragging = false;
-        private List<Teeth> dragged = new List<Teeth>();
+        private Teeth own = null;
 
         #region DragDrop for Teeth 
 
         private Point originalPoint;
+        private List<Teeth> dragged = new List<Teeth>();
 
         private RelayCommand<object> _mouseLeftDownForDragAndDropTeeth;
         public RelayCommand<object> MouseLeftDownForDragAndDropTeeth
@@ -1350,7 +1351,7 @@ namespace Process_Page
             Rectangle rect = e.Source as Rectangle;
             Border border = ViewUtils.FindParent(rect, (new Border()).GetType()) as Border;
 
-            Teeth th = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
+            Teeth th = ViewUtils.FindParent(rect, (new Teeth()).GetType()) as Teeth;
             RotateTeeth rotate = th.FindName("rotateTeeth") as RotateTeeth;
             DrawTeeth draw = th.FindName("drawTeeth") as DrawTeeth;
 
@@ -1362,6 +1363,7 @@ namespace Process_Page
                 leftdown_with_ctrl = false;
                 if (SelectedList.Count == 0)
                 {
+                    own = th;
                     SelectedList.Add(th);
 
                     border.Opacity = 1;
@@ -1372,6 +1374,7 @@ namespace Process_Page
                 }
                 else if (SelectedList.Contains(th))
                 {
+                    own = th;
                     //draw.path.Fill = null;
                     //rotate.RotatePin.Visibility = Visibility.Hidden;
                 }
@@ -1394,6 +1397,7 @@ namespace Process_Page
                     }
                     SelectedList.Clear();
 
+                    own = th;
                     SelectedList.Add(th);
                     th.list.Visibility = Visibility.Visible;
                     border.Opacity = 1;
@@ -1433,30 +1437,68 @@ namespace Process_Page
                     {
                         foreach (Teeth me in SelectedList)
                         {
-                            Teeth you = null;
-                            if (main.ToothControl.mirror.IsChecked == true)
-                            {
-                                Grid grid_me = ViewUtils.FindParent(me, (new Grid()).GetType()) as Grid;
-
-                                int idx_me = main.ToothControl.dic[me.Name];
-                                int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
-                                var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                                you = grid_me.FindName(myKey) as Teeth;
-                            }
-
                             Point curPoint = e.GetPosition((IInputElement)e.Source);
                             var dragDelta = curPoint - originalPoint;
-                            foreach (PointViewModel point in me.Points)
+                            // Mirror Mode
+                            if (main.ToothControl.mirror.IsChecked == true)
                             {
-                                point.X += dragDelta.X;
-                                point.Y += dragDelta.Y;
-                            }
-
-                            if (you != null)
-                            {
-                                foreach (PointViewModel point in you.Points)
+                                if (dragged.Contains(me) == false)
                                 {
-                                    point.X -= dragDelta.X;
+                                    int idx_me = main.ToothControl.dic[me.Name];
+                                    int idx_own = main.ToothControl.dic[own.Name];
+
+                                    // me & own : different side
+                                    if ((idx_me < 3 && idx_own >= 3) || (idx_me >= 3 && idx_own < 3))
+                                    {
+                                        foreach (PointViewModel point in me.Points)
+                                        {
+                                            point.X -= dragDelta.X;
+                                            point.Y += dragDelta.Y;
+                                        }
+                                    }
+                                    // me & own : same side
+                                    else
+                                    {
+                                        foreach (PointViewModel point in me.Points)
+                                        {
+                                            point.X += dragDelta.X;
+                                            point.Y += dragDelta.Y;
+                                        }
+                                    }
+                                    dragged.Add(me);
+
+                                    // Mirror
+                                    Teeth you = ViewUtils.FindSymmetric(me, main.ToothControl.dic);
+                                    if (dragged.Contains(you) == false)
+                                    {
+                                        // you & own : same side
+                                        if ((idx_me < 3 && idx_own >= 3) || (idx_me >= 3 && idx_own < 3))
+                                        {
+                                            foreach (PointViewModel point in you.Points)
+                                            {
+                                                point.X += dragDelta.X;
+                                                point.Y += dragDelta.Y;
+                                            }
+                                        }
+                                        // you & own : different side
+                                        else
+                                        {
+                                            foreach (PointViewModel point in you.Points)
+                                            {
+                                                point.X -= dragDelta.X;
+                                                point.Y += dragDelta.Y;
+                                            }
+                                        }
+                                    }
+                                    dragged.Add(you);
+                                }
+                            }
+                            // No Mirror
+                            else
+                            {
+                                foreach (PointViewModel point in me.Points)
+                                {
+                                    point.X += dragDelta.X;
                                     point.Y += dragDelta.Y;
                                 }
                             }
@@ -1466,6 +1508,7 @@ namespace Process_Page
             }
             else if (leftdown)
                 dragging = true;
+            dragged.Clear();
         }
 
         private RelayCommand<object> _mouseLeftUpForDragAndDropTeeth;
@@ -1499,8 +1542,9 @@ namespace Process_Page
                         {
                             flag = 1;
                             th.list.Visibility = Visibility.Hidden;
-                            border_dragdrop.Opacity = 0;
                             draw.path.Fill = null;
+                            draw.path.Stroke = draw.FindResource("NonSelected_StrokeBrush") as Brush;
+                            border_dragdrop.Opacity = 0;
                             rotate.RotatePin.Visibility = Visibility.Hidden;
                         }
 
@@ -1509,6 +1553,7 @@ namespace Process_Page
                             SelectedList.Add(th);
                             th.list.Visibility = Visibility.Visible;
                             draw.path.Fill = draw.FindResource("FillBrush") as Brush;
+                            draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
                             border_dragdrop.Opacity = 1;
                             rotate.RotatePin.Visibility = Visibility.Visible;
                         }
@@ -2544,6 +2589,155 @@ namespace Process_Page
 
         #endregion
 
+        #region Rotate
+
+        private bool captured_rotate = false;
+        private double[] accAlangle = new double[10];
+
+        private List<bool> firstRotate = new List<bool>(10);
+        private double[] degrees = new double[10];
+        private List<Point> RotateAnchor = new List<Point>();
+
+        private List<Teeth> rotatedlist = new List<Teeth>();
+
+        private int limitAngle = 30;
+
+        #region Rotate for Teeth
+
+        private RelayCommand<object> _mouseLeftDownForRotateTeeth;
+        public RelayCommand<object> MouseLeftDownForRotateTeeth
+        {
+            get
+            {
+                if (_mouseLeftDownForRotateTeeth == null)
+                    return _mouseLeftDownForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForRotateTeeth(param as MouseEventArgs));
+                return _mouseLeftDownForRotateTeeth;
+            }
+            set { _mouseLeftDownForRotateTeeth = value; }
+        }
+
+        private void ExecuteMouseLeftDownForRotateTeeth(MouseEventArgs e)
+        {
+            if (captured_rotate)
+                return;
+            captured_rotate = true;
+            Mouse.Capture(e.Source as IInputElement);
+        }
+
+        private RelayCommand<object> _mouseMoveForRotateTeeth;
+        public RelayCommand<object> MouseMoveForRotateTeeth
+        {
+            get
+            {
+                if (_mouseMoveForRotateTeeth == null)
+                    return _mouseMoveForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForRotateTeeth(param as MouseEventArgs));
+                return _mouseMoveForRotateTeeth;
+            }
+            set { _mouseMoveForRotateTeeth = value; }
+        }
+
+        private void ExecuteMouseMoveForRotateTeeth(MouseEventArgs e)
+        {
+            if (!captured_rotate)
+                return;
+
+            RotateTeeth rotate = e.Source as RotateTeeth;
+            Teeth teeth = ViewUtils.FindParent(rotate, (new Teeth()).GetType()) as Teeth;
+            own = teeth;
+
+            List<Point> pts = Numerics.TeethToList(teeth);
+            Point min_t = new Point(Numerics.GetMinX_Teeth(pts).X, Numerics.GetMinY_Teeth(pts).Y);
+            Point max_t = new Point(Numerics.GetMaxX_Teeth(pts).X, Numerics.GetMaxY_Teeth(pts).Y);
+
+
+            Point ctrl = new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2);
+
+            Point cur = e.GetPosition(e.Source as IInputElement);
+            double rad = Math.Atan2(cur.Y - ctrl.Y, cur.X - ctrl.X);
+            double deg = Numerics.Rad2Deg(rad);
+
+            // make a list of be rotated
+            foreach(Teeth me in SelectedList)
+            {
+                if (rotatedlist.Contains(me) == false)
+                {
+                    rotatedlist.Add(me);
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(me, main.ToothControl.dic);
+                        rotatedlist.Add(you);
+                    }
+                }
+            }
+
+            // set the anchor of rotate only when the rotate is first
+            int i = 0;
+            foreach(Teeth me in rotatedlist)
+            {
+                if (firstRotate[i])
+                {
+                    List<Point> l = Numerics.TeethToList(me);
+                    Point min = new Point(Numerics.GetMinX_Teeth(l).X, Numerics.GetMinY_Teeth(l).Y);
+                    Point max = new Point(Numerics.GetMaxX_Teeth(l).X, Numerics.GetMaxY_Teeth(l).Y);
+
+                    if (i == 0)
+                        RotateAnchor.Clear();
+
+                    RotateAnchor.Add(new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2));
+                    firstRotate[i++] = false;
+                }
+            }
+
+            int j = 0;
+            foreach(Teeth me in rotatedlist)
+            {
+                degrees[j] = deg + 90 + accAlangle[j];
+
+                int idx_own = main.ToothControl.dic[own.Name];
+                int idx_me = main.ToothControl.dic[me.Name];
+                // Mirror Mode
+                if (main.ToothControl.mirror.IsChecked == true)
+                    // me & own : different side
+                    if (idx_me < 3 && idx_own >= 3 || idx_me >= 3 && idx_own < 3)
+                        degrees[j] = -deg - 90 + accAlangle[j];
+                
+                if (degrees[j] <= -limitAngle || degrees[j] >= limitAngle)
+                {
+                    j++;
+                    continue;
+                }
+
+                RotateTransform rotatetransform = new RotateTransform(degrees[j], RotateAnchor[j].X, RotateAnchor[j].Y);
+                me.RenderTransform = rotatetransform;
+                accAlangle[j] = degrees[j];
+                j++;
+            }
+            rotatedlist.Clear();
+        }
+
+        private RelayCommand<object> _mouseLeftUpForRotateTeeth;
+        public RelayCommand<object> MouseLeftUpForRotateTeeth
+        {
+            get
+            {
+                if (_mouseLeftUpForRotateTeeth == null)
+                    return _mouseLeftUpForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForRotateTeeth(param as MouseEventArgs));
+                return _mouseLeftUpForRotateTeeth;
+            }
+            set { _mouseLeftUpForRotateTeeth = value; }
+        }
+
+        private void ExecuteMouseLeftUpForRotateTeeth(MouseEventArgs e)
+        {
+            captured_rotate = false;
+            firstRotate = Enumerable.Repeat(true, 10).ToList();
+            Mouse.Capture(null);
+        }
+
+        #endregion
+
+        #endregion
+
         #region SmileLine
 
         //private Rectangle rect3;
@@ -2609,154 +2803,6 @@ namespace Process_Page
             captured_arc = false;
             Mouse.Capture(null);
         }
-
-        #endregion
-
-        #region Rotate
-
-        private bool captured_rotate = false;
-        private List<bool> firstRotate = new List<bool>(10);
-
-        private double[] degrees = new double[10];
-        private double[] accAlangle = new double[10];
-        private List<Point> RotateAnchor = new List<Point>();
-        private List<Point> RotateAnchor_you = new List<Point>();
-
-        private List<Teeth> you_list = new List<Teeth>();
-
-        #region Rotate for Teeth
-
-        private RelayCommand<object> _mouseLeftDownForRotateTeeth;
-        public RelayCommand<object> MouseLeftDownForRotateTeeth
-        {
-            get
-            {
-                if (_mouseLeftDownForRotateTeeth == null)
-                    return _mouseLeftDownForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForRotateTeeth(param as MouseEventArgs));
-                return _mouseLeftDownForRotateTeeth;
-            }
-            set { _mouseLeftDownForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseLeftDownForRotateTeeth(MouseEventArgs e)
-        {
-            if (captured_rotate)
-                return;
-            captured_rotate = true;
-            Mouse.Capture(e.Source as IInputElement);
-        }
-
-        private RelayCommand<object> _mouseMoveForRotateTeeth;
-        public RelayCommand<object> MouseMoveForRotateTeeth
-        {
-            get
-            {
-                if (_mouseMoveForRotateTeeth == null)
-                    return _mouseMoveForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForRotateTeeth(param as MouseEventArgs));
-                return _mouseMoveForRotateTeeth;
-            }
-            set { _mouseMoveForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseMoveForRotateTeeth(MouseEventArgs e)
-        {
-            if (!captured_rotate)
-                return;
-
-            RotateTeeth rotate = e.Source as RotateTeeth;
-            Teeth teeth = ViewUtils.FindParent(rotate, (new Teeth()).GetType()) as Teeth;
-
-            List<Point> rotate_list = Numerics.TeethToList(teeth);
-            Point min = new Point(Numerics.GetMinX_Teeth(rotate_list).X, Numerics.GetMinY_Teeth(rotate_list).Y);
-            Point max = new Point(Numerics.GetMaxX_Teeth(rotate_list).X, Numerics.GetMaxY_Teeth(rotate_list).Y);
-
-            Point ctrl = new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
-            Point cur = e.GetPosition(e.Source as IInputElement);
-
-            int i = 0;
-            foreach (Teeth t in SelectedList)
-            {
-                List<Point> l = Numerics.TeethToList(t);
-                Point min_t = new Point(Numerics.GetMinX_Teeth(l).X, Numerics.GetMinY_Teeth(l).Y);
-                Point max_t = new Point(Numerics.GetMaxX_Teeth(l).X, Numerics.GetMaxY_Teeth(l).Y);
-
-                if (firstRotate[i])
-                {
-                    if (i == 0)
-                        RotateAnchor.Clear();
-                    RotateAnchor.Add(new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2));
-                    firstRotate[i] = false;
-                    i++;
-                }
-            }
-
-            double rad = Math.Atan2(cur.Y - ctrl.Y, cur.X - ctrl.X);
-            double deg = Numerics.Rad2Deg(rad);
-
-            int j = 0;
-            foreach (Teeth me in SelectedList)
-            {
-                degrees[j] = deg;
-                degrees[j] += accAlangle[j] + 90;
-                if (degrees[j] <= -30 || degrees[j] >= 30)
-                    continue;
-                RotateTransform rotatetransform_me = new RotateTransform(degrees[j], RotateAnchor[j].X, RotateAnchor[j].Y);
-                me.RenderTransform = rotatetransform_me;
-                accAlangle[j] = degrees[j];
-                j++;
-
-                if (main.ToothControl.mirror.IsChecked == true)
-                {
-                    int idx_me = main.ToothControl.dic[me.Name];
-                    int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                    var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                    var parent = teeth.Parent as Grid;
-                    Teeth you = parent.FindName(myKey) as Teeth;
-                    Console.WriteLine($"you: {you.Name}");
-
-                    List<Point> l = Numerics.TeethToList(you);
-                    Point min_you = new Point(Numerics.GetMinX_Teeth(l).X, Numerics.GetMinY_Teeth(l).Y);
-                    Point max_you = new Point(Numerics.GetMaxX_Teeth(l).X, Numerics.GetMaxY_Teeth(l).Y);
-
-                    if (firstRotate[j])
-                    {
-                        RotateAnchor_you.Add(new Point((max_you.X + min_you.X) / 2, (max_you.Y + min_you.Y) / 2));
-                        firstRotate[j] = false;
-                    }
-
-                    degrees[j] = deg;
-                    degrees[j] += accAlangle[j] + 90;
-                    if (degrees[j] <= -30 || degrees[j] >= 30)
-                        return;
-                    RotateTransform rotatetransform_you = new RotateTransform(-degrees[j], RotateAnchor_you[j].X, RotateAnchor_you[j].Y);
-                    you.RenderTransform = rotatetransform_you;
-                    accAlangle[j] = degrees[j];
-                }
-                j++;
-            }
-        }
-
-        private RelayCommand<object> _mouseLeftUpForRotateTeeth;
-        public RelayCommand<object> MouseLeftUpForRotateTeeth
-        {
-            get
-            {
-                if (_mouseLeftUpForRotateTeeth == null)
-                    return _mouseLeftUpForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForRotateTeeth(param as MouseEventArgs));
-                return _mouseLeftUpForRotateTeeth;
-            }
-            set { _mouseLeftUpForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseLeftUpForRotateTeeth(MouseEventArgs e)
-        {
-            captured_rotate = false;
-            for (int i = 0; i < firstRotate.Count; i++)
-                firstRotate[i] = true;
-            Mouse.Capture(null);
-        }
-
-        #endregion
 
         #endregion
 
