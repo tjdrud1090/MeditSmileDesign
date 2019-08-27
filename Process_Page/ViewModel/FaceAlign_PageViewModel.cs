@@ -1328,13 +1328,11 @@ namespace Process_Page
         private bool leftdown = false;
         private bool leftdown_with_ctrl = false;
         private bool dragging = false;
-
-        private bool isFirsttimeDown = true;
+        private List<Teeth> dragged = new List<Teeth>();
 
         #region DragDrop for Teeth 
 
         private Point originalPoint;
-        private List<Point> ori_Teeth = new List<Point>();
 
         private RelayCommand<object> _mouseLeftDownForDragAndDropTeeth;
         public RelayCommand<object> MouseLeftDownForDragAndDropTeeth
@@ -1409,10 +1407,6 @@ namespace Process_Page
 
             Mouse.Capture((IInputElement)e.Source);
             originalPoint = e.GetPosition((IInputElement)e.Source);
-
-            // padding
-            originalPoint.X += 5;
-            originalPoint.Y += 5;
         }
 
         private RelayCommand<object> _mouseMoveForDragAndDropTeeth;
@@ -1434,12 +1428,21 @@ namespace Process_Page
                 if (leftdown == true)
                 {
                     Rectangle rect = e.Source as Rectangle;
-                    Teeth me_rect = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
+                    Teeth me_rect = ViewUtils.FindParent(rect, (new Teeth()).GetType()) as Teeth;
                     if (SelectedList.Contains(me_rect))
                     {
                         foreach (Teeth me in SelectedList)
                         {
-                            
+                            Teeth you = null;
+                            if (main.ToothControl.mirror.IsChecked == true)
+                            {
+                                Grid grid_me = ViewUtils.FindParent(me, (new Grid()).GetType()) as Grid;
+
+                                int idx_me = main.ToothControl.dic[me.Name];
+                                int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
+                                var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
+                                you = grid_me.FindName(myKey) as Teeth;
+                            }
 
                             Point curPoint = e.GetPosition((IInputElement)e.Source);
                             var dragDelta = curPoint - originalPoint;
@@ -1449,14 +1452,8 @@ namespace Process_Page
                                 point.Y += dragDelta.Y;
                             }
 
-                            if (main.ToothControl.mirror.IsChecked == true)
+                            if (you != null)
                             {
-                                Grid grid_me = ViewUtils.FindParent(me, (new Grid()).GetType()) as Grid;
-
-                                int idx_me = main.ToothControl.dic[me.Name];
-                                int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
-                                var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                                Teeth you = grid_me.FindName(myKey) as Teeth;
                                 foreach (PointViewModel point in you.Points)
                                 {
                                     point.X -= dragDelta.X;
@@ -1483,7 +1480,7 @@ namespace Process_Page
             set { _mouseLeftUpForDragAndDropTeeth = value; }
         }
         public void ExecuteMouseLeftUpForDragAndDropTeeth(MouseEventArgs e)
-        {
+        {            
             int flag = 0;
             if (leftdown)
             {
@@ -1771,11 +1768,7 @@ namespace Process_Page
                     // Mirror Mode
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -1800,24 +1793,6 @@ namespace Process_Page
                     }
                     j++;
                 }
-
-                //// Mirror
-                //if (you != null)
-                //{
-                //    Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
-                //    Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
-
-                //    double ori_Height = maxPoint_you.Y - minPoint_you.Y;
-                //    double changedHeight = ori_Height - moved.Y;
-                //    foreach (PointViewModel point in you.Points)
-                //    {
-                //        if (changedHeight > sizeThreshold)
-                //        {
-                //            double RatioY = changedHeight / ori_Height;
-                //            point.Y = point.Y * RatioY + anchorMax_you.Y * (1 - RatioY);
-                //        }
-                //    }
-                //}
             }
             else if (border.Name.Equals("Border_Bottom"))
             {
@@ -1850,11 +1825,7 @@ namespace Process_Page
                     // Mirror
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -1912,11 +1883,7 @@ namespace Process_Page
                     // Mirror
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -1974,11 +1941,7 @@ namespace Process_Page
                     // Mirror
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -2045,11 +2008,7 @@ namespace Process_Page
                     // Mirror
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -2124,11 +2083,7 @@ namespace Process_Page
                     // Mirror
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -2207,11 +2162,7 @@ namespace Process_Page
                     // Mirror Mode
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -2287,11 +2238,7 @@ namespace Process_Page
                     // Mirror Mode
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        Grid parent_grid = sibling.Parent as Grid;
-                        int idx_me = main.ToothControl.dic[sibling.Name];
-                        int idx_you = idx_me >= 0 && idx_me < 3 ? idx_me + 3 : idx_me - 3;
-                        var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                        Teeth you = parent_grid.FindName(myKey) as Teeth;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
                         var pts_you = Numerics.TeethToList(you);
 
                         Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
@@ -2343,12 +2290,10 @@ namespace Process_Page
 
         public void ExecuteMouseLeftUpForResizeTeeth(MouseEventArgs e)
         {
-            isSizing = false;
-
-            for (int i = 0; i < 10; i++)
-                isFirstTimeMovedOnSizing[i] = true;
-
             Mouse.Capture(null);
+            isSizing = false;
+            isFirstTimeMovedOnSizing = Enumerable.Repeat(true, 10).ToList();
+            isFirstTimeMovedOnSizing_you = Enumerable.Repeat(true, 10).ToList();
         }
 
         #endregion
