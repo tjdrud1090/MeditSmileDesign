@@ -187,7 +187,7 @@ namespace Process_Page.ToothTemplate
         public double Top;
         public double Left;
 
-        readonly double padding = 8;
+        readonly double padding = 2;
         private void DrawRect(Point min, Point max)
         {
             // Grid의 크기 설정
@@ -199,23 +199,6 @@ namespace Process_Page.ToothTemplate
 
             Canvas.SetLeft(this, Left);
             Canvas.SetTop(this, Top);
-
-            //Canvas cv = this.Parent as Canvas;
-            //Slider slider = null;
-            //foreach (var ctrl in cv.Children)
-            //{
-            //    if (ctrl is Slider)
-            //    {
-            //        slider = ctrl as Slider;
-            //        break;
-            //    }
-            //}
-
-            //if (slider != null)
-            //{
-            //    Canvas.SetLeft(slider, Left);
-            //    Canvas.SetTop(slider, Top);
-            //}
         }
 
         #endregion

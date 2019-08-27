@@ -10,7 +10,7 @@
             d:designWidth="1280" d:designHeight="860">
          
 
-    <Border x:Name="Border_WrapTeeth"  BorderThickness="1" BorderBrush="LightSalmon" Opacity="0">
+    <Border x:Name="Border_WrapTeeth" BorderThickness="0.2" BorderBrush="LightSalmon" Opacity="0">
         <Grid>
             <Rectangle x:Name="Rectangle_WrapTeeth" Cursor="Hand" Stroke="LightSalmon" Opacity="0" 
                        MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTeeth}"

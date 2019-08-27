@@ -222,10 +222,14 @@ namespace Process_Page.ToothTemplate
             Canvas.SetTop(this, Top);
             Canvas.SetLeft(this, Left);
 
-            MoveTop.X1 = Border_WrapTooth.Width / 2;
-            MoveTop.Y1 = -50;
-            MoveTop.X2 = Border_WrapTooth.Width / 2;
-            MoveTop.Y2 = -30;
+            //MoveTop.X1 = Border_WrapTooth.Width / 2;
+            //MoveTop.Y1 = MaxPoint.Y - 30;
+            //MoveTop.X2 = Border_WrapTooth.Width / 2;
+            //MoveTop.Y2 = MaxPoint.Y - 25;
+            Canvas.SetTop(MoveTop, Top - 10);
+            Canvas.SetLeft(MoveTop, Border_WrapTooth.Width / 2);
+            //Console.WriteLine($"{Top}");
+
         }
 
         #endregion
