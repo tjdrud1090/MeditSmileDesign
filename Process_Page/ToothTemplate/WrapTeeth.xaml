@@ -78,15 +78,15 @@
                     Style="{StaticResource TeethBorderStyle}"/>
 
             <Canvas>
-                <ar:ArrowLine x:Name="lineH" ArrowEnds="Both" IsArrowClosed="True" 
-                              Stroke="Red" StrokeThickness="0.5" Opacity="0.5" Visibility="Hidden"/>
-                <Label x:Name="lengthH" FontSize="9" Visibility="Hidden"></Label>
+                <ar:ArrowLine x:Name="lineH" ArrowEnds="Both" IsArrowClosed="True" ArrowLength="1"
+                              Stroke="Red" StrokeThickness="0.3" Opacity="0.5" Visibility="Hidden"/>
+                <Label x:Name="lengthH" FontSize="1" Visibility="Hidden"></Label>
 
-                <ar:ArrowLine x:Name="lineV" ArrowEnds="Both" IsArrowClosed="True" 
-                              Stroke="Blue" StrokeThickness="0.5" Opacity="0.5" Visibility="Hidden"/>
-                <Label x:Name="lengthV" FontSize="3" Visibility="Hidden"></Label>
+                <ar:ArrowLine x:Name="lineV" ArrowEnds="Both" IsArrowClosed="True" ArrowLength="1"
+                              Stroke="Blue" StrokeThickness="0.3" Opacity="0.5" Visibility="Hidden"/>
+                <Label x:Name="lengthV" FontSize="1" Visibility="Hidden"></Label>
 
-                <Label x:Name="RatioHV" FontSize="5" FontWeight="Bold" Visibility="Hidden"></Label>
+                <Label x:Name="RatioHV" FontSize="2" FontWeight="Bold" Visibility="Hidden"></Label>
             </Canvas>
 
         </Grid>

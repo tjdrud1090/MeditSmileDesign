@@ -109,12 +109,7 @@ namespace Process_Page.ToothTemplate
             if (e.NewValue != null)
             {
                 Canvas tooth = wrap.Parent as Canvas;
-
-                Grid grid = null;
-                if (tooth.Name.Equals("CanvasInTooth"))
-                    grid = tooth.FindName("GridInTooth") as Grid;
-                else
-                    grid = tooth.FindName("GridInTooth") as Grid;
+                Grid grid = tooth.FindName("GridInTooth") as Grid;
                 foreach (Teeth teeth in grid.Children)
                 {
                     DrawTeeth draw = teeth.FindName("drawTeeth") as DrawTeeth;
@@ -192,15 +187,12 @@ namespace Process_Page.ToothTemplate
                 return;
 
             DrawRect();
-            if (this.Name.Equals("WrapTooth_UpperTooth"))
-            {
-                //  DrawSmileLine(pointses);
-                DrawTeethBetweenLine(pointses);
-            }
+            //  DrawSmileLine(pointses);
+           //DrawTeethBetweenLine(pointses);
 
         }
 
-        #region DrawRect
+        #region Rect
 
         public double Top;
         public double Left;
@@ -220,18 +212,12 @@ namespace Process_Page.ToothTemplate
             Canvas.SetTop(this, Top);
             Canvas.SetLeft(this, Left);
 
-            //MoveTop.X1 = Border_WrapTooth.Width / 2;
-            //MoveTop.Y1 = MaxPoint.Y - 30;
-            //MoveTop.X2 = Border_WrapTooth.Width / 2;
-            //MoveTop.Y2 = MaxPoint.Y - 25;
-            Canvas.SetTop(MoveTop, Top - 10);
-            Canvas.SetLeft(MoveTop, Border_WrapTooth.Width / 2);
-            //Console.WriteLine($"{Top}");
+            MoveTop.Margin = new Thickness(Left + Border_WrapTooth.Width/2, Top - 40, 0, 0);
         }
 
         #endregion
 
-        #region DrawTeethBetweenLine
+        #region TeethBetweenLine
 
         private void DrawTeethBetweenLine(List<List<Point>> points)
         {
@@ -263,7 +249,7 @@ namespace Process_Page.ToothTemplate
 
         #endregion
 
-        #region DrawSmileLine 
+        #region SmileLine 
 
         private void DrawSmileLine(List<List<Point>> all)
         {

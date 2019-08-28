@@ -1322,6 +1322,7 @@ namespace Process_Page
         #region Events for Tooth Control
 
         List<Teeth> SelectedList = new List<Teeth>();
+        private bool inTeeth = false;
 
         #region DragDrop
 
@@ -1348,6 +1349,7 @@ namespace Process_Page
         }
         public void ExecuteMouseLeftDownForDragAndDropTeeth(MouseEventArgs e)
         {
+            inTeeth = true;
             Rectangle rect = e.Source as Rectangle;
             Border border = ViewUtils.FindParent(rect, (new Border()).GetType()) as Border;
 
@@ -1608,10 +1610,11 @@ namespace Process_Page
                 Mouse.Capture(null);
                 leftdown = false;
                 leftdown_with_ctrl = false;
-                e.Handled = true;
+                //e.Handled = true;
             }
 
             dragging = false;
+            inTeeth = false;
         }
 
         #endregion
@@ -1635,7 +1638,8 @@ namespace Process_Page
         public void ExecuteMouseLeftDownForDragAndDropTooth(MouseEventArgs e)
         {
             //ArrowLine me = e.Source as ArrowLine;
-            Ellipse me = e.Source as Ellipse;
+            //Ellipse me = e.Source as Ellipse;
+            Image me = e.Source as Image;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
             foreach (Teeth del in SelectedList)
             {
@@ -1656,9 +1660,6 @@ namespace Process_Page
             SelectedList.Clear();
             originalPoint = e.GetPosition((IInputElement)e.Source);
 
-            //padding
-            originalPoint.X += 5;
-            originalPoint.Y += 5;
 
             orgBrush2 = me_border.BorderBrush;
             me_border.BorderBrush = Brushes.Red;
@@ -1681,8 +1682,9 @@ namespace Process_Page
         public void ExecuteMouseMoveForDragAndDropTooth(MouseEventArgs e)
         {
             //ArrowLine me = e.Source as ArrowLine;
-            Ellipse me = e.Source as Ellipse;
-            WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
+            //Ellipse me = e.Source as Ellipse;
+            Image me = e.Source as Image;
+            WrapTooth wrap = ViewUtils.FindParent(me, (new WrapTooth()).GetType()) as WrapTooth;
             if (leftdown == true)
             {
                 Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
@@ -1712,7 +1714,8 @@ namespace Process_Page
         public void ExecuteMouseLeftUpForDragAndDropTooth(MouseEventArgs e)
         {
             //ArrowLine me = e.Source as ArrowLine;
-            Ellipse me = e.Source as Ellipse;
+            //Ellipse me = e.Source as Ellipse;
+            Image me = e.Source as Image;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
             me_border.BorderBrush = orgBrush2;
 
@@ -2822,15 +2825,37 @@ namespace Process_Page
 
         private void ExecuteMouseLeftDownForAddPoints(MouseEventArgs e)
         {
-            main = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            main = Application.Current.MainWindow.Content as SmileDesign_Page;
             if (main.ToothControl.EditPoints.IsChecked == false)
+            {
+                //if (inTeeth == false)
+                //{
+                //    foreach (Teeth del in SelectedList)
+                //    {
+                //        RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
+                //        DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
+                //        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
+
+                //        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
+                //        Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
+
+                //        border_del.Opacity = 0;
+                //        draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
+                //        draw_del.path.Fill = null;
+                //        rotate_del.RotatePin.Visibility = Visibility.Hidden;
+                //        del.list.Visibility = Visibility.Hidden;
+                //    }
+                //    SelectedList.Clear();
+                //}
                 return;
+            }
 
             if (!isSizing)
             {
+                Console.WriteLine($"{e.Source.GetType()}");
                 UserControl tooth = e.Source as UserControl;        // UpperTooth, LowerTooth
                 WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
-                //Grid grid = tooth.FindName("GridInTooth") as Grid;
+                //WrapTooth wrap = ((UpperTooth)tooth).WrapToothInTooth;
 
                 Point curPoint = e.GetPosition(e.Source as IInputElement);
 
@@ -2861,7 +2886,7 @@ namespace Process_Page
                     foreach (PointViewModel point in teeth)
                     {
                         double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist2)
+                        if (dist < min_dist2 && dist > min_dist1)
                         {
                             min_dist2 = dist;
                             nearest2 = point;
@@ -2878,6 +2903,7 @@ namespace Process_Page
                         tolist.Add(new Point(p.X, p.Y));
                     List<Point> segment = new List<Point>();
 
+                    //  [index - 1], [index], [index + 1] 순대로 list에 담기
                     for (int i = 0; i < tolist.Count; i++)
                     {
                         if (tolist[i].X == nearest1.X && tolist[i].Y == nearest1.Y)     // tolist[i] == nearest1
@@ -2906,6 +2932,7 @@ namespace Process_Page
 
                     Point control = InterpolationUtils.InterpolatePointWithBezierCurves(segment, true)[0].FirstControlPoint;
 
+                    // make tangent and normal line
                     Numerics.Sign tangentline = Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
                     Numerics.Sign normalline = Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
 
@@ -2914,6 +2941,7 @@ namespace Process_Page
                     int mem = 0;
                     for (int i = 0; i < tolist.Count; i++)
                     {
+                        // Among points, Find points on the same side
                         if (Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == tangentline
                             && Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == normalline)
                         {
@@ -2926,6 +2954,7 @@ namespace Process_Page
                         }
                     }
 
+                    // 접선: FirstControlPoint와 SecondControlPoint를 지나는 직선의 기울기를 가지면서, nearest Point를 지나는 직선이 됨
                     int pos = nearest1.I < mem ? mem : nearest1.I;
                     if (nearest1.I == 0 && nearest2.I == tolist.Count - 1 || nearest1.I == tolist.Count - 1 && nearest2.I == 0)
                         target1.Add(new PointViewModel(curPoint.X, curPoint.Y, tolist.Count));

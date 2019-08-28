@@ -187,7 +187,7 @@ namespace Process_Page.ToothTemplate
         public double Top;
         public double Left;
 
-        readonly double padding = 2;
+        readonly double padding = 0.5;
         private void DrawRect(Point min, Point max)
         {
             // Grid의 크기 설정
@@ -205,12 +205,13 @@ namespace Process_Page.ToothTemplate
 
         #region DrawLine
 
+        private double pad = 10;
         private void DrawLineXY(Point min, Point max)
         {
             double widthRect = max.X - min.X;
             double heightRect = max.Y - min.Y;
-            Point startHorizontal = new Point(min.X, min.Y + heightRect / 2);
-            Point endHorizontal = new Point(max.X, min.Y + heightRect / 2);
+            Point startHorizontal = new Point(min.X, min.Y + heightRect + pad);
+            Point endHorizontal = new Point(max.X, min.Y + heightRect + pad);
             Point startVertical = new Point(min.X + widthRect / 2, min.Y);
             Point endVertical = new Point(min.X + widthRect / 2, max.Y);
 
@@ -227,10 +228,14 @@ namespace Process_Page.ToothTemplate
 
             // infomation of length
             double leftH, topH, leftV, topV;
-            double padding = 10;
+            double padding = 0;
+
+            //measure_page = Application.Current.MainWindow.Content as Measure_Page;
+            //double pixcellength = measure_page.getmeasure();
+            double pixcellength = 1;
 
             // for length of Horizontal Line
-            lengthH.Content = widthRect.ToString("N2");
+            lengthH.Content = (widthRect * pixcellength).ToString("N2");
             leftH = lineH.X1 + widthRect / 2 + padding / 2;
             topH = lineH.Y1 + padding / 2;
 
@@ -238,7 +243,7 @@ namespace Process_Page.ToothTemplate
             Canvas.SetTop(lengthH, topH);
 
             // for length of Vertical Line
-            lengthV.Content = heightRect.ToString("N2");
+            lengthV.Content = (heightRect * pixcellength).ToString("N2");
             leftV = lineV.X1 + padding / 2;
             topV = lineV.Y1 + heightRect / 2 - (padding * 3);
 

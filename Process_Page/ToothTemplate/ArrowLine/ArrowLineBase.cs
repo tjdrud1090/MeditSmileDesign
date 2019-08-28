@@ -15,7 +15,6 @@ namespace Process_Page.ToothTemplate.ArrowLine
         PathFigure pathfigHead2;
         PolyLineSegment polysegHead2;
 
-
         #region ArrowAngle
 
         public static readonly DependencyProperty ArrowAngleProperty =
@@ -30,15 +29,16 @@ namespace Process_Page.ToothTemplate.ArrowLine
             get { return (double)GetValue(ArrowAngleProperty); }
         }
 
+
+        #endregion
+
+        #region ArrowLength
+
         public static readonly DependencyProperty ArrowLengthProperty =
             DependencyProperty.Register("ArrowLength",
                 typeof(double), typeof(ArrowLineBase),
                 new FrameworkPropertyMetadata(12.0,
                         FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        #endregion
-
-        #region ArrowLength
 
         public double ArrowLength
         {
