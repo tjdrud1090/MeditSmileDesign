@@ -709,9 +709,9 @@ namespace Process_Page {
 
                 //}
 
-                Console.WriteLine($"get dotSize{ScaleFactor*_dotSize/_rectsc}");
-                if(SelectedList.Count>0)
-                    Console.WriteLine($"{SelectedList[0].list.ActualHeight}");
+                //Console.WriteLine($"get dotSize{ScaleFactor*_dotSize/_rectsc}");
+                //if(SelectedList.Count>0)
+                    //Console.WriteLine($"{SelectedList[0].list.ActualHeight}");
                 return ScaleFactor*_dotSize/rectsc;
                 //return _dotSize;
             }
@@ -719,7 +719,7 @@ namespace Process_Page {
 
         public double dotTranslation {
             get {
-                Console.WriteLine($"get dotTranslation{ScaleFactor*_dotTranslation/_rectsc}");
+                //Console.WriteLine($"get dotTranslation{ScaleFactor*_dotTranslation/_rectsc}");
                 return ScaleFactor*_dotTranslation/rectsc;
                 //return _dotTranslation;
 
@@ -760,7 +760,7 @@ namespace Process_Page {
                     RaisePropertyChanged("emphaDotTranslation");
                     RaisePropertyChanged("teethLineThickness");
 
-                    Console.WriteLine($"dotsize:{dotSize} scale:{rectsc}");
+                    //Console.WriteLine($"dotsize:{dotSize} scale:{rectsc}");
 
                 }
             }
@@ -773,7 +773,7 @@ namespace Process_Page {
                     RaisePropertyChanged("emphaDotSize");
                     RaisePropertyChanged("emphaDotTranslation");
                     RaisePropertyChanged("teethLineThickness");
-                    Console.WriteLine($"dotsize:{dotSize} scale:{rectsc}");
+                    //Console.WriteLine($"dotsize:{dotSize} scale:{rectsc}");
 
                 }
             }
@@ -1283,9 +1283,7 @@ namespace Process_Page {
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs) {
             Console.WriteLine("You can intercept the closing event, and cancel here.");
         }
-        #endregion
-
-        #region Events for Tooth Control
+        #endregion        
 
         List<Teeth> SelectedList = new List<Teeth>();
 
@@ -1295,24 +1293,15 @@ namespace Process_Page {
         private bool leftdown_with_ctrl = false;
         private bool dragging = false;
         private List<Teeth> dragged = new List<Teeth>();
-
-        #region DragDrop for Teeth 
-
         private Point originalPoint;
 
-        private RelayCommand<object> _mouseLeftDownForDragAndDropTeeth;
-        public RelayCommand<object> MouseLeftDownForDragAndDropTeeth {
-            get {
-                if(_mouseLeftDownForDragAndDropTeeth == null)
-                    return _mouseLeftDownForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForDragAndDropTeeth((MouseEventArgs)param));
-                return _mouseLeftDownForDragAndDropTeeth;
-            }
-            set { _mouseLeftDownForDragAndDropTeeth = value; }
-        }
+        #region DragDrop for Teeth
+
         public void ExecuteMouseLeftDownForDragAndDropTeeth(MouseEventArgs e) {
+            //Find elements from the source! rect, border, teeth, rotateTeeth, drawTeeth
+            //to change their properties so that let the User be aware of "these items are SELECTIED"
             Rectangle rect = e.Source as Rectangle;
             Border border = ViewUtils.FindParent(rect, (new Border()).GetType()) as Border;
-
             Teeth th = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
             RotateTeeth rotate = th.FindName("rotateTeeth") as RotateTeeth;
             DrawTeeth draw = th.FindName("drawTeeth") as DrawTeeth;
@@ -1320,44 +1309,60 @@ namespace Process_Page {
             leftdown = true;
             if((Keyboard.Modifiers & ModifierKeys.Control) != 0)
                 leftdown_with_ctrl = true;
+
             else {
+
                 leftdown_with_ctrl = false;
+
                 if(SelectedList.Count == 0) {
+                    //if there's no Teeth in the selectedList,
+                    //Put it in and converting it into selected state
+
                     SelectedList.Add(th);
 
+                    //convert to selected state
                     border.Opacity = 1;
                     th.list.Visibility = Visibility.Visible;
                     rotate.RotatePin.Visibility = Visibility.Visible;
                     draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
                     draw.path.Fill = draw.FindResource("FillBrush") as Brush;
+                    //
                 }
                 else if(SelectedList.Contains(th)) {
-                    //draw.path.Fill = null;
-                    //rotate.RotatePin.Visibility = Visibility.Hidden;
+
+                    //if there's already SAME Teeth in the selectedList, 
+                    //delete it
+
                 }
                 else {
+                    //if there's already other Teeth in the selectedList, 
+                    //remove them from the SelectedList
                     foreach(Teeth del in SelectedList) {
+
                         RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
+                        rotate_del.RotatePin.Visibility = Visibility.Hidden;
+
                         DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
-                        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
-
-                        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
-                        Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
-
-                        border_del.Opacity = 0;
                         draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
                         draw_del.path.Fill = null;
-                        rotate_del.RotatePin.Visibility = Visibility.Hidden;
+
+                        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
+                        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
+                        border_del.Opacity = 0;
                         del.list.Visibility = Visibility.Hidden;
                     }
-                    SelectedList.Clear();
 
+                    SelectedList.Clear();
+                    //now, the list is clear
+                    //just add the incoming teeth and convert it.
+                    
                     SelectedList.Add(th);
-                    th.list.Visibility = Visibility.Visible;
+
                     border.Opacity = 1;
-                    draw.path.Fill = draw.FindResource("FillBrush") as Brush;
-                    draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
+                    th.list.Visibility = Visibility.Visible;
                     rotate.RotatePin.Visibility = Visibility.Visible;
+                    draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
+                    draw.path.Fill = draw.FindResource("FillBrush") as Brush;
 
                 }
 
@@ -1365,20 +1370,14 @@ namespace Process_Page {
 
             Mouse.Capture((IInputElement)e.Source);
             originalPoint = e.GetPosition((IInputElement)e.Source);
+
         }
 
-        private RelayCommand<object> _mouseMoveForDragAndDropTeeth;
-        public RelayCommand<object> MouseMoveForDragAndDropTeeth {
-            get {
-                if(_mouseMoveForDragAndDropTeeth == null)
-                    return _mouseMoveForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForDragAndDropTeeth((MouseEventArgs)param));
-                return _mouseMoveForDragAndDropTeeth;
-            }
-            set { _mouseMoveForDragAndDropTeeth = value; }
-        }
+
         public void ExecuteMouseMoveForDragAndDropTeeth(MouseEventArgs e) {
             main = Application.Current.MainWindow.Content as SmileDesign_Page;
             if(dragging) {
+
                 if(leftdown == true) {
                     Rectangle rect = e.Source as Rectangle;
                     Teeth me_rect = ViewUtils.FindParent(rect, (new Teeth()).GetType()) as Teeth;
@@ -1414,29 +1413,29 @@ namespace Process_Page {
             else if(leftdown)
                 dragging = true;
         }
-
-        private RelayCommand<object> _mouseLeftUpForDragAndDropTeeth;
-        public RelayCommand<object> MouseLeftUpForDragAndDropTeeth {
-            get {
-                if(_mouseLeftUpForDragAndDropTeeth == null)
-                    return _mouseLeftUpForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForDragAndDropTeeth((MouseEventArgs)param));
-                return _mouseLeftUpForDragAndDropTeeth;
-            }
-            set { _mouseLeftUpForDragAndDropTeeth = value; }
-        }
+        
         public void ExecuteMouseLeftUpForDragAndDropTeeth(MouseEventArgs e) {
             int flag = 0;
             if(leftdown) {
                 Rectangle rect_dragdrop = e.Source as Rectangle;
                 Border border_dragdrop = ViewUtils.FindParent(rect_dragdrop, (new Border()).GetType()) as Border;
 
-                Teeth th = ViewUtils.FindParent(rect_dragdrop, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
+                Teeth th = ViewUtils.FindParent(rect_dragdrop, 
+                                                Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
                 Canvas cv = th.FindName("Canvas_Teeth") as Canvas;
                 DrawTeeth draw = cv.FindName("drawTeeth") as DrawTeeth;
                 RotateTeeth rotate = cv.FindName("rotateTeeth") as RotateTeeth;
                 if(!dragging) {
+                    // Execute mouse up selection logic only if there was no drag operation.
+
                     if(leftdown_with_ctrl) {
+                        // Control key was held down.
+                        // Toggle the selection.
+
                         if(SelectedList.Contains(th)) {
+
+                            // Item was already selected, control-click removes it from the selection.
+
                             flag = 1;
                             th.list.Visibility = Visibility.Hidden;
                             border_dragdrop.Opacity = 0;
@@ -1445,6 +1444,8 @@ namespace Process_Page {
                         }
 
                         else {
+
+                            // Item was not already selected, control-click adds it to the selection.
                             SelectedList.Add(th);
                             th.list.Visibility = Visibility.Visible;
                             draw.path.Fill = draw.FindResource("FillBrush") as Brush;
@@ -1458,7 +1459,13 @@ namespace Process_Page {
                         }
                     }
                     else {
+                        // Control key was not held down.
+
                         if(SelectedList.Count == 1 && SelectedList[0] == th) {
+
+                            // The item that was clicked is already the only selected item.
+                            // reserved for future dev
+
                             //rect_dragdrop.Visibility = Visibility.Hidden;
                             //border_dragdrop.Visibility = Visibility.Hidden;
 
@@ -1467,7 +1474,11 @@ namespace Process_Page {
                             //th.list.Visibility = Visibility.Hidden;
                         }
                         else {
+
+                            // Clear the selection and select the clicked item as the only selected item.
+
                             foreach(Teeth th_del in SelectedList) {
+
                                 RotateTeeth rotate_del = th_del.FindName("rotateTeeth") as RotateTeeth;
                                 DrawTeeth draw_del = th_del.FindName("drawTeeth") as DrawTeeth;
                                 WrapTeeth wrap_del = th_del.FindName("wrapTeeth") as WrapTeeth;
@@ -1501,25 +1512,63 @@ namespace Process_Page {
             }
 
             dragging = false;
+            Console.WriteLine($"current selectedItemBox.Count={SelectedList.Count}");
+
         }
+
+        #region Cmd Properties
+        private RelayCommand<object> _mouseLeftDownForDragAndDropTeeth;
+        public RelayCommand<object> MouseLeftDownForDragAndDropTeeth {
+            get {
+                if(_mouseLeftDownForDragAndDropTeeth == null)
+                    return _mouseLeftDownForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForDragAndDropTeeth((MouseEventArgs)param));
+                return _mouseLeftDownForDragAndDropTeeth;
+            }
+            set { _mouseLeftDownForDragAndDropTeeth = value; }
+        }
+
+        private RelayCommand<object> _mouseMoveForDragAndDropTeeth;
+        public RelayCommand<object> MouseMoveForDragAndDropTeeth {
+            get {
+                if(_mouseMoveForDragAndDropTeeth == null)
+                    return _mouseMoveForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForDragAndDropTeeth((MouseEventArgs)param));
+                return _mouseMoveForDragAndDropTeeth;
+            }
+            set { _mouseMoveForDragAndDropTeeth = value; }
+        }
+
+        private RelayCommand<object> _mouseLeftUpForDragAndDropTeeth;
+        public RelayCommand<object> MouseLeftUpForDragAndDropTeeth {
+            get {
+                if(_mouseLeftUpForDragAndDropTeeth == null)
+                    return _mouseLeftUpForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForDragAndDropTeeth((MouseEventArgs)param));
+                return _mouseLeftUpForDragAndDropTeeth;
+            }
+            set { _mouseLeftUpForDragAndDropTeeth = value; }
+        }
+        #endregion
+
 
         #endregion
 
         #region DragDrop for Tooth
 
         //private bool captured;            // teeth와 공유
-        private Brush orgBrush2;
+        private Brush tempBrush;
 
         public void ExecuteMouseLeftDownForDragAndDropTooth(MouseEventArgs e) {
             //ArrowLine me = e.Source as ArrowLine;
+            leftdown = true;
 
-            Ellipse me = e.Source as Ellipse;
+            //
+            // SelectedList에 포함된 Teeth들을 언셀렉해주자
+            //
 
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
             foreach(Teeth del in SelectedList) {
+
                 RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
                 rotate_del.RotatePin.Visibility = Visibility.Hidden;
-
+                
                 DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
                 draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
                 draw_del.path.Fill = null;
@@ -1532,13 +1581,17 @@ namespace Process_Page {
             }
 
             SelectedList.Clear();
-                originalPoint = e.GetPosition((IInputElement)e.Source);
 
 
-            orgBrush2 = me_border.BorderBrush;
+            Ellipse me = e.Source as Ellipse;
+            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
+            tempBrush = me_border.BorderBrush;
+            //temp에 현재 보더색 저장
             me_border.BorderBrush = Brushes.RoyalBlue;
+            //셀렉으로 바꿔줌
 
-            leftdown = true;
+            originalPoint = e.GetPosition((IInputElement)e.Source);
+            //Down과 Move를 통해 드래그할것이므로 상대좌표로 해주자
             Mouse.Capture((IInputElement)e.Source);
         }
 
@@ -1546,10 +1599,12 @@ namespace Process_Page {
         public void ExecuteMouseMoveForDragAndDropTooth(MouseEventArgs e) {
             //ArrowLine me = e.Source as ArrowLine;
             Ellipse me = e.Source as Ellipse;
-            WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
             if(leftdown == true) {
+
                 Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
                 var dragDelta = curMouseDownPoint - originalPoint;
+
+                WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
                 foreach(TeethType points in wrap.Points) {
                     foreach(PointViewModel point in points) {
                         point.X += dragDelta.X;
@@ -1564,8 +1619,9 @@ namespace Process_Page {
             //ArrowLine me = e.Source as ArrowLine;
             Ellipse me = e.Source as Ellipse;
             Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
-            me_border.BorderBrush = orgBrush2;
+            me_border.BorderBrush = tempBrush;
 
+            Console.WriteLine($"toothMouseUp, clear the selected list SelectedList.Count={SelectedList.Count}");
             leftdown = false;
             Mouse.Capture(null);
         }
@@ -2710,7 +2766,7 @@ namespace Process_Page {
 
             #endregion
 
-            #endregion
+            
         }
     }
 }
