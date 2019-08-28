@@ -2828,34 +2828,35 @@ namespace Process_Page
             main = Application.Current.MainWindow.Content as SmileDesign_Page;
             if (main.ToothControl.EditPoints.IsChecked == false)
             {
-                //if (inTeeth == false)
-                //{
-                //    foreach (Teeth del in SelectedList)
-                //    {
-                //        RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
-                //        DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
-                //        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
+                if (inTeeth == false)
+                {
+                    foreach (Teeth del in SelectedList)
+                    {
+                        RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
+                        DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
+                        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
 
-                //        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
-                //        Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
+                        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
+                        Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
 
-                //        border_del.Opacity = 0;
-                //        draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
-                //        draw_del.path.Fill = null;
-                //        rotate_del.RotatePin.Visibility = Visibility.Hidden;
-                //        del.list.Visibility = Visibility.Hidden;
-                //    }
-                //    SelectedList.Clear();
-                //}
+                        border_del.Opacity = 0;
+                        draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
+                        draw_del.path.Fill = null;
+                        rotate_del.RotatePin.Visibility = Visibility.Hidden;
+                        del.list.Visibility = Visibility.Hidden;
+                    }
+                    SelectedList.Clear();
+                }
                 return;
             }
 
             if (!isSizing)
             {
-                Console.WriteLine($"{e.Source.GetType()}");
-                UserControl tooth = e.Source as UserControl;        // UpperTooth, LowerTooth
-                WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
-                //WrapTooth wrap = ((UpperTooth)tooth).WrapToothInTooth;
+                //UserControl tooth = e.Source as UserControl;        // UpperTooth, LowerTooth
+                //WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
+                ////WrapTooth wrap = ((UpperTooth)tooth).WrapToothInTooth;
+
+                WrapTooth wrap = e.Source as WrapTooth;
 
                 Point curPoint = e.GetPosition(e.Source as IInputElement);
 
