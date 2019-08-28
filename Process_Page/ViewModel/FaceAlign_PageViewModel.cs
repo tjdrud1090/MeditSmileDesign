@@ -1271,11 +1271,17 @@ namespace Process_Page.ViewModel
                 Mouse.Capture(null);
                 return;
             }
-            else if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
+            else if (e.Source.GetType() == typeof(Path))
             {
-                ((Path)e.Source).Stroke = Brushes.Black;
-                rotationclicked = false;
-                rotatedir = 1;
+                if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
+                {
+                    ((Path)e.Source).Stroke = Brushes.Black;
+                    rotationclicked = false;
+                    rotatedir = 1;
+                    captured = false;
+                    Mouse.Capture(null);
+                    return;
+                }
                 captured = false;
                 Mouse.Capture(null);
             }
