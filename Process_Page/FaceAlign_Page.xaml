@@ -47,8 +47,9 @@
                 <local:ImageCanvas x:Name="FrontalFaceImage"
                                    FacePoints="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalPoints}"
                                    ImageSource="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalFaceSource}"
-                                   RotateAngle="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalAngle}"
+                                   TransformCenter="{Binding ElementName=FaceAlignPage, Path=DataContext.TransCenter}"
                                    ScaleXY="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalScale}"
+                                   RotateAngle="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalAngle}"
                                    Canvas.Left="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.X}"
                                    Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.Y}">
                 </local:ImageCanvas>
@@ -57,10 +58,27 @@
                                    FacePoints="{Binding ElementName=FaceAlignPage, Path=DataContext.GagPoints}"
                                    ImageSource="{Binding ElementName=FaceAlignPage, Path=DataContext.GagFaceSource}"
                                    RotateAngle="{Binding ElementName=FaceAlignPage, Path=DataContext.GagAngle}"
+                                   TransformCenter="{Binding ElementName=FaceAlignPage, Path=DataContext.TransGagCenter}"
                                    ScaleXY="1"
                                    Canvas.Left="{Binding ElementName=FaceAlignPage, Path=DataContext.GagCenter.X}"
                                    Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.GagCenter.Y}">
                 </local:ImageCanvas>
+
+                <!-- teeth references -->
+                <Path Name="TeethL" Data="{Binding teethL}" Stroke="OrangeRed" StrokeThickness="2" Fill="Black"
+                          Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.GagRefVisiblity}"
+                              ></Path>
+                <Path Name="TeethR" Data="{Binding teethR}" Stroke="LightSkyBlue" StrokeThickness="2" Fill="Black"
+                          Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.GagRefVisiblity}"
+                              ></Path>
+
+                <Path Name="FrontalTeethL" Data="{Binding FrontalteethL}" Stroke="OrangeRed" StrokeThickness="2" Fill="Black"
+                          Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalRefVisiblity}"
+                              ></Path>
+                <Path Name="FrontalTeethR" Data="{Binding FrontalteethR}" Stroke="LightSkyBlue" StrokeThickness="2" Fill="Black"
+                          Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalRefVisiblity}"
+                              >
+                </Path>
 
                 <Canvas.RenderTransform>
                     <ScaleTransform CenterX="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.X}" 
@@ -95,13 +113,14 @@
                     <Path Name="LipLine" Data="{Binding lipline}" Stroke="Black" StrokeThickness="1" Fill="Black"
                           Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.LineVisiblity}"
                               ></Path>
-                </Canvas>
-                <Canvas.RenderTransform>
-                    <ScaleTransform CenterX="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.X}" 
+
+                    <Canvas.RenderTransform>
+                        <ScaleTransform CenterX="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.X}" 
                                     CenterY="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.Y}"
                         ScaleX="{Binding ElementName=FaceAlignPage, Path=DataContext.ViewScale}"
                         ScaleY="{Binding ElementName=FaceAlignPage, Path=DataContext.ViewScale}"></ScaleTransform>
-                </Canvas.RenderTransform>
+                    </Canvas.RenderTransform>
+                </Canvas>
             </Canvas>
         </Grid>
         
@@ -161,7 +180,10 @@
         <!--기본 기능 구현 : 확대, 축소, redo, undo, Measurement-->
         <Grid Grid.Row="2" Grid.Column="0" Margin="10,0,0,10">
             <local:FaceAlign_Step2 x:Name="FaceAlignControl_ReUnDoSearCh" Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.showControl0}"/>
-            <local:Measurement_Step x:Name="MeasureControl" Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.showControl1}" Margin="0,0,-10,0"/>
+            <local:Measurement_Step x:Name="MeasureControl"
+                                    RefPointL="{Binding ElementName=TeethL, Path=Data.Center}"
+                                    RefPointR="{Binding ElementName=TeethR, Path=Data.Center}"
+                                    Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.showControl1}" Margin="0,0,-10,0"/>
         </Grid>
 
         <!--환자 정보 및 상세 조정 기능 추가 부분 : 미세 조정-->

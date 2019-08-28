@@ -55,7 +55,6 @@ namespace Process_Page.ViewModel
             _FaceLineVisiblity = Visibility.Visible;
             RaisePropertyChanged("FaceLineVisiblity");
 
-            Init();
         }
         #endregion
 
@@ -65,6 +64,7 @@ namespace Process_Page.ViewModel
         {
             get
             {
+                Init();
                 if (_PrePageClick == null)
                     return _PrePageClick = new RelayCommand<object>(param => this.SetnewPage());
                 return _PrePageClick;
@@ -84,7 +84,8 @@ namespace Process_Page.ViewModel
             if (mainWnd.OldPage != null)
             {
                 System.Windows.Application.Current.MainWindow.Content = mainWnd.OldPage as FaceAlign_Page;
-                mainWnd.OldPage = (FrameworkElement)current;
+                //mainWnd.OldPage = (FrameworkElement)current;
+                mainWnd.OldPage = null;
                 return;
             }
 
@@ -127,6 +128,15 @@ namespace Process_Page.ViewModel
             get
             {
                 return _GagPoints;
+            }
+        }
+
+        private ObservableCollection<PointViewModel> _FrontalMouthPoints;
+        public ObservableCollection<PointViewModel> FrontalMouthPoints
+        {
+            get
+            {
+                return _FrontalMouthPoints;
             }
         }
 
@@ -188,6 +198,14 @@ namespace Process_Page.ViewModel
         {
             FrontalFaceImage = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalFaceImage;
             GagFaceImage = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).GagFaceImage;
+            RaisePropertyChanged("FrontalFaceSource");
+            RaisePropertyChanged("GagFaceSource");
+
+            _TransCenter = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).TransCenter;
+            RaisePropertyChanged("TransCenter");
+
+            _TransGagCenter = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).TransGagCenter;
+            RaisePropertyChanged("TransGagCenter");
 
             draw_faceline();
             SetAlign();
@@ -197,7 +215,7 @@ namespace Process_Page.ViewModel
 
             // Upper Tooth 위치 선정
             _ToothUpperCenter.X = midline.StartPoint.X;
-            _ToothUpperCenter.Y = lipline.EndPoint.Y;
+            _ToothUpperCenter.Y = _lipline.StartPoint.Y;
             RaisePropertyChanged("ToothUpperCenter");
 
             offset_LeftUpperTooth = _ToothUpperCenter.X;
@@ -205,7 +223,7 @@ namespace Process_Page.ViewModel
 
             // Lower Tooth 위치 선정
             _ToothLowerCenter.X = midline.StartPoint.X;
-            _ToothLowerCenter.Y = lipline.EndPoint.Y + 10;
+            _ToothLowerCenter.Y = _lipline.StartPoint.Y + 10;
             RaisePropertyChanged("ToothLowerCenter");
 
             offset_LeftLowerTooth = _ToothLowerCenter.X;
@@ -255,10 +273,13 @@ namespace Process_Page.ViewModel
             _WheelMouseCenter = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).WheelMouseCenter;
             RaisePropertyChanged("WheelMouseCenter");
 
-            offset_Left = _FrontalCenter.X;
-            offset_Top = _FrontalCenter.Y;
-            offset_LeftGag = _GagCenter.X;
-            offset_TopGag = _GagCenter.Y;
+            _FrontalMouthPoints = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalMouthPoints;
+            RaisePropertyChanged("FrontalMouthPoints");
+
+            offset_Left = FrontalCenter.X;
+            offset_Top = FrontalCenter.Y;
+            offset_LeftGag = GagCenter.X;
+            offset_TopGag = GagCenter.Y;
         }
         #endregion
 
@@ -326,6 +347,20 @@ namespace Process_Page.ViewModel
             set { }
         }
 
+        // Transform Center
+        private Point _TransCenter;
+        public Point TransCenter
+        {
+            get { return _TransCenter; }
+            set { }
+        }
+
+        private Point _TransGagCenter;
+        public Point TransGagCenter
+        {
+            get { return _TransGagCenter; }
+            set { }
+        }
         #endregion
 
         #region sizeChange MouseWheel
@@ -524,6 +559,26 @@ namespace Process_Page.ViewModel
                         _midline.EndPoint = pt2;
                         RaisePropertyChanged("midline");
 
+                        _TransUpperToothX = offset_LeftUpperTooth;
+                        _TransUpperToothY = offset_TopUpperTooth;
+                        _TransLowerToothX = offset_LeftLowerTooth;
+                        _TransLowerToothY = offset_TopLowerTooth;
+
+                        _TransUpperToothX += diff;
+                        _TransLowerToothX += diff;
+
+                        _ToothUpperCenter.X = _TransUpperToothX;
+                        _ToothUpperCenter.Y = _TransUpperToothY;
+                        RaisePropertyChanged("ToothUpperCenter");
+                        _ToothLowerCenter.X = _TransLowerToothX;
+                        _ToothLowerCenter.Y = _TransLowerToothY;
+                        RaisePropertyChanged("ToothLowerCenter");
+
+                        offset_LeftUpperTooth = _TransUpperToothX;
+                        offset_TopUpperTooth = _TransUpperToothY;
+                        offset_LeftLowerTooth = _TransLowerToothX;
+                        offset_TopLowerTooth = _TransLowerToothY;
+
                         orginal_width = e.GetPosition((IInputElement)e.Source).X;
                     }
                     else if (((Path)e.Source).Data == noseline_L)
@@ -605,6 +660,10 @@ namespace Process_Page.ViewModel
             {
                 return;
             }
+            if (e.Source.GetType() == typeof(MouthControl))
+            {
+                return;
+            }
             Path rewrite = new Path();
             rewrite.Name = ((Path)e.Source).Name;
             rewrite.Data = ((Path)e.Source).Data.CloneCurrentValue();
@@ -658,11 +717,27 @@ namespace Process_Page.ViewModel
             }
             else if (e.Source.GetType() == typeof(Path))
             {
-                ((Path)e.Source).Stroke = Brushes.Black;
+                if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
+                {
+                    offset_LeftUpperTooth = _TransUpperToothX;
+                    offset_TopUpperTooth = _TransUpperToothY;
+                    offset_LeftLowerTooth = _TransLowerToothX;
+                    offset_TopLowerTooth = _TransLowerToothY;
+
+                    captured = false;
+                    Mouse.Capture(null);
+                    return;
+                }
                 captured = false;
                 Mouse.Capture(null);
             }
         }
+
+        #endregion
+
+        #region Set face ZIndex
+        private bool clickedRight = false;
+        private UserControl currentclicked;
 
         private RelayCommand<object> _RightDown;
         public RelayCommand<object> RightDown
@@ -677,11 +752,28 @@ namespace Process_Page.ViewModel
 
         private void ExecuteMouseRigthDown(MouseEventArgs e)
         {
-
-            if (e.Source.GetType() == typeof(ImageCanvas))
+            if (clickedRight == false)
             {
-                ((UserControl)(e.Source)).Opacity = 0;
-                Mouse.Capture((IInputElement)e.Source);
+                if (e.Source.GetType() == typeof(ImageCanvas))
+                {
+                    currentclicked = ((UserControl)(e.Source));
+                    if (!currentclicked.Name.Equals("FrontalFaceImage"))
+                        return;
+                    int currentZIndex = Canvas.GetZIndex(currentclicked);
+                    Canvas.SetZIndex(currentclicked, currentZIndex - 1);
+
+                    currentclicked.Opacity = 0.5;
+
+                    Mouse.Capture((IInputElement)e.Source);
+                }
+                clickedRight = true;
+            }
+            else
+            {
+                int currentZIndex = Canvas.GetZIndex(currentclicked);
+                Canvas.SetZIndex(currentclicked, currentZIndex + 1);
+                currentclicked.Opacity = 1;
+                clickedRight = false;
             }
         }
 
@@ -700,10 +792,6 @@ namespace Process_Page.ViewModel
         {
             captured = false;
             Mouse.Capture(null);
-            if (e.Source.GetType() == typeof(ImageCanvas))
-            {
-                ((UserControl)(e.Source)).Opacity = 1.0;
-            }
         }
         #endregion
 

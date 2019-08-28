@@ -97,7 +97,6 @@
     <Compile Include="Cards\Measurement_Step.xaml.cs">
       <DependentUpon>Measurement_Step.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Cards\RectConvertor.cs" />
     <Compile Include="Cards\TeethTemplate_Step.xaml.cs">
       <DependentUpon>TeethTemplate_Step.xaml</DependentUpon>
     </Compile>
@@ -164,7 +163,6 @@
     <Compile Include="ToothTemplate\UpperTooth.xaml.cs">
       <DependentUpon>UpperTooth.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Util\FaceAlignInfo.cs" />
     <Compile Include="Util\KeyBoardBehaviors.cs" />
     <Compile Include="ToothTemplate\Utils\MouseBehaviors.cs" />
     <Compile Include="ToothTemplate\WrapTooth.xaml.cs">
@@ -172,6 +170,9 @@
     </Compile>
     <Compile Include="TranslationDemo\Slider1.xaml.cs">
       <DependentUpon>Slider1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util\MouthControl.xaml.cs">
+      <DependentUpon>MouthControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\NumericUpDown.xaml.cs">
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
@@ -338,6 +339,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TranslationDemo\Slider1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Util\MouthControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

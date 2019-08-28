@@ -50,14 +50,17 @@ namespace Process_Page.ViewModel
             FrontalFacePoints.midline.Add(new OpenCvSharp.Point(0, 0));
             FrontalFacePoints.midline.Add(new OpenCvSharp.Point(0, 0));
 
-            flowname.Add("Face Align");
-            flowname.Add("Measurement");
+            // 단계별 내용
+            flowname.Add("Face Line \ncoordinates");
+            flowname.Add("Face Align \n& Measurement");
 
             _changeText = flowname.ElementAt(0);
             _showControl0 = Visibility.Visible;
             _showControl1 = Visibility.Hidden;
             _FaceLineVisiblity = Visibility.Visible;
             _LineVisiblity = Visibility.Visible;
+            _FrontalRefVisiblity = Visibility.Hidden;
+            _GagRefVisiblity = Visibility.Hidden;
 
             RaisePropertyChanged("showControl0");
             RaisePropertyChanged("showControl1");
@@ -66,6 +69,9 @@ namespace Process_Page.ViewModel
 
             RaisePropertyChanged("changeText");
             RaisePropertyChanged("openFileClick");
+
+            RaisePropertyChanged("FrontalRefVisiblity");
+            RaisePropertyChanged("GagRefVisiblity");
         }
         #endregion
 
@@ -84,7 +90,7 @@ namespace Process_Page.ViewModel
                 _NextPageClick = value;
             }
         }
-
+        
         private RelayCommand<object> _PrePageClick;
         public RelayCommand<object> PrePageClick
         {
@@ -101,6 +107,7 @@ namespace Process_Page.ViewModel
         }
 
         List<string> flowname = new List<string>();
+        // 단계 : Face Line coordinates(0) => Face Align & Measurement(1)
 
         public void NextFlowClicked()
         {
@@ -168,6 +175,12 @@ namespace Process_Page.ViewModel
                     RaisePropertyChanged("LineVisiblity");
 
                     RaisePropertyChanged("changeText");
+
+                    _FrontalRefVisiblity = Visibility.Hidden;
+                    _GagRefVisiblity = Visibility.Hidden;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+                    RaisePropertyChanged("GagRefVisiblity");
+
                     break;
                 default:
                     break;
@@ -242,6 +255,34 @@ namespace Process_Page.ViewModel
                 }
             }
         }
+
+        private Visibility _FrontalRefVisiblity;
+        public Visibility FrontalRefVisiblity
+        {
+            get { return _FrontalRefVisiblity; }
+            set
+            {
+                if (_FrontalRefVisiblity != value)
+                {
+                    _FrontalRefVisiblity = value;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+                }
+            }
+        }
+
+        private Visibility _GagRefVisiblity;
+        public Visibility GagRefVisiblity
+        {
+            get { return _GagRefVisiblity; }
+            set
+            {
+                if (_GagRefVisiblity != value)
+                {
+                    _GagRefVisiblity = value;
+                    RaisePropertyChanged("GagRefVisiblity");
+                }
+            }
+        }
         #endregion
 
         #region face_landmark line draw property
@@ -266,6 +307,15 @@ namespace Process_Page.ViewModel
             get
             {
                 return _GagPoints;
+            }
+        }
+
+        private ObservableCollection<PointViewModel> _FrontalMouthPoints;
+        public ObservableCollection<PointViewModel> FrontalMouthPoints
+        {
+            get
+            {
+                return _FrontalMouthPoints;
             }
         }
 
@@ -317,6 +367,36 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
+        #region align reference
+        // teeth reference points
+        public EllipseGeometry _teethL = new EllipseGeometry();
+        public EllipseGeometry teethL
+        {
+            get { return _teethL; }
+            set { }
+        }
+        public EllipseGeometry _teethR = new EllipseGeometry();
+        public EllipseGeometry teethR
+        {
+            get { return _teethR; }
+            set { }
+        }
+
+        public EllipseGeometry _FrontalteethL = new EllipseGeometry();
+        public EllipseGeometry FrontalteethL
+        {
+            get { return _FrontalteethL; }
+            set { }
+        }
+        public EllipseGeometry _FrontalteethR = new EllipseGeometry();
+        public EllipseGeometry FrontalteethR
+        {
+            get { return _FrontalteethR; }
+            set { }
+        }
+
+        #endregion
+
         #endregion
 
         #region image file loading by openfileDialog
@@ -336,6 +416,7 @@ namespace Process_Page.ViewModel
                 _openFileClick = value;
             }
         }
+        
         //image source property binding
         public ImageSource GagFaceSource
         {
@@ -386,7 +467,7 @@ namespace Process_Page.ViewModel
 
             draw_faceline();
 
-            // 미소 사진
+            // 미소 사진 미리 다운로드
             // 파일 열기
             FaceDetector faceDetector2 = new FaceDetector(PatientInfo.Patient_Info.frontfilename);
             FrontalFaceImage = faceDetector2.face;
@@ -404,12 +485,6 @@ namespace Process_Page.ViewModel
             savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[1]));
 
             _FrontalPoints = savepoint2;
-
-            //face point
-            RaisePropertyChanged("FrontalPoints");
-            RaisePropertyChanged("FrontalFaceSource");
-
-            SetAlign();
         }
 
         //face point 보정
@@ -450,6 +525,13 @@ namespace Process_Page.ViewModel
             changing.Y = (int)(((double)points.nose[1].Y) * percentage);
             sizechange.nose.Add(changing);
 
+            foreach (var point in points.mouth)
+            {
+                changing.X = (int)(((double)point.X) * percentage + curposition);
+                changing.Y = (int)(((double)point.Y) * percentage);
+                sizechange.mouth.Add(changing);
+            }
+
             return sizechange;
         }
 
@@ -484,8 +566,8 @@ namespace Process_Page.ViewModel
             _GagPoints = savepoint;
             RaisePropertyChanged("GagPoints");
 
-            // 두 점 사이 거리 구하기
-            double Location = (double)(Math.Sqrt(Math.Pow(GagFacePoints.midline[0].X - GagFacePoints.eye[0].X, 2) + Math.Pow(GagFacePoints.midline[0].Y - GagFacePoints.eye[0].Y, 2)));
+            _TransGagCenter = _GagPoints.ElementAt(2);
+            RaisePropertyChanged("TransGagCenter");
 
             //set picture center
             _GagCenter.X = width / 2 - GagFacePoints.eye[0].X - (GagFacePoints.eye[1].X - GagFacePoints.eye[0].X)/2;
@@ -520,10 +602,21 @@ namespace Process_Page.ViewModel
             RaisePropertyChanged("noseline_L");
             RaisePropertyChanged("noseline_R");
             RaisePropertyChanged("eyeline");
+
+            // mouse wheel center set
+            _WheelMouseCenter.X = _midline.StartPoint.X;
+            _WheelMouseCenter.Y = height / 2;
+            RaisePropertyChanged("WheelMouseCenter");
+
+            offset_LeftGag = _GagCenter.X;
+            offset_TopGag = _GagCenter.Y;
         }
 
         public void SetAlign()
         {
+            //face point
+            RaisePropertyChanged("FrontalFaceSource");
+
             // 현재 이미지 캔버스의 사이즈를 측정
             System.Windows.Application.Current.MainWindow.UpdateLayout();
             FaceAlign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as FaceAlign_Page;
@@ -540,6 +633,7 @@ namespace Process_Page.ViewModel
 
             double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
 
+            // face point 보정
             FrontalFacePoints = change_point_position(percentage, curimagePosition, FrontalFacePoints);
             ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
 
@@ -553,24 +647,28 @@ namespace Process_Page.ViewModel
             _FrontalPoints = savepoint;
             RaisePropertyChanged("FrontalPoints");
 
+            // Mouth pointviewmodel
+            ObservableCollection<PointViewModel> savepoint2 = new ObservableCollection<PointViewModel>();
+            int count = 0;
+            foreach (var point in FrontalFacePoints.mouth)
+            {
+                Point pt = OpenCVPoint2W_Point(point);
+                savepoint2.Add(new PointViewModel(pt.X,pt.Y, count));
+                count++;
+            }
+
+            _FrontalMouthPoints = savepoint2;
+
             // Scale set
-            double scalesize = (_GagPoints.ElementAt(3).X - _GagPoints.ElementAt(2).X) / (_FrontalPoints.ElementAt(3).X - _FrontalPoints.ElementAt(2).X);
-            _FrontalScale = scalesize;
+            _FrontalScale = 1;
 
-            // Align set
-            double angle = ((double)(FrontalFacePoints.eye[1].Y - FrontalFacePoints.eye[0].Y)) / ((double)(FrontalFacePoints.eye[1].X - FrontalFacePoints.eye[0].X));
-            double rotate = (Math.Atan(angle)) * (180 / Math.PI);       //angle
-
-            _FrontalAngle = -rotate;
-
-            // GagCenter Set
-            // Gag Center X offset
+            // FrontalCenter Set
             _FrontalCenter.X = _midline.StartPoint.X - FrontalFacePoints.eye[0].X - (FrontalFacePoints.eye[1].X - FrontalFacePoints.eye[0].X) / 2;
             _FrontalCenter.Y = _eyeline.StartPoint.Y - FrontalFacePoints.eye[0].Y;
 
             RaisePropertyChanged("FrontalCenter");
             RaisePropertyChanged("FrontalScale");
-            RaisePropertyChanged("FrontalAngle");
+            //RaisePropertyChanged("FrontalAngle");
 
             // lip line Set
             _lipline = new LineGeometry();
@@ -585,8 +683,44 @@ namespace Process_Page.ViewModel
 
             offset_Left = _FrontalCenter.X;
             offset_Top = _FrontalCenter.Y;
-            offset_LeftGag = _GagCenter.X;
-            offset_TopGag = _GagCenter.Y;
+        }
+
+        private void ToothAlign()
+        {
+            // Frontal teeth ref translate
+            double diffx = (_teethL.Center.X - _FrontalteethL.Center.X);
+            double diffy = (_teethL.Center.Y - _FrontalteethL.Center.Y);
+
+            FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffx, _FrontalteethL.Center.Y + diffy);
+            FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffx, _FrontalteethR.Center.Y + diffy);
+
+            // Frontal Center X offset
+            _FrontalCenter.X += diffx;
+            _FrontalCenter.Y += diffy;
+
+            RaisePropertyChanged("FrontalCenter");
+
+            // Scale set
+            double scalesize = (_teethL.Center.X - _teethR.Center.X) / (_FrontalteethL.Center.X - _FrontalteethR.Center.X);
+            _FrontalScale = scalesize;
+
+            // Align set
+            double angle1 = (_FrontalteethR.Center.Y - teethL.Center.Y) / (_FrontalteethR.Center.X - teethL.Center.X);
+            double angle2 = (_teethR.Center.Y - teethL.Center.Y) / (_teethR.Center.X - teethL.Center.X);
+
+            double angle = Math.Abs(angle1) + Math.Abs(angle2);
+
+            double rotate = (Math.Atan(angle)) * (180 / Math.PI);       //angle
+            _FrontalAngle = -rotate;
+
+            RaisePropertyChanged("FrontalScale");
+            RaisePropertyChanged("FrontalAngle");
+
+            RaisePropertyChanged("FrontalMouthPoints");
+
+            offset_Left = _FrontalCenter.X;
+            offset_Top = _FrontalCenter.Y;
+            offset_frontalangle = _FrontalAngle;
         }
         #endregion
 
@@ -638,6 +772,20 @@ namespace Process_Page.ViewModel
             set { }
         }
 
+        // Transform Center
+        private Point _TransCenter;
+        public Point TransCenter
+        {
+            get { return _TransCenter; }
+            set { }
+        }
+
+        private Point _TransGagCenter;
+        public Point TransGagCenter
+        {
+            get { return _TransGagCenter; }
+            set { }
+        }
         #endregion
 
         #region sizeChange MouseWheel
@@ -695,7 +843,6 @@ namespace Process_Page.ViewModel
         #endregion
 
         // mouse event 수정해야될 부분
-        //  - 치아 두 개의 point를 찍고 scale set 및 point 일치 시켜 이를 통해 완벽한 align
         //  - 사진 rotation 기능 추가 imagecanvas control을 회전
         #region MouseEvent
 
@@ -704,6 +851,7 @@ namespace Process_Page.ViewModel
         private double orginal_height;
         private Point origMouseDownPoint;
 
+        #region control offset
         // Frontal image offset
         double offset_Left;
         double offset_Top;
@@ -728,6 +876,12 @@ namespace Process_Page.ViewModel
         private double _TransLowerToothX;
         private double _TransLowerToothY;
 
+        // Frontal Image angle offset
+        double offset_frontalangle;
+        private double _TransfrontalAngle;
+
+        #endregion
+
         private RelayCommand<object> _mouseMoveCommand;
         public RelayCommand<object> MouseMoveCommand
         {
@@ -743,9 +897,14 @@ namespace Process_Page.ViewModel
         {
             if (captured == true && e.LeftButton == MouseButtonState.Pressed)
             {
+                if (changeText.Equals(flowname.ElementAt(1)) && count < 4 && refclicked == true)
+                {
+                    return;
+                }
                 if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     Canvas imageCanvas = ((UserControl)e.Source).Parent as Canvas;
+
                     UIElement Uppertooth = new UIElement();
                     UIElement Lowertooth = new UIElement();
 
@@ -809,6 +968,13 @@ namespace Process_Page.ViewModel
 
                     lipline.StartPoint = new Point(_lipline.StartPoint.X, _lipline.StartPoint.Y + diffY);
                     lipline.EndPoint = new Point(_lipline.EndPoint.X, _lipline.EndPoint.Y + diffY);
+
+                    //teeth line moving
+                    teethL.Center = new Point(_teethL.Center.X + diffX, _teethL.Center.Y + diffY);
+                    teethR.Center = new Point(_teethR.Center.X + diffX, _teethR.Center.Y + diffY);
+
+                    FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
+                    FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
 
                     orginal_width = curMouseDownPoint.X;
                     orginal_height = curMouseDownPoint.Y;
@@ -875,6 +1041,60 @@ namespace Process_Page.ViewModel
 
                         orginal_height = e.GetPosition((IInputElement)e.Source).Y;
                     }
+                    else if (((Path)e.Source).Data == FrontalteethL || ((Path)e.Source).Data == teethL)
+                    {
+                        // 중심점 위치 조정
+                        Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                        double diffX = (curMouseDownPoint.X - orginal_width);
+                        double diffY = (curMouseDownPoint.Y - orginal_height);
+
+                        _TransX = offset_Left;
+                        _TransY = offset_Top;
+                        _TransX += diffX;
+                        _TransY += diffY;
+
+                        _FrontalCenter.X = _TransX;
+                        _FrontalCenter.Y = _TransY;
+                        RaisePropertyChanged("FrontalCenter");
+
+                        FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
+                        FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
+
+                        orginal_width = curMouseDownPoint.X;
+                        orginal_height = curMouseDownPoint.Y;
+
+                        offset_Left = _TransX;
+                        offset_Top = _TransY;
+                    }
+                    else if (((Path)e.Source).Data == FrontalteethR || ((Path)e.Source).Data == teethR)
+                    {
+                        // 각도 조정
+                        Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                        double angle = (_FrontalteethL.Center.Y - curMouseDownPoint.Y) / (_FrontalteethL.Center.X - curMouseDownPoint.X);
+                        double rotate = (Math.Atan(Math.Abs(angle))) * (180 / Math.PI);
+                        if (origMouseDownPoint.Y > curMouseDownPoint.Y && rotationclicked == false)
+                        {
+                            rotationclicked = true;
+                            rotatedir *= -1;
+                        }
+
+                        rotate *= rotatedir;
+
+                        _TransfrontalAngle = offset_frontalangle;
+                        _TransfrontalAngle += rotate;
+
+                        if (_TransfrontalAngle < 0)
+                            _TransfrontalAngle += 360;
+                        else
+                            _TransfrontalAngle -= 360;
+
+                        _FrontalAngle = _TransfrontalAngle;
+                        RaisePropertyChanged("FrontalAngle");
+
+                        offset_frontalangle = _TransfrontalAngle;
+                    }
                 }
             }
         }
@@ -890,8 +1110,71 @@ namespace Process_Page.ViewModel
             set { _LeftDown = value; }
         }
 
+        public bool refclicked = false;
+        public bool rotationclicked = false;
+        public int rotatedir = 1;
+
+        private int count = 0;
+
         private void ExecuteMouseLeftDown(MouseEventArgs e)
         {
+            if (changeText.Equals(flowname.ElementAt(1)) && refclicked == true && e.Source.GetType() == typeof(ImageCanvas))
+            {
+                origMouseDownPoint = e.GetPosition((IInputElement)((UserControl)e.Source).Parent);
+                if (count == 0)
+                {
+                    _GagRefVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("GagRefVisiblity");
+
+                    _teethL.Center = origMouseDownPoint;
+                    RaisePropertyChanged("teethL");
+
+                    count++;
+                }
+                else if (count == 1)
+                {
+                    _teethR.Center = origMouseDownPoint;
+                    RaisePropertyChanged("teethR");
+                    count++;
+
+                    currentclicked = ((UserControl)(e.Source));
+                    currentclicked.Opacity = 0;
+
+                    SetAlign();
+
+                    _GagRefVisiblity = Visibility.Hidden;
+                    RaisePropertyChanged("GagRefVisiblity");
+                }
+                else if (count == 2)
+                {
+                    _FrontalRefVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+
+                    _FrontalteethL.Center = origMouseDownPoint;
+                    RaisePropertyChanged("FrontalteethL");
+
+                    // TransCenter
+                    _TransCenter = e.GetPosition((IInputElement)e.Source);
+                    RaisePropertyChanged("TransCenter");
+                    count++;
+                }
+                else if(count == 3)
+                {
+                    _FrontalteethR.Center = origMouseDownPoint;
+                    RaisePropertyChanged("FrontalteethR");
+                    count++;
+
+                    currentclicked.Opacity = 0.5;
+
+                    // 좌표 옮기기
+                    ToothAlign();
+
+                    _GagRefVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("GagRefVisiblity");
+                }
+                return;
+            }
+
             if (e.Source.GetType() == typeof(ImageCanvas))
             {
                 captured = true;
@@ -918,6 +1201,23 @@ namespace Process_Page.ViewModel
             {
                 return;
             }
+            if (e.Source.GetType() == typeof(MouthControl))
+            {
+                return;
+            }
+
+            if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
+            {
+                captured = true;
+                origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+                orginal_width = e.GetPosition((IInputElement)e.Source).X;
+                orginal_height = e.GetPosition((IInputElement)e.Source).Y;
+
+                Mouse.Capture((IInputElement)e.Source);
+            }
+            else if (((Path)e.Source).Data.GetType() == typeof(LineGeometry))
+                ((Path)e.Source).Stroke = Brushes.Violet;
+
             Path rewrite = new Path();
             rewrite.Name = ((Path)e.Source).Name;
             rewrite.Data = ((Path)e.Source).Data.CloneCurrentValue();
@@ -928,11 +1228,6 @@ namespace Process_Page.ViewModel
             orginal_height = e.GetPosition((IInputElement)e.Source).Y;
             origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
             Mouse.Capture((IInputElement)e.Source);
-
-            if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
-                ((Path)e.Source).Stroke = Brushes.OrangeRed;
-            else if (((Path)e.Source).Data.GetType() == typeof(LineGeometry))
-                ((Path)e.Source).Stroke = Brushes.Violet;
         }
 
         private RelayCommand<object> _LeftUp;
@@ -948,6 +1243,13 @@ namespace Process_Page.ViewModel
 
         private void ExecuteMouseLeftUp(MouseEventArgs e)
         {
+            if (changeText.Equals(flowname.ElementAt(1)) && refclicked == true)
+            {
+                if (count == 4)
+                    refclicked = false;
+                return;
+            }
+
             if (e.Source.GetType() == typeof(Teeth))
             {
                 captured = false;
@@ -969,9 +1271,11 @@ namespace Process_Page.ViewModel
                 Mouse.Capture(null);
                 return;
             }
-            else if (e.Source.GetType() == typeof(Path))
+            else if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
             {
                 ((Path)e.Source).Stroke = Brushes.Black;
+                rotationclicked = false;
+                rotatedir = 1;
                 captured = false;
                 Mouse.Capture(null);
             }
@@ -1001,6 +1305,7 @@ namespace Process_Page.ViewModel
                 {
                     currentclicked = ((UserControl)(e.Source));
                     currentclicked.Opacity = 0;
+
                     Mouse.Capture((IInputElement)e.Source);
                 }
                 clickedRight = true;

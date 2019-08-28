@@ -4,31 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Process_Page.Util"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style TargetType="{x:Type local:NumericUpDown}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type local:NumericUpDown}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <RepeatButton Grid.Row="0" Name="Part_UpButton"/>
-                                <ContentPresenter Grid.Row="1"></ContentPresenter>
-                                <RepeatButton Grid.Row="2" Name="Part_DownButton"/>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
+             d:DesignHeight="100" d:DesignWidth="150" KeyDown="Numeric_KeyDown">
+    
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60*"></ColumnDefinition>
+            <ColumnDefinition Width="40*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Name="Measurement" Grid.Row="0" Grid.Column="0" FontSize="20" Text="0"
+                 LostFocus="Measurement_LostFocus"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        </TextBox>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button x:Name="Up" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                    Click="_UpButton_Click"></Button>
+            <Button x:Name="Down" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}"
+                    Click="_DownButton_Click"></Button>
+        </Grid>
     </Grid>
 </UserControl>

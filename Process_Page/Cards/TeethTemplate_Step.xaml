@@ -17,6 +17,7 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" Margin="10">
@@ -60,6 +61,7 @@
                 <Separator Grid.Row="3" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
 
                 <CheckBox Grid.Row="4" Content="Delete Faceline" IsChecked="{Binding lineDelete}" Margin="10"></CheckBox>
+                <CheckBox Grid.Row="5" Content="Show Mouth Line" IsChecked="{Binding MouthLineShow}" Margin="10"></CheckBox>
             </Grid>
         </materialDesign:Card>
     </Grid>

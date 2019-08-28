@@ -437,5 +437,35 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
+        #region show mouth line
+        private bool _MouthLineShow;
+        public bool MouthLineShow
+        {
+            get
+            {
+                return _MouthLineShow;
+            }
+            set
+            {
+                if (_MouthLineShow != value)
+                {
+                    _MouthLineShow = value;
+
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+
+                    if (_MouthLineShow == false)
+                    {
+                        currentPage.MouthCutLine.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        currentPage.MouthCutLine.Visibility = Visibility.Visible;
+                    }
+
+                    RaisePropertyChanged("MouthLineShow");
+                }
+            }
+        }
+        #endregion
     }
 }

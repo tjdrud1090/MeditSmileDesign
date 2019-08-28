@@ -7,6 +7,7 @@
       xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:View="clr-namespace:Process_Page.ToothTemplate"
+      xmlns:Utils="clr-namespace:Process_Page.Util"
       mc:Ignorable="d" 
       x:Name="SmileDesignPage"
       d:DesignHeight="900" d:DesignWidth="1200"
@@ -42,20 +43,12 @@
                     MouseBehaviours:MouseBehaviour.MouseRightButtonDownCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightDown}"
                     MouseBehaviours:MouseBehaviour.MouseRightButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightUp}"
                     MouseBehaviours:KeyBoardBehaviors.KeyboardDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.keyboardDown}">
-
-                <local:ImageCanvas x:Name="FrontalFaceImage"
-                                   FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalPoints}"
-                                   ImageSource="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalFaceSource}"
-                                   RotateAngle="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalAngle}"
-                                   ScaleXY="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalScale}"
-                                   Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.X}"
-                                   Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.Y}">
-                </local:ImageCanvas>
-
+                
                 <local:ImageCanvas x:Name="GagFaceImage"
                                    FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.GagPoints}"
                                    ImageSource="{Binding ElementName=SmileDesignPage, Path=DataContext.GagFaceSource}"
                                    RotateAngle="{Binding ElementName=SmileDesignPage, Path=DataContext.GagAngle}"
+                                   TransformCenter="{Binding ElementName=SmileDesignPage, Path=DataContext.TransGagCenter}"
                                    ScaleXY="1"
                                    Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.GagCenter.X}"
                                    Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.GagCenter.Y}">
@@ -74,6 +67,39 @@
                                  Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothUpperCenter.Y}"
                                 ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
                                 Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:UpperTooth>
+
+                <local:ImageCanvas x:Name="FrontalFaceImage"
+                                   FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalPoints}"
+                                   ImageSource="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalFaceSource}"
+                                   RotateAngle="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalAngle}"
+                                   TransformCenter="{Binding ElementName=SmileDesignPage, Path=DataContext.TransCenter}"
+                                   MouthPoint="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalMouthPoints}"
+                                   ScaleXY="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalScale}"
+                                   Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.X}"
+                                   Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.Y}">
+                </local:ImageCanvas>
+
+
+                <!-- Mouth Control Draw -->
+                <Utils:MouthControl x:Name="MouthCutLine"
+                    Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.X}"
+                    Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.Y}"
+                    MouthPoint="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalMouthPoints}"
+                    Visibility="Hidden">
+                    <Utils:MouthControl.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterX="{Binding ElementName=SmileDesignPage, Path=DataContext.TransCenter.X}"
+                                CenterY="{Binding ElementName=SmileDesignPage, Path=DataContext.TransCenter.Y}"
+                                ScaleX="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalScale}"
+                                ScaleY="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalScale}"
+                                            ></ScaleTransform>
+                            <RotateTransform Angle="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalAngle}"
+                                             CenterX="{Binding ElementName=SmileDesignPage, Path=DataContext.TransCenter.X}" 
+                                             CenterY="{Binding ElementName=SmileDesignPage, Path=DataContext.TransCenter.Y}">
+                            </RotateTransform>
+                        </TransformGroup>
+                    </Utils:MouthControl.RenderTransform>
+                </Utils:MouthControl>
 
                 <Canvas.RenderTransform>
                     <ScaleTransform CenterX="{Binding ElementName=SmileDesignPage, Path=DataContext.WheelMouseCenter.X}" 
