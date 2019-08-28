@@ -3,16 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             
+             mc:Ignorable="d"              
              xmlns:ar="clr-namespace:Process_Page.ToothTemplate.ArrowLine"
-             xmlns:Util="clr-namespace:Process_Page.Util"
-             
+             xmlns:Util="clr-namespace:Process_Page.Util"     
+             xmlns:ViewModel="clr-namespace:Process_Page"
              d:designWidth="1280" d:designHeight="860">
-         
 
-    <Border x:Name="Border_WrapTeeth" BorderThickness="0.2" BorderBrush="LightSalmon" Opacity="0">
+
+    <Border x:Name="Border_WrapTeeth" BorderThickness="{Binding drawTeethThickness}" BorderBrush="Black" Opacity="0">
         <Grid>
+            <Grid.DataContext>
+                <ViewModel:FaceAlign_PageViewModel/>
+            </Grid.DataContext>
             <Rectangle x:Name="Rectangle_WrapTeeth" Cursor="Hand" Stroke="LightSalmon" Opacity="0" 
                        Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTeeth}"
                        Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTeeth}"
@@ -21,60 +23,60 @@
                     <SolidColorBrush Color="LightBlue" Opacity="0"/>
                 </Rectangle.Fill>
             </Rectangle>
-
-            <Border x:Name="Border_Top" Cursor="SizeNS"
+            
+            <Border x:Name="Border_Top" Cursor="SizeNS" Background="OrangeRed" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                    Height="{Binding resizeBorderThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_Bottom" Cursor="SizeNS"
+            <Border x:Name="Border_Bottom" Cursor="SizeNS" Background="Aquamarine" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
+                    Height="{Binding resizeBorderThickness}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_Left" Cursor="SizeWE"
+            <Border x:Name="Border_Left" Cursor="SizeWE" Background="LightPink" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Width="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Style="{StaticResource TeethBorderStyle}"/>
+                    Width="{Binding resizeBorderThickness}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_Right" Cursor="SizeWE"
+            <Border x:Name="Border_Right" Cursor="SizeWE" Background="YellowGreen" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Width="1" HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                    Width="{Binding resizeBorderThickness}" HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_TopLeft" Cursor="SizeNWSE"
+            <Border x:Name="Border_TopLeft" Cursor="SizeNWSE" Background="SlateGray" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Width="1" Height="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Width="{Binding resizeBorderThickness}" Height="{Binding resizeBorderThickness}" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_TopRight" Cursor="SizeNESW"
+            <Border x:Name="Border_TopRight" Cursor="SizeNESW" Background="Peru" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Width="1" Height="1" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                    Width="{Binding resizeBorderThickness}" Height="{Binding resizeBorderThickness}" HorizontalAlignment="Right" VerticalAlignment="Top" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_BottomLeft" Cursor="SizeNESW"
+            <Border x:Name="Border_BottomLeft" Cursor="SizeNESW" Background="Teal" Opacity="0.5"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Width="1" Height="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                    Width="{Binding resizeBorderThickness}" Height="{Binding resizeBorderThickness}" HorizontalAlignment="Left" VerticalAlignment="Bottom" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
-            <Border x:Name="Border_BottomRight" Cursor="SizeNWSE"                  
+            <Border x:Name="Border_BottomRight" Cursor="SizeNWSE" Background="Crimson" Opacity="0.5"             
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
-                    Width="1" Height="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                    Width="{Binding resizeBorderThickness}" Height="{Binding resizeBorderThickness}" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
                     Style="{StaticResource TeethBorderStyle}"/>
 
             <Canvas>

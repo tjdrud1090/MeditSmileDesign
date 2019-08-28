@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Process_Page.ToothTemplate"
+             xmlns:ViewModel="clr-namespace:Process_Page"
              mc:Ignorable="d" 
              x:Name="DrawTeethControl"
              d:DesignHeight="860" d:DesignWidth="1280">
@@ -12,13 +13,16 @@
         <ImageBrush x:Key="color2" ImageSource="/Resource/th2.PNG" TileMode="Tile"/>
         <ImageBrush x:Key="color3" ImageSource="/Resource/th3.PNG" TileMode="Tile"/>
 
-        <SolidColorBrush x:Key="FillBrush" Color="LightCoral" Opacity="0.2"/>
-        <SolidColorBrush x:Key="Selected_StrokeBrush" Color="Coral" Opacity="1"/>
-        <SolidColorBrush x:Key="NonSelected_StrokeBrush" Color="MidnightBlue" Opacity="1"/>
+        <SolidColorBrush x:Key="FillBrush" Color="SlateGray" Opacity="0.2"/>
+        <SolidColorBrush x:Key="Selected_StrokeBrush" Color="Black" Opacity="1"/>
+        <SolidColorBrush x:Key="NonSelected_StrokeBrush" Color="White" Opacity="1"/>
     </UserControl.Resources>
 
     <Canvas>
-        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" StrokeThickness="0.3"/>
+        <Canvas.DataContext>
+            <ViewModel:FaceAlign_PageViewModel/>
+        </Canvas.DataContext>
+        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" StrokeThickness="{Binding drawTeethThickness}"/>
     </Canvas>
 
 </UserControl>

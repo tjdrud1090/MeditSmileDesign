@@ -6,3 +6,8 @@
 *.suo
 *.exe
 *.sqlite
+Process_Page/obj/x64/Debug/Process_Page.pdb
+Process_Page/obj/x64/Debug/Process_Page.g.resources
+Process_Page/.vs/Process_Page_Demo/v16/Server/sqlite3/storage.ide
+Process_Page/.vs/Process_Page_Demo/v16/Server/sqlite3/storage.ide-shm
+Process_Page/.vs/Process_Page_Demo/v16/Server/sqlite3/storage.ide-wal

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ViewModel="clr-namespace:Process_Page"
              xmlns:local="clr-namespace:Process_Page.ToothTemplate"
              mc:Ignorable="d" 
              
@@ -20,8 +21,11 @@
         </Rectangle>
 
         <Path x:Name="RotatePin" Stroke="CadetBlue" StrokeThickness="0.5" Fill="LightBlue" Visibility="Hidden">
+            <Path.DataContext>
+                <ViewModel:FaceAlign_PageViewModel/>
+            </Path.DataContext>            
             <Path.Data>
-                <EllipseGeometry x:Name="Pin" Center="0,0" RadiusX="1" RadiusY="1"/>
+                <EllipseGeometry x:Name="Pin" Center="0,0" RadiusX="{Binding pinHeadSize}"  RadiusY="{Binding pinHeadSize}"/>
             </Path.Data>
         </Path>
     </Canvas>

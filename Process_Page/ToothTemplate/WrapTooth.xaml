@@ -3,16 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             
              xmlns:MouseBehaviors="clr-namespace:Process_Page.Util"  
              xmlns:Arrow="clr-namespace:Process_Page.ToothTemplate.ArrowLine"
+             mc:Ignorable="d"             
              d:DesignHeight="860" d:DesignWidth="1280">
     <UserControl.Resources>
-        <ImageBrush x:Key="DragImage" ImageSource="/image/DragArrow1.png"></ImageBrush>
+        <ImageBrush x:Key="DragImage" ImageSource="/image/DragArrow1.png"/>
     </UserControl.Resources>
-    
-    <Border x:Name="Border_WrapTooth" BorderThickness="0.3" BorderBrush="Transparent" Opacity="1">
+
+    <Border x:Name="Border_WrapTooth" BorderThickness="0.3" BorderBrush="Transparent" Opacity="0.95">
         <Grid x:Name="Grid_WrapTooth">
             <Border x:Name="Border_Top" Cursor="SizeNS" Visibility="Hidden"
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth}"
@@ -27,24 +26,23 @@
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
-
+            
             <Canvas>
                 <Ellipse x:Name="MoveTop"
-                         Visibility="Hidden" Stroke="Black" StrokeThickness="0.5" Width="7" Height="7" Cursor="Hand"
+                         Visibility="Hidden" Stroke="Black" StrokeThickness="0.2" Opacity="1" Width="7" Height="7" Cursor="Hand"
                          Fill="{StaticResource DragImage}"
                          MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
                          MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
                          MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
             </Canvas>
-
             <!--<Arrow:ArrowLine x:Name="MoveTop" 
                     Visibility="Hidden" Stroke="MediumPurple" StrokeThickness="0.5" Cursor="Hand"
                     ArrowEnds="Both" ArrowLength="2" IsArrowClosed="True"
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
                     MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>-->
+                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
 
-            <!-- 
+             
             <Border x:Name="Border_Bottom" Cursor="SizeNS" Background="DarkCyan" Opacity="0"
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
                     MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}" 
@@ -85,10 +83,9 @@
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
                     MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Height="5" Width="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource BorderStyle}"/>
+                    Height="5" Width="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource BorderStyle}"/>-->
 
-            -->
-            
+            <!--TeethLines-->
             <Line x:Name="Teethline5" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline6" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline7" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
@@ -97,6 +94,8 @@
             <Line x:Name="Teethline2" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline1" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
 
+
+            <!--SmileLine-->
             <Canvas x:Name="Canvas_Smile">
                 <Path x:Name="SmileLine" Stroke="SkyBlue" StrokeThickness="3" />
                 <Ellipse x:Name="LeftSmileControl" Opacity="0" Style="{StaticResource SmileControlStyle}"
@@ -106,6 +105,7 @@
                 <Ellipse x:Name="RightSmileControl" Opacity="0" Style="{StaticResource SmileControlStyle}"
                          MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForSmileLine}"/>
             </Canvas>
+
         </Grid>
     </Border>
 </UserControl>
