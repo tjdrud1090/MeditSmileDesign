@@ -1,32 +1,45 @@
 ﻿using Process_Page.ToothTemplate.Utils;
 using Process_Page.ViewModel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Process_Page.ToothTemplate {
+namespace Process_Page.ToothTemplate
+{
     /// <summary>
     /// WrapTooth.xaml에 대한 상호 작용 논리
     /// </summary>
     /// 
     using TeethType = ObservableCollection<PointViewModel>;
 
-    public partial class WrapTooth : UserControl {
-        public WrapTooth() {
+    public partial class WrapTooth : UserControl
+    {
+        public WrapTooth()
+        {
             InitializeComponent();
+
             fillImgName = "color3";
         }
 
         #region Points
 
-        public IEnumerable Points {
+        public IEnumerable Points
+        {
             get { return (IEnumerable)GetValue(PointsProperty); }
             set { SetValue(PointsProperty, value); }
         }
@@ -34,35 +47,40 @@ namespace Process_Page.ToothTemplate {
         public static readonly DependencyProperty PointsProperty = DependencyProperty.Register(
             "Points", typeof(IEnumerable), typeof(WrapTooth), new PropertyMetadata(null, PropertyChangedCallback));
 
-        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
             var wrap = d as WrapTooth;
-            if(wrap == null)
+            if (wrap == null)
                 return;
 
-            if(e.NewValue is INotifyCollectionChanged) {
+            if (e.NewValue is INotifyCollectionChanged)
+            {
                 (e.NewValue as INotifyCollectionChanged).CollectionChanged += wrap.OnPointCollectionChanged;
                 wrap.RegisterCollectionItemPropertyChanged(e.NewValue as IEnumerable);
             }
 
-            if(e.OldValue is INotifyCollectionChanged) {
+            if (e.OldValue is INotifyCollectionChanged)
+            {
                 (e.OldValue as INotifyCollectionChanged).CollectionChanged -= wrap.OnPointCollectionChanged;
                 wrap.UnRegisterCollectionItemPropertyChanged(e.OldValue as IEnumerable);
             }
 
-            if(e.NewValue != null) {
+            if (e.NewValue != null)
+            {
                 Canvas cv = wrap.Parent as Canvas;
-                if(cv == null)
+                if (cv == null)
                     return;
-                foreach(FrameworkElement fr in cv.Children)
+                foreach (FrameworkElement fr in cv.Children)
                     fr.Visibility = Visibility.Visible;
 
-                wrap.DrawWrappingRect();
+                wrap.SetWrapToothRect();
             }
-            else {
+            else
+            {
                 Canvas cv = wrap.Parent as Canvas;
-                if(cv == null)
+                if (cv == null)
                     return;
-                foreach(FrameworkElement fr in cv.Children)
+                foreach (FrameworkElement fr in cv.Children)
                     fr.Visibility = Visibility.Hidden;
                 return;
             }
@@ -75,26 +93,25 @@ namespace Process_Page.ToothTemplate {
         public static readonly DependencyProperty FillProperty =
             DependencyProperty.Register("Fill", typeof(bool), typeof(WrapTooth), new PropertyMetadata(false, FillPropertyChangedCallback));
 
-        public bool Fill {
+        public bool Fill
+        {
             get { return (bool)GetValue(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
 
         private string fillImgName;
-        private static void FillPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+        private static void FillPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
             var wrap = d as WrapTooth;
-            if(wrap == null)
+            if (wrap == null)
                 return;
 
-            if(e.NewValue != null) {
+            if (e.NewValue != null)
+            {
                 Canvas tooth = wrap.Parent as Canvas;
-
-                Grid grid = null;
-                if(tooth.Name.Equals("CanvasInTooth"))
-                    grid = tooth.FindName("GridInTooth") as Grid;
-                else
-                    grid = tooth.FindName("GridInTooth") as Grid;
-                foreach(Teeth teeth in grid.Children) {
+                Grid grid = tooth.FindName("GridInTooth") as Grid;
+                foreach (Teeth teeth in grid.Children)
+                {
                     DrawTeeth draw = teeth.FindName("drawTeeth") as DrawTeeth;
                     draw.path.Fill = wrap.Fill ? draw.FindResource(wrap.fillImgName) as ImageBrush : null;
                 }
@@ -105,56 +122,59 @@ namespace Process_Page.ToothTemplate {
 
         #region NotifyPropertyChanged
 
-        private void RegisterCollectionItemPropertyChanged(IEnumerable collection) {
-            if(collection == null)
+        private void RegisterCollectionItemPropertyChanged(IEnumerable collection)
+        {
+            if (collection == null)
                 return;
-            foreach(TeethType points in collection) {
-                foreach(INotifyPropertyChanged point in points)
+            foreach (TeethType points in collection)
+            {
+                foreach (INotifyPropertyChanged point in points)
                     point.PropertyChanged += OnPointPropertyChanged;
             }
         }
 
-        private void UnRegisterCollectionItemPropertyChanged(IEnumerable collection) {
-            if(collection == null)
+        private void UnRegisterCollectionItemPropertyChanged(IEnumerable collection)
+        {
+            if (collection == null)
                 return;
-            foreach(TeethType points in collection) {
-                foreach(INotifyPropertyChanged point in points)
+            foreach (TeethType points in collection)
+            {
+                foreach (INotifyPropertyChanged point in points)
                     point.PropertyChanged -= OnPointPropertyChanged;
             }
         }
 
-        private void OnPointCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+        private void OnPointCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
             RegisterCollectionItemPropertyChanged(e.NewItems);
             UnRegisterCollectionItemPropertyChanged(e.OldItems);
-            DrawWrappingRect();
+            SetWrapToothRect();
         }
 
-        private void OnPointPropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if(e.PropertyName == "X" || e.PropertyName == "Y")
-                DrawWrappingRect();
+        private void OnPointPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "X" || e.PropertyName == "Y")
+                SetWrapToothRect();
         }
 
         #endregion
 
-        #region DrawWrappingRect
-
-        public double Top;
-        public double Left;
-        readonly double padding = 10;
-
-        private void DrawWrappingRect() {
-            if(Points == null)
+        void SetWrapToothRect()
+        {
+            if (Points == null)
                 return;
 
             Border_WrapTooth.Visibility = Visibility.Visible;
             MoveTop.Visibility = Visibility.Visible;
 
             var pointses = new List<List<Point>>();
-            foreach(TeethType high in Points) {
+            foreach (TeethType high in Points)
+            {
                 var points = new List<Point>();
-                foreach(PointViewModel low in high) {
+                foreach (PointViewModel low in high)
+                {
                     var pointProperties = low.GetType().GetProperties();
-                    if(pointProperties.All(p => p.Name != "X") || pointProperties.All(p => p.Name != "Y"))
+                    if (pointProperties.All(p => p.Name != "X") || pointProperties.All(p => p.Name != "Y"))
                         continue;
                     var x = (double)low.GetType().GetProperty("X").GetValue(low, new object[] { });
                     var y = (double)low.GetType().GetProperty("Y").GetValue(low, new object[] { });
@@ -163,9 +183,23 @@ namespace Process_Page.ToothTemplate {
                 pointses.Add(points);
             }
 
-            if(pointses.Count <= 1)
+            if (pointses.Count <= 1)
                 return;
 
+            DrawRect();
+            DrawSmileLine(pointses);
+            DrawTeethBetweenLine(pointses);
+
+        }
+
+        #region Rect
+
+        public double Top;
+        public double Left;
+        readonly double padding = 20;
+
+        private void DrawRect()
+        {
             Point MinPoint = Numerics.GetMinXY_Tooth(Points);
             Point MaxPoint = Numerics.GetMaxXY_Tooth(Points);
 
@@ -178,36 +212,20 @@ namespace Process_Page.ToothTemplate {
             Canvas.SetTop(this, Top);
             Canvas.SetLeft(this, Left);
 
-            //MoveTop.X1 = Border_WrapTooth.Width / 2;
-            //MoveTop.Y1 = MaxPoint.Y - 30;
-            //MoveTop.X2 = Border_WrapTooth.Width / 2;
-            //MoveTop.Y2 = MaxPoint.Y - 25;
-            Canvas.SetLeft(MoveTop, Border_WrapTooth.Width / 2);
-            //Console.WriteLine($"{Top}");
-
-
-            if(this.Name.Equals("WrapTooth_UpperTooth")) {
-                //  DrawSmileLine(pointses);
-                Canvas.SetTop(MoveTop, Top-padding);
-                DrawTeethBetweenLine(pointses);
-            }
-            else {
-                Canvas.SetTop(MoveTop, Top+padding);
-            }
-
+            MoveTop.Margin = new Thickness(Left + Border_WrapTooth.Width/2, Top - 40, 0, 0);
         }
-
-
 
         #endregion
 
-        #region DrawTeethBetweenLines
+        #region TeethBetweenLine
 
-        private void DrawTeethBetweenLine(List<List<Point>> points) {
+        private void DrawTeethBetweenLine(List<List<Point>> points)
+        {
             List<double> listX1 = new List<double>();
 
             double coorX;
-            foreach(var teeth in points) {
+            foreach (var teeth in points)
+            {
                 coorX = Numerics.GetMaxX_Teeth(teeth).X - Left;
                 listX1.Add(coorX);
             }
@@ -216,8 +234,10 @@ namespace Process_Page.ToothTemplate {
             listX1.Add(coorX);
 
             int i = 0;
-            foreach(var l in Grid_WrapTooth.Children) {
-                if(l is Line) {
+            foreach (var l in Grid_WrapTooth.Children)
+            {
+                if (l is Line)
+                {
                     Line line = l as Line;
                     line.X1 = listX1[i];
                     line.Y1 = 0;
@@ -229,9 +249,10 @@ namespace Process_Page.ToothTemplate {
 
         #endregion
 
-        #region DrawSmileLine 
+        #region SmileLine 
 
-        private void DrawSmileLine(List<List<Point>> all) {
+        private void DrawSmileLine(List<List<Point>> all)
+        {
             Point Left2 = Numerics.GetMinX_Teeth(all[5]);
             Point Left1 = Numerics.GetMaxY_Teeth(all[4]);
             Point Mid = Numerics.GetMaxXY_Tooth(Points);
@@ -276,7 +297,8 @@ namespace Process_Page.ToothTemplate {
             pc.Add(MidCont);
             pc.Add(new Point(Right1.X - Left, Right1.Y - Top + pad));
             pc.Add(RightCont);
-            var segment = new PolyQuadraticBezierSegment() {
+            var segment = new PolyQuadraticBezierSegment()
+            {
                 Points = pc
             };
             path_segmentCollection.Add(segment);

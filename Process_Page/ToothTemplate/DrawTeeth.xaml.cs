@@ -73,7 +73,7 @@ namespace Process_Page.ToothTemplate
         }
 
         public static readonly DependencyProperty PathColorProperty =
-            DependencyProperty.Register("PathColor", typeof(Brush), typeof(Teeth), new PropertyMetadata(Brushes.White));
+            DependencyProperty.Register("PathColor", typeof(Brush), typeof(Teeth), new PropertyMetadata(Brushes.MidnightBlue));
 
         #endregion
 

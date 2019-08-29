@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Process_Page.Cards"
+             
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:View="clr-namespace:Process_Page.ToothTemplate"
+             
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="400">
     <Grid>
@@ -25,11 +25,15 @@
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <CheckBox Name="ColorTeeth" Grid.Row="2" Margin="5" IsChecked="{Binding ColorTeeth}">치아색</CheckBox>
-                    <CheckBox Name="mirror" Grid.Row="0" Content="대칭 이동" Margin="5"></CheckBox>
-                    <CheckBox Name="lengthTeeth"  Grid.Row="1" Content="치아 길이" Margin="5" IsChecked="{Binding ShowLength}"></CheckBox>
-                    <CheckBox Name="EditPoints"  Grid.Row="3" Content="점 추가 및 삭제" Margin="5"></CheckBox>
+                    <CheckBox Name="ColorTeeth" Grid.Row="2" Margin="5" IsChecked="{Binding ColorTeeth}" Content="Color Theme"/>
+                    <CheckBox Name="mirror" Grid.Row="0" Content="Mirror Mode" Margin="5"></CheckBox>
+                    <CheckBox Name="lengthTeeth"  Grid.Row="1" Content="Show Length" Margin="5" IsChecked="{Binding ShowLength}"></CheckBox>
+                    <CheckBox Name="EditPoints"  Grid.Row="3" Content="Edit Points" Margin="5"></CheckBox>
+                    <Separator Grid.Row="4" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="5"></Separator>
+                    <CheckBox Grid.Row="5" Content="Delete Faceline" IsChecked="{Binding lineDelete}" Margin="5"></CheckBox>
                 </Grid>
 
                 <Separator Grid.Row="1" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
@@ -39,35 +43,57 @@
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" x:Name="Upper" Orientation="Vertical" Width="auto" Height="auto">
-                        <RadioButton x:Name="Upper_no" Margin="10" IsChecked="{Binding UpperTmpNo}">No Upper</RadioButton>
-                        <RadioButton x:Name="RadioUpper1" Grid.Column="1" Margin="10" IsChecked="{Binding UpperTmp1}">Upper Template #1</RadioButton>
-                        <RadioButton x:Name="RadioUpper2" Grid.Column="2" Margin="10" IsChecked="{Binding UpperTmp2}">Upper Template #2</RadioButton>
-                        <RadioButton x:Name="RadioUpper3" Grid.Column="3" Margin="10" IsChecked="{Binding UpperTmp3}">Upper Template #3</RadioButton>
-                        <RadioButton x:Name="RadioUpper4" Grid.Column="4" Margin="10" IsChecked="{Binding UpperTmp4}">Upper Template #4</RadioButton>
-                        <RadioButton x:Name="RadioUpper5" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp5}">Upper Template #5</RadioButton>
-                        <RadioButton x:Name="RadioUpper6" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp6}">Upper Template #6</RadioButton>
-                        <RadioButton x:Name="RadioUpper7" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp7}">Upper Template #7</RadioButton>
-                        <RadioButton x:Name="RadioUpper8" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp8}">Upper Template #8</RadioButton>
-                        <RadioButton x:Name="RadioUpper9" Grid.Column="5" Margin="10" IsChecked="{Binding UpperTmp9}">Upper Template #9</RadioButton>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" x:Name="Lower" Orientation="Vertical" Width="auto" Height="auto">
-                        <RadioButton x:Name="Lower_no" Grid.Column="0" Margin="10" IsChecked="{Binding LowerTmpNo}">No Lower</RadioButton>
-                        <RadioButton x:Name="RadioLower1" Grid.Column="1" Margin="10" IsChecked="{Binding LowerTmp1}">Lower Template #1</RadioButton>
-                        <RadioButton x:Name="RadioLower2" Grid.Column="2" Margin="10" IsChecked="{Binding LowerTmp2}">Lower Template #2</RadioButton>
-                        <RadioButton x:Name="RadioLower3" Grid.Column="3" Margin="10" IsChecked="{Binding LowerTmp3}">Lower Template #3</RadioButton>
-                        <RadioButton x:Name="RadioLower4" Grid.Column="4" Margin="10" IsChecked="{Binding LowerTmp4}">Lower Template #4</RadioButton>
-                        <RadioButton x:Name="RadioLower5" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp5}">Lower Template #5</RadioButton>
-                        <RadioButton x:Name="RadioLower6" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp6}">Lower Template #6</RadioButton>
-                        <RadioButton x:Name="RadioLower7" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp7}">Lower Template #7</RadioButton>
-                        <RadioButton x:Name="RadioLower8" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp8}">Lower Template #8</RadioButton>
-                        <RadioButton x:Name="RadioLower9" Grid.Column="5" Margin="10" IsChecked="{Binding LowerTmp9}">Lower Template #9</RadioButton>
-                    </StackPanel>
+                    <Expander Header="Upper Templates" Margin="10" Grid.Column="0">
+                        <StackPanel>
+                            <RadioButton x:Name="Upper_no" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmpNo}" Content="None"/>
+                            <RadioButton x:Name="RadioUpper1" Grid.Column="1" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp1}" Content="Upper Template #1"/>
+                            <RadioButton x:Name="RadioUpper2" Grid.Column="2" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp2}" Content="Upper Template #2"/>
+                            <RadioButton x:Name="RadioUpper3" Grid.Column="3" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp3}" Content="Upper Template #3"/>
+                            <RadioButton x:Name="RadioUpper4" Grid.Column="4" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp4}" Content="Upper Template #4"/>
+                            <RadioButton x:Name="RadioUpper5" Grid.Column="5" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp5}" Content="Upper Template #5"/>
+                            <RadioButton x:Name="RadioUpper6" Grid.Column="5" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp6}" Content="Upper Template #6"/>
+                            <RadioButton x:Name="RadioUpper7" Grid.Column="5" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp7}" Content="Upper Template #7"/>
+                            <RadioButton x:Name="RadioUpper8" Grid.Column="5" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp8}" Content="Upper Template #8"/>
+                            <RadioButton x:Name="RadioUpper9" Grid.Column="5" Margin="20,10,0,0"
+                                             IsChecked="{Binding UpperTmp9}" Content="Upper Template #9"/>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Header="Lower Templates" Margin="10" Grid.Column="1">
+                        <StackPanel>
+                            <RadioButton x:Name="Lower_no" Grid.Column="0" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmpNo}">None</RadioButton>
+                            <RadioButton x:Name="RadioLower1" Grid.Column="1" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp1}">Lower Template #1</RadioButton>
+                            <RadioButton x:Name="RadioLower2" Grid.Column="2" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp2}">Lower Template #2</RadioButton>
+                            <RadioButton x:Name="RadioLower3" Grid.Column="3" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp3}">Lower Template #3</RadioButton>
+                            <RadioButton x:Name="RadioLower4" Grid.Column="4" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp4}">Lower Template #4</RadioButton>
+                            <RadioButton x:Name="RadioLower5" Grid.Column="5" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp5}">Lower Template #5</RadioButton>
+                            <RadioButton x:Name="RadioLower6" Grid.Column="5" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp6}">Lower Template #6</RadioButton>
+                            <RadioButton x:Name="RadioLower7" Grid.Column="5" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp7}">Lower Template #7</RadioButton>
+                            <RadioButton x:Name="RadioLower8" Grid.Column="5" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp8}">Lower Template #8</RadioButton>
+                            <RadioButton x:Name="RadioLower9" Grid.Column="5" Margin="20,10,0,0"
+                                         IsChecked="{Binding LowerTmp9}">Lower Template #9</RadioButton>
+                        </StackPanel>
+                    </Expander>
                 </Grid>
 
-                <Separator Grid.Row="3" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
 
-                <CheckBox Grid.Row="4" Content="Delete Faceline" IsChecked="{Binding lineDelete}" Margin="10"></CheckBox>
             </Grid>
         </materialDesign:Card>
     </Grid>

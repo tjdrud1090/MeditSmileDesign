@@ -96,19 +96,19 @@
                 <Canvas x:Name="Faceline_layer0"
                     Width="{Binding ElementName=image_view, Path=ActualWidth}"
                     Height="{Binding ElementName=image_view, Path=ActualHeight}">
-                    <Path Name="midline" Data="{Binding midline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="midline" Data="{Binding midline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=FunctionPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="noseline_L" Data="{Binding noseline_L}" Stroke="Red" StrokeThickness="1" Fill="Black"
+                    <Path Name="noseline_L" Data="{Binding noseline_L}" Stroke="Red" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=FunctionPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="1" Fill="Black"
+                    <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=FunctionPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="EyeLine" Data="{Binding eyeline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="EyeLine" Data="{Binding eyeline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                           Visibility="{Binding ElementName=FunctionPage, Path=DataContext.LineVisiblity}"
                               ></Path>
-                    <Path Name="LipLine" Data="{Binding lipline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="LipLine" Data="{Binding lipline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                           Visibility="{Binding ElementName=FunctionPage, Path=DataContext.LineVisiblity}"
                               ></Path>
                 </Canvas>
