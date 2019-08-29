@@ -61,6 +61,7 @@ namespace Process_Page.ViewModel
             _LineVisiblity = Visibility.Visible;
             _FrontalRefVisiblity = Visibility.Hidden;
             _GagRefVisiblity = Visibility.Hidden;
+            _RotateControlVisiblity = Visibility.Hidden;
 
             RaisePropertyChanged("showControl0");
             RaisePropertyChanged("showControl1");
@@ -72,6 +73,8 @@ namespace Process_Page.ViewModel
 
             RaisePropertyChanged("FrontalRefVisiblity");
             RaisePropertyChanged("GagRefVisiblity");
+
+            RaisePropertyChanged("RotateControlVisiblity");
         }
         #endregion
 
@@ -129,6 +132,10 @@ namespace Process_Page.ViewModel
                     RaisePropertyChanged("changeText");
                     break;
                 case 2:
+                    if (RefernceCount < 4)
+                    {
+                        return;
+                    }
                     SetnewPage();
                     break;
                 default:
@@ -280,6 +287,20 @@ namespace Process_Page.ViewModel
                 {
                     _GagRefVisiblity = value;
                     RaisePropertyChanged("GagRefVisiblity");
+                }
+            }
+        }
+
+        private Visibility _RotateControlVisiblity;
+        public Visibility RotateControlVisiblity
+        {
+            get { return _RotateControlVisiblity; }
+            set
+            {
+                if (_RotateControlVisiblity != value)
+                {
+                    _RotateControlVisiblity = value;
+                    RaisePropertyChanged("RotateControlVisiblity");
                 }
             }
         }
@@ -710,13 +731,17 @@ namespace Process_Page.ViewModel
 
             double angle = Math.Abs(angle1) + Math.Abs(angle2);
 
-            double rotate = (Math.Atan(angle)) * (180 / Math.PI);       //angle
+            double rotate = (Math.Atan(angle)) * (180 / Math.PI);
             _FrontalAngle = -rotate;
 
             RaisePropertyChanged("FrontalScale");
             RaisePropertyChanged("FrontalAngle");
 
             RaisePropertyChanged("FrontalMouthPoints");
+
+            _RotateControlCenter.X = _noseline_L.StartPoint.X;
+            _RotateControlCenter.Y = _lipline.StartPoint.Y;
+            RaisePropertyChanged("RotateControlCenter");
 
             offset_Left = _FrontalCenter.X;
             offset_Top = _FrontalCenter.Y;
@@ -784,6 +809,14 @@ namespace Process_Page.ViewModel
         public Point TransGagCenter
         {
             get { return _TransGagCenter; }
+            set { }
+        }
+
+        // Rotate Control Center
+        private Point _RotateControlCenter;
+        public Point RotateControlCenter
+        {
+            get { return _RotateControlCenter; }
             set { }
         }
         #endregion
@@ -897,10 +930,12 @@ namespace Process_Page.ViewModel
         {
             if (captured == true && e.LeftButton == MouseButtonState.Pressed)
             {
-                if (changeText.Equals(flowname.ElementAt(1)) && count < 4 && refclicked == true)
+                if (changeText.Equals(flowname.ElementAt(1)) && RefernceCount < 4 && refclicked == true)
                 {
                     return;
                 }
+                if (e.Source.GetType() == typeof(RotationControl))
+                    return;
                 if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     Canvas imageCanvas = ((UserControl)e.Source).Parent as Canvas;
@@ -976,6 +1011,10 @@ namespace Process_Page.ViewModel
                     FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
                     FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
 
+                    Point Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
+                    _RotateControlCenter = Center;
+                    RaisePropertyChanged("RotateControlCenter");
+
                     orginal_width = curMouseDownPoint.X;
                     orginal_height = curMouseDownPoint.Y;
                 }
@@ -1041,60 +1080,6 @@ namespace Process_Page.ViewModel
 
                         orginal_height = e.GetPosition((IInputElement)e.Source).Y;
                     }
-                    else if (((Path)e.Source).Data == FrontalteethL || ((Path)e.Source).Data == teethL)
-                    {
-                        // 중심점 위치 조정
-                        Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
-
-                        double diffX = (curMouseDownPoint.X - orginal_width);
-                        double diffY = (curMouseDownPoint.Y - orginal_height);
-
-                        _TransX = offset_Left;
-                        _TransY = offset_Top;
-                        _TransX += diffX;
-                        _TransY += diffY;
-
-                        _FrontalCenter.X = _TransX;
-                        _FrontalCenter.Y = _TransY;
-                        RaisePropertyChanged("FrontalCenter");
-
-                        FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
-                        FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
-
-                        orginal_width = curMouseDownPoint.X;
-                        orginal_height = curMouseDownPoint.Y;
-
-                        offset_Left = _TransX;
-                        offset_Top = _TransY;
-                    }
-                    else if (((Path)e.Source).Data == FrontalteethR || ((Path)e.Source).Data == teethR)
-                    {
-                        // 각도 조정
-                        Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
-
-                        double angle = (_FrontalteethL.Center.Y - curMouseDownPoint.Y) / (_FrontalteethL.Center.X - curMouseDownPoint.X);
-                        double rotate = (Math.Atan(Math.Abs(angle))) * (180 / Math.PI);
-                        if (origMouseDownPoint.Y > curMouseDownPoint.Y && rotationclicked == false)
-                        {
-                            rotationclicked = true;
-                            rotatedir *= -1;
-                        }
-
-                        rotate *= rotatedir;
-
-                        _TransfrontalAngle = offset_frontalangle;
-                        _TransfrontalAngle += rotate;
-
-                        if (_TransfrontalAngle < 0)
-                            _TransfrontalAngle += 360;
-                        else
-                            _TransfrontalAngle -= 360;
-
-                        _FrontalAngle = _TransfrontalAngle;
-                        RaisePropertyChanged("FrontalAngle");
-
-                        offset_frontalangle = _TransfrontalAngle;
-                    }
                 }
             }
         }
@@ -1114,14 +1099,14 @@ namespace Process_Page.ViewModel
         public bool rotationclicked = false;
         public int rotatedir = 1;
 
-        private int count = 0;
+        public int RefernceCount = 0;
 
         private void ExecuteMouseLeftDown(MouseEventArgs e)
         {
             if (changeText.Equals(flowname.ElementAt(1)) && refclicked == true && e.Source.GetType() == typeof(ImageCanvas))
             {
                 origMouseDownPoint = e.GetPosition((IInputElement)((UserControl)e.Source).Parent);
-                if (count == 0)
+                if (RefernceCount == 0)
                 {
                     _GagRefVisiblity = Visibility.Visible;
                     RaisePropertyChanged("GagRefVisiblity");
@@ -1129,13 +1114,13 @@ namespace Process_Page.ViewModel
                     _teethL.Center = origMouseDownPoint;
                     RaisePropertyChanged("teethL");
 
-                    count++;
+                    RefernceCount++;
                 }
-                else if (count == 1)
+                else if (RefernceCount == 1)
                 {
                     _teethR.Center = origMouseDownPoint;
                     RaisePropertyChanged("teethR");
-                    count++;
+                    RefernceCount++;
 
                     currentclicked = ((UserControl)(e.Source));
                     currentclicked.Opacity = 0;
@@ -1145,7 +1130,7 @@ namespace Process_Page.ViewModel
                     _GagRefVisiblity = Visibility.Hidden;
                     RaisePropertyChanged("GagRefVisiblity");
                 }
-                else if (count == 2)
+                else if (RefernceCount == 2)
                 {
                     _FrontalRefVisiblity = Visibility.Visible;
                     RaisePropertyChanged("FrontalRefVisiblity");
@@ -1156,21 +1141,24 @@ namespace Process_Page.ViewModel
                     // TransCenter
                     _TransCenter = e.GetPosition((IInputElement)e.Source);
                     RaisePropertyChanged("TransCenter");
-                    count++;
+                    RefernceCount++;
                 }
-                else if(count == 3)
+                else if(RefernceCount == 3)
                 {
                     _FrontalteethR.Center = origMouseDownPoint;
                     RaisePropertyChanged("FrontalteethR");
-                    count++;
+                    RefernceCount++;
 
                     currentclicked.Opacity = 0.5;
 
                     // 좌표 옮기기
                     ToothAlign();
 
-                    _GagRefVisiblity = Visibility.Visible;
-                    RaisePropertyChanged("GagRefVisiblity");
+                    _FrontalRefVisiblity = Visibility.Hidden;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+
+                    _RotateControlVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("RotateControlVisiblity");
                 }
                 return;
             }
@@ -1205,18 +1193,13 @@ namespace Process_Page.ViewModel
             {
                 return;
             }
-
-            if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
+            if (e.Source.GetType() == typeof(RotationControl))
             {
-                captured = true;
-                origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
-                orginal_width = e.GetPosition((IInputElement)e.Source).X;
-                orginal_height = e.GetPosition((IInputElement)e.Source).Y;
-
-                Mouse.Capture((IInputElement)e.Source);
+                return;
             }
-            else if (((Path)e.Source).Data.GetType() == typeof(LineGeometry))
-                ((Path)e.Source).Stroke = Brushes.Violet;
+
+            if (((Path)e.Source).Data.GetType() == typeof(LineGeometry))
+                ((Path)e.Source).Stroke = Brushes.Black;
 
             Path rewrite = new Path();
             rewrite.Name = ((Path)e.Source).Name;
@@ -1245,7 +1228,7 @@ namespace Process_Page.ViewModel
         {
             if (changeText.Equals(flowname.ElementAt(1)) && refclicked == true)
             {
-                if (count == 4)
+                if (RefernceCount == 4)
                     refclicked = false;
                 return;
             }
@@ -1273,19 +1256,152 @@ namespace Process_Page.ViewModel
             }
             else if (e.Source.GetType() == typeof(Path))
             {
-                if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
-                {
-                    ((Path)e.Source).Stroke = Brushes.Black;
-                    rotationclicked = false;
-                    rotatedir = 1;
-                    captured = false;
-                    Mouse.Capture(null);
-                    return;
-                }
+                ((Path)e.Source).Stroke = Brushes.Black;
                 captured = false;
                 Mouse.Capture(null);
             }
         }
+
+        #region image tuning events
+        private RelayCommand<object> _RotateControlUp;
+        public RelayCommand<object> RotateControlUp
+        {
+            get
+            {
+                if (_RotateControlUp == null) return _RotateControlUp = new RelayCommand<object>(param => ExecuteRotateControlUp((MouseEventArgs)param));
+                return _RotateControlUp;
+            }
+            set { _RotateControlUp = value; }
+        }
+
+        private void ExecuteRotateControlUp(MouseEventArgs e)
+        {
+            if (e.Source.GetType() == typeof(Rectangle))
+            {
+                rotationclicked = false;
+                rotatedir = 1;
+                captured = false;
+                Mouse.Capture(null);
+            }
+        }
+
+        private RelayCommand<object> _RotateControlDown;
+        public RelayCommand<object> RotateControlDown
+        {
+            get
+            {
+                if (_RotateControlDown == null) return _RotateControlDown = new RelayCommand<object>(param => ExecuteRotateControlDown((MouseEventArgs)param));
+                return _RotateControlDown;
+            }
+            set { _RotateControlDown = value; }
+        }
+
+        private void ExecuteRotateControlDown(MouseEventArgs e)
+        {
+            if (e.Source.GetType() == typeof(Rectangle))
+            {
+                if (((Rectangle)e.Source).Name.Equals("DragIconImage"))
+                {
+                    captured = true;
+                    origMouseDownPoint = e.GetPosition(((IInputElement)e.Source));
+
+                    Mouse.Capture((IInputElement)e.Source);
+                    return;
+                }
+                if (((Rectangle)e.Source).Name.Equals("RightRotateIcon"))
+                {
+                    captured = true;
+                    origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                    rotatedir = 1;
+
+                    Mouse.Capture((IInputElement)e.Source);
+                    return;
+                }
+                if (((Rectangle)e.Source).Name.Equals("LeftRotateIcon"))
+                {
+                    captured = true;
+                    origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                    rotatedir = -1;
+
+                    Mouse.Capture((IInputElement)e.Source);
+                    return;
+                }
+            }
+        }
+
+        private RelayCommand<object> _RotateControlMove;
+        public RelayCommand<object> RotateControlMove
+        {
+            get
+            {
+                if (_RotateControlMove == null) return _RotateControlMove = new RelayCommand<object>(param => ExecuteRotateControlMove((MouseEventArgs)param));
+                return _RotateControlMove;
+            }
+            set { _RotateControlMove = value; }
+        }
+
+        private void ExecuteRotateControlMove(MouseEventArgs e)
+        {
+            if (captured == true)
+            {
+                if (((Rectangle)e.Source).Name.Equals("DragIconImage"))
+                {
+                    // 중심점 위치 조정
+                    Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                    double diffX = (curMouseDownPoint.X - origMouseDownPoint.X);
+                    double diffY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
+
+                    _TransX = offset_Left;
+                    _TransY = offset_Top;
+                    _TransX += diffX;
+                    _TransY += diffY;
+
+                    _FrontalCenter.X = _TransX;
+                    _FrontalCenter.Y = _TransY;
+                    RaisePropertyChanged("FrontalCenter");
+
+                    FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
+                    FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
+
+                    Point Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
+                    _RotateControlCenter = Center;
+                    RaisePropertyChanged("RotateControlCenter");
+
+                    offset_Left = _TransX;
+                    offset_Top = _TransY;
+                }
+                else if (((Rectangle)e.Source).Name.Equals("RightRotateIcon") || ((Rectangle)e.Source).Name.Equals("LeftRotateIcon"))
+                {
+                    // 각도 조정
+                    double rotate = 0.5;
+                    if (rotationclicked == false)
+                    {
+                        rotationclicked = true;
+                    }
+
+                    rotate *= rotatedir;
+
+                    _TransfrontalAngle = offset_frontalangle;
+                    _TransfrontalAngle += rotate;
+
+                    if (_TransfrontalAngle < 0)
+                        _TransfrontalAngle += 360;
+                    else
+                        _TransfrontalAngle -= 360;
+
+                    _FrontalAngle = _TransfrontalAngle;
+                    RaisePropertyChanged("FrontalAngle");
+
+                    offset_frontalangle = _TransfrontalAngle;
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Set face opacity

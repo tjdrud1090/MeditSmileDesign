@@ -84,7 +84,11 @@ namespace Process_Page.Cards
         // Checkbox checked event
         private void TeethPointSelect_Checked(object sender, RoutedEventArgs e)
         {
+            ((FaceAlign_PageViewModel)(((FaceAlign_Page)(Application.Current.MainWindow.Content)).DataContext)).RefernceCount = 0;
             ((FaceAlign_PageViewModel)(((FaceAlign_Page)(Application.Current.MainWindow.Content)).DataContext)).refclicked = true;
+            ((FaceAlign_PageViewModel)(((FaceAlign_Page)(Application.Current.MainWindow.Content)).DataContext)).GagRefVisiblity = Visibility.Hidden;
+            ((FaceAlign_PageViewModel)(((FaceAlign_Page)(Application.Current.MainWindow.Content)).DataContext)).FrontalRefVisiblity = Visibility.Hidden;
+            ((FaceAlign_PageViewModel)(((FaceAlign_Page)(Application.Current.MainWindow.Content)).DataContext)).RotateControlVisiblity = Visibility.Hidden;
         }
     }
 }

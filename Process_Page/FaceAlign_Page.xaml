@@ -77,8 +77,13 @@
                               ></Path>
                 <Path Name="FrontalTeethR" Data="{Binding FrontalteethR}" Stroke="LightSkyBlue" StrokeThickness="2" Fill="Black"
                           Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalRefVisiblity}"
-                              >
-                </Path>
+                              ></Path>
+
+                <MouseBehaviours:RotationControl
+                    Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.RotateControlVisiblity}"
+                    Canvas.Left="{Binding ElementName=FaceAlignPage, Path=DataContext.RotateControlCenter.X}"
+                    Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.RotateControlCenter.Y}">
+                </MouseBehaviours:RotationControl>
 
                 <Canvas.RenderTransform>
                     <ScaleTransform CenterX="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.X}" 

@@ -49,7 +49,9 @@
                     <Button Grid.Row="3" Margin="50,20" Content="측 정" Click="SetMeasurement"></Button>
 
                     <Separator Grid.Row="4" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
-                    <CheckBox Grid.Row="5" Margin="10" Content="Teeth Point Select" FontSize="15" Checked="TeethPointSelect_Checked"></CheckBox>
+                    <!--<CheckBox Grid.Row="5" Margin="10" Content="Teeth Point Select" FontSize="15" Checked="TeethPointSelect_Checked"></CheckBox>-->
+                    <Button Grid.Row="5" Margin="50,20" Content="Teeth Selected" Click="TeethPointSelect_Checked"></Button>
+
                 </Grid>
             </Viewbox>
         </materialDesign:Card>

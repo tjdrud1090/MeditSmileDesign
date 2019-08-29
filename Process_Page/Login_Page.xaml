@@ -41,7 +41,7 @@
         <DockPanel>
             <Button Style="{StaticResource MaterialDesignRaisedLightButton}" ToolTip="ID와 Password를 입력하세요"
                 Height="35" VerticalAlignment="Bottom" Background="#FFD2E9FB" BorderBrush="#FF99CEF9"
-                FontWeight="Bold" FontFamily="Microsoft YaHei UI"  RenderTransformOrigin="0.5,0.5" Margin="0,0,0,-286"
+                FontWeight="Bold" FontFamily="./Fonts/#ALGER"  RenderTransformOrigin="0.5,0.5" Margin="0,0,0,-286"
                 Command="{Binding Loginclicked}" Foreground="#FF113466" Content="LOGIN" Width="446"/>
 
         </DockPanel>
@@ -51,6 +51,8 @@
                 Command="{Binding RunDialogCommand}"  BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5"  Click="Button_Click"  Margin="0,774,0,-378" Width="432" Height="Auto" />
         </DockPanel>
 
+        <Label Content="abcd" FontFamily="MeditFont"></Label>
+        
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="2">
         </materialDesign:DialogHost>
 
