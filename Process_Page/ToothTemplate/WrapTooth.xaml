@@ -45,13 +45,13 @@
                    Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
                    Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>            
 
-            <!--<Line x:Name="Teethline5" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline5" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline6" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline7" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline4" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline3" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline2" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline1" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>-->
+            <Line x:Name="Teethline1" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
 
             <Canvas x:Name="Canvas_Smile">
                 <Path x:Name="SmileLine" Stroke="SkyBlue" StrokeThickness="3" />

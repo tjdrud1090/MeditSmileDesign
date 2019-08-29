@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Process_Page.ToothTemplate"
+             
+             xmlns:ViewModel="clr-namespace:Process_Page"
+             
              mc:Ignorable="d" 
              x:Name="DrawTeethControl"
              d:DesignHeight="860" d:DesignWidth="1280">
@@ -18,7 +20,11 @@
     </UserControl.Resources>
 
     <Canvas>
-        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" StrokeThickness="0.3"/>
+        <Canvas.DataContext>
+            <ViewModel:FaceAlign_PageViewModel/>
+        </Canvas.DataContext>
+        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" 
+              StrokeThickness="{Binding drawTeethThickness}"/>
     </Canvas>
 
 </UserControl>

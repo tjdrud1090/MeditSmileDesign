@@ -27,7 +27,6 @@ using MaterialDesignColors;
 using MaterialDesignColors.WpfExample.Domain;
 using Process_Page_Change.Util;
 using Process_Page.ToothTemplate.Utils;
-using Process_Page.ToothTemplate.ArrowLine;
 
 namespace Process_Page
 {
@@ -713,7 +712,84 @@ namespace Process_Page
 
         //scale 조정에 따른 확대 축소시 face line 조정 
         #region sizeChange MouseWheel
+
         //Mouse Wheel size changed
+        private readonly double ScaleFactor = 0.5;
+        private readonly double _dotSize = 1;//닷 사이즈와 wrapping rect의 strokeThickness
+        private readonly double _dotTranslation = -0.5;
+        private readonly double _emphaDotSize = 2;
+        private readonly double _emphaDotTranslation = -1.0;
+        //점 및 강조점 보정은 점 및 강조점의 크기의 -1/2배로 해주면 됩니당ㅇ.ㅇ!!
+        private readonly double _drawTeethThickness = 0.5;
+        private readonly double _resizeBorderThickness = 1;
+        private readonly double _alignLineThickness = 2.5;
+        private readonly double _pinHeadSize = 2.5;
+
+
+        public double alignLineThickness
+        {
+            get
+            {
+                return ScaleFactor * _alignLineThickness / rectsc;
+            }
+        }
+
+        public double pinHeadSize
+        {
+            get
+            {
+                return ScaleFactor * _pinHeadSize / rectsc;
+            }
+        }
+
+        public double drawTeethThickness
+        {
+            get
+            {
+                return ScaleFactor * _drawTeethThickness / rectsc;
+            }
+        }
+
+        public double resizeBorderThickness
+        {
+            get
+            {
+                return ScaleFactor * _resizeBorderThickness / rectsc;
+            }
+        }
+
+        public double emphaDotSize
+        {
+            get
+            {
+                return ScaleFactor * _emphaDotSize / rectsc;
+            }
+        }
+
+        public double emphaDotTranslation
+        {
+            get
+            {
+                return ScaleFactor * _emphaDotTranslation / rectsc;
+            }
+        }
+
+        public double dotSize
+        {
+            get
+            {
+                return ScaleFactor * _dotSize / rectsc;
+            }
+        }
+
+        public double dotTranslation
+        {
+            get
+            {
+                return ScaleFactor * _dotTranslation / rectsc;
+            }
+        }
+
         private double _rectsc = 1;
         public double rectsc
         {
@@ -722,6 +798,14 @@ namespace Process_Page
             {
                 _rectsc = value;
                 RaisePropertyChanged("rectsc");
+                RaisePropertyChanged("dotSize");
+                RaisePropertyChanged("dotTranslation");
+                RaisePropertyChanged("emphaDotSize");
+                RaisePropertyChanged("emphaDotTranslation");
+                RaisePropertyChanged("teethLineThickness");
+                RaisePropertyChanged("pinHeadSize");
+                RaisePropertyChanged("alignLineThickness");
+
             }
         }
 
@@ -740,23 +824,36 @@ namespace Process_Page
         {
             if (e.Delta > 0)
             {
-                if (_rectsc < 7)
+                if (_rectsc < 8)
                 {
-                    _rectsc += 0.1;
+                    _rectsc += 0.25;
                     RaisePropertyChanged("rectsc");
-
-
+                    RaisePropertyChanged("dotSize");
+                    RaisePropertyChanged("dotTranslation");
+                    RaisePropertyChanged("emphaDotSize");
+                    RaisePropertyChanged("emphaDotTranslation");
+                    RaisePropertyChanged("teethLineThickness");
+                    RaisePropertyChanged("pinHeadSize");
+                    RaisePropertyChanged("alignLineThickness");
                 }
             }
             else
             {
-                if (_rectsc > 0.3)
+                if (_rectsc > 0.25)
                 {
-                    _rectsc -= 0.1;
+                    _rectsc -= 0.25;
                     RaisePropertyChanged("rectsc");
+                    RaisePropertyChanged("dotSize");
+                    RaisePropertyChanged("dotTranslation");
+                    RaisePropertyChanged("emphaDotSize");
+                    RaisePropertyChanged("emphaDotTranslation");
+                    RaisePropertyChanged("teethLineThickness");
+                    RaisePropertyChanged("pinHeadSize");
+                    RaisePropertyChanged("alignLineThickness");
                 }
             }
         }
+
         #endregion
 
         //이미지 Drag시 face line 조정
@@ -2852,10 +2949,6 @@ namespace Process_Page
 
             if (!isSizing)
             {
-                //UserControl tooth = e.Source as UserControl;        // UpperTooth, LowerTooth
-                //WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
-                ////WrapTooth wrap = ((UpperTooth)tooth).WrapToothInTooth;
-
                 WrapTooth wrap = e.Source as WrapTooth;
 
                 Point curPoint = e.GetPosition(e.Source as IInputElement);
@@ -3041,6 +3134,9 @@ namespace Process_Page
             }
 
             #endregion
+
+        
+
 
         #endregion
         }

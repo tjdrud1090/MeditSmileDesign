@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              
              xmlns:Utils="clr-namespace:Process_Page.Util"
-             Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForAddPoints}"
+             Utils:MouseBehaviour.MouseDownCommand="{Binding MouseLeftDownForAddPoints}"
              
              x:Name="LowerToothControl"
              d:DesignHeight="450" d:DesignWidth="800">
