@@ -163,7 +163,7 @@ namespace Process_Page.ToothTemplate
                 return;
 
             Border_WrapTooth.Visibility = Visibility.Visible;
-            MoveTop.Visibility = Visibility.Visible;
+            //MoveTop.Visibility = Visibility.Visible;
 
             var pointses = new List<List<Point>>();
             foreach (TeethType high in Points)
@@ -194,7 +194,7 @@ namespace Process_Page.ToothTemplate
 
         public double Top;
         public double Left;
-        readonly double padding = 20;
+        readonly double padding = 10;
 
         private void DrawRect()
         {
@@ -210,7 +210,7 @@ namespace Process_Page.ToothTemplate
             Canvas.SetTop(this, Top);
             Canvas.SetLeft(this, Left);
 
-            MoveTop.Margin = new Thickness(Left + Border_WrapTooth.Width/2, Top - 40, 0, 0);
+            //MoveTop.Margin = new Thickness(Left + Border_WrapTooth.Width/2, Top - 40, 0, 0);
         }
 
         #endregion
@@ -248,12 +248,30 @@ namespace Process_Page.ToothTemplate
         #endregion
 
         #region SmileLine 
+        private void DrawJoseLine(List<List<Point>> all)
+        {
+            Point MaxPoint = Numerics.GetMaxXY_Tooth(Points);
+            Point MinPoint = Numerics.GetMinXY_Tooth(Points);
+            double unitDistance = (MaxPoint.Y - MinPoint.Y) / 2;
+            Point StartPoint =new Point(MinPoint.X-unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
+            Point EndPoint =new Point(MaxPoint.X+unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
+
+            double temp = (MinPoint.X / 2 + MaxPoint.X / 2 - StartPoint.X) / 1.7320508075688772935;//3^0.5
+            Size size = new Size(2 * temp, 2 * temp);
+            ArcSegment arcSegment = new ArcSegment(EndPoint,size,0,false,SweepDirection.Counterclockwise,true);
+
+        }
 
         private void DrawSmileLine(List<List<Point>> all)
         {
+
+
+
             Point Left2 = Numerics.GetMinX_Teeth(all[5]);
             Point Left1 = Numerics.GetMaxY_Teeth(all[4]);
+
             Point Mid = Numerics.GetMaxXY_Tooth(Points);
+
             Point Right1 = Numerics.GetMaxY_Teeth(all[1]);
             Point Right2 = Numerics.GetMaxX_Teeth(all[2]);
 

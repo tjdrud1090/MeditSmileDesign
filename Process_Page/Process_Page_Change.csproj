@@ -182,9 +182,6 @@
     <Compile Include="ToothTemplate\Teeth.xaml.cs">
       <DependentUpon>Teeth.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToothTemplate\Tooth.xaml.cs">
-      <DependentUpon>Tooth.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ToothTemplate\Utils\InterpolationUtils.cs" />
     <Compile Include="ToothTemplate\Utils\Numerics.cs" />
     <Compile Include="ToothTemplate\Utils\ViewUtils.cs" />
@@ -310,10 +307,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ToothTemplate\Teeth.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ToothTemplate\Tooth.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

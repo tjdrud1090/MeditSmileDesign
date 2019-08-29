@@ -1746,7 +1746,9 @@ namespace Process_Page
             //ArrowLine me = e.Source as ArrowLine;
             //Ellipse me = e.Source as Ellipse;
             Image me = e.Source as Image;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+            Border me_border = wrap.FindName("Border_WrapTooth") as Border;
             foreach (Teeth del in SelectedList)
             {
                 RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
@@ -1790,7 +1792,9 @@ namespace Process_Page
             //ArrowLine me = e.Source as ArrowLine;
             //Ellipse me = e.Source as Ellipse;
             Image me = e.Source as Image;
-            WrapTooth wrap = ViewUtils.FindParent(me, (new WrapTooth()).GetType()) as WrapTooth;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+
             if (leftdown == true)
             {
                 Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
@@ -1822,7 +1826,9 @@ namespace Process_Page
             //ArrowLine me = e.Source as ArrowLine;
             //Ellipse me = e.Source as Ellipse;
             Image me = e.Source as Image;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+            Border me_border = wrap.FindName("Border_WrapTooth") as Border;
             me_border.BorderBrush = orgBrush2;
 
             leftdown = false;

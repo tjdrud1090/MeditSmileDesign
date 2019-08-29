@@ -354,7 +354,6 @@ D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\DrawTeeth
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\LowerTooth.g.cs
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\RotateTeeth.g.cs
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\Teeth.g.cs
-D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\Tooth.g.cs
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\UpperTooth.g.cs
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\WrapTeeth.g.cs
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\WrapTooth.g.cs
@@ -388,7 +387,6 @@ D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\DrawTeeth
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\LowerTooth.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\RotateTeeth.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\Teeth.baml
-D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\Tooth.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\UpperTooth.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\WrapTeeth.baml
 D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\x64\Debug\ToothTemplate\WrapTooth.baml

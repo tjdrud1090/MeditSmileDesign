@@ -31,5 +31,12 @@
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
         </Grid>
+        
+        <Image x:Name="MoveTop" Source="/image/DragArrow1.png" 
+               Visibility="Hidden" Width="7" Height="7" Cursor="Hand"
+               Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
+               Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
+               Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
+        
     </Canvas>
 </UserControl>
