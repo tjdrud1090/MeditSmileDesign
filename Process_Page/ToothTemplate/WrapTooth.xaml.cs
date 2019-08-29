@@ -1,6 +1,5 @@
 ﻿using Process_Page.ToothTemplate.Utils;
 using Process_Page.ViewModel;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +31,6 @@ namespace Process_Page.ToothTemplate
         public WrapTooth()
         {
             InitializeComponent();
-
             fillImgName = "color3";
         }
 
@@ -187,7 +185,7 @@ namespace Process_Page.ToothTemplate
                 return;
 
             DrawRect();
-            DrawSmileLine(pointses);
+          //DrawSmileLine(pointses);
             DrawTeethBetweenLine(pointses);
 
         }

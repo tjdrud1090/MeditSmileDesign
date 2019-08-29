@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              
              xmlns:Util="clr-namespace:Process_Page.Util"  
-             Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForAddPoints}"
+             
              
              x:Name="Wrap"
              d:DesignHeight="860" d:DesignWidth="1280">
