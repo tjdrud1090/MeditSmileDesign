@@ -628,9 +628,6 @@ namespace Process_Page.ViewModel
             _WheelMouseCenter.X = _midline.StartPoint.X;
             _WheelMouseCenter.Y = height / 2;
             RaisePropertyChanged("WheelMouseCenter");
-
-            offset_LeftGag = _GagCenter.X;
-            offset_TopGag = _GagCenter.Y;
         }
 
         public void SetAlign()
@@ -701,9 +698,6 @@ namespace Process_Page.ViewModel
             _WheelMouseCenter.X = _midline.StartPoint.X;
             _WheelMouseCenter.Y = height / 2;
             RaisePropertyChanged("WheelMouseCenter");
-
-            offset_Left = _FrontalCenter.X;
-            offset_Top = _FrontalCenter.Y;
         }
 
         private void ToothAlign()
@@ -743,8 +737,6 @@ namespace Process_Page.ViewModel
             _RotateControlCenter.Y = _lipline.StartPoint.Y;
             RaisePropertyChanged("RotateControlCenter");
 
-            offset_Left = _FrontalCenter.X;
-            offset_Top = _FrontalCenter.Y;
             offset_frontalangle = _FrontalAngle;
         }
         #endregion
@@ -885,30 +877,6 @@ namespace Process_Page.ViewModel
         private Point origMouseDownPoint;
 
         #region control offset
-        // Frontal image offset
-        double offset_Left;
-        double offset_Top;
-        private double _TransX;
-        private double _TransY;
-
-        // Gag image offset
-        double offset_LeftGag;
-        double offset_TopGag;
-        private double _TransGagX;
-        private double _TransGagY;
-
-        // Upper Tooth template offset
-        double offset_LeftUpperTooth;
-        double offset_TopUpperTooth;
-        private double _TransUpperToothX;
-        private double _TransUpperToothY;
-
-        // Lower tooth template offset
-        double offset_LeftLowerTooth;
-        double offset_TopLowerTooth;
-        private double _TransLowerToothX;
-        private double _TransLowerToothY;
-
         // Frontal Image angle offset
         double offset_frontalangle;
         private double _TransfrontalAngle;
@@ -952,38 +920,6 @@ namespace Process_Page.ViewModel
                     }
 
                     Point curMouseDownPoint = e.GetPosition((IInputElement)((UserControl)e.Source).Parent);
-                    _TransX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransX += offset_Left;
-                    _TransY += offset_Top;
-
-                    _TransGagX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransGagY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransGagX += offset_LeftGag;
-                    _TransGagY += offset_TopGag;
-
-                    _TransUpperToothX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransUpperToothY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransUpperToothX += offset_LeftUpperTooth;
-                    _TransUpperToothY += offset_TopUpperTooth;
-
-                    _TransLowerToothX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransLowerToothY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransLowerToothX += offset_LeftLowerTooth;
-                    _TransLowerToothY += offset_TopLowerTooth;
-
-                    _FrontalCenter.X = _TransX;
-                    _FrontalCenter.Y = _TransY;
-                    RaisePropertyChanged("FrontalCenter");
-
-                    _GagCenter.X = _TransGagX;
-                    _GagCenter.Y = _TransGagY;
-                    RaisePropertyChanged("GagCenter");
-
-                    Canvas.SetLeft(Uppertooth, _TransUpperToothX);
-                    Canvas.SetTop(Uppertooth, _TransUpperToothY);
-                    Canvas.SetLeft(Lowertooth, _TransLowerToothX);
-                    Canvas.SetTop(Lowertooth, _TransLowerToothY);
 
                     //face line moving
                     double diffX = (curMouseDownPoint.X - orginal_width);
@@ -1011,9 +947,26 @@ namespace Process_Page.ViewModel
                     FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
                     FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
 
+                    // image canvas
                     Point Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
                     _RotateControlCenter = Center;
                     RaisePropertyChanged("RotateControlCenter");
+
+                    Center = new Point(_FrontalCenter.X + diffX, _FrontalCenter.Y + diffY);
+                    _FrontalCenter = Center;
+                    RaisePropertyChanged("FrontalCenter");
+
+                    Center = new Point(_GagCenter.X + diffX, _GagCenter.Y + diffY);
+                    _GagCenter = Center;
+                    RaisePropertyChanged("GagCenter");
+
+                    //Center = new Point(_ToothUpperCenter.X + diffX, _ToothUpperCenter.Y + diffY);
+                    //_ToothUpperCenter = Center;
+                    //RaisePropertyChanged("ToothUpperCenter");
+
+                    //Center = new Point(_ToothLowerCenter.X + diffX, _ToothLowerCenter.Y + diffY);
+                    //_ToothLowerCenter = Center;
+                    //RaisePropertyChanged("ToothLowerCenter");
 
                     orginal_width = curMouseDownPoint.X;
                     orginal_height = curMouseDownPoint.Y;
@@ -1241,15 +1194,6 @@ namespace Process_Page.ViewModel
             }
             if (e.Source.GetType() == typeof(ImageCanvas))
             {
-                offset_Left = _TransX;
-                offset_Top = _TransY;
-                offset_LeftGag = _TransGagX;
-                offset_TopGag = _TransGagY;
-                offset_LeftUpperTooth = _TransUpperToothX;
-                offset_TopUpperTooth = _TransUpperToothY;
-                offset_LeftLowerTooth = _TransLowerToothX;
-                offset_TopLowerTooth = _TransLowerToothY;
-
                 captured = false;
                 Mouse.Capture(null);
                 return;
@@ -1354,24 +1298,16 @@ namespace Process_Page.ViewModel
                     double diffX = (curMouseDownPoint.X - origMouseDownPoint.X);
                     double diffY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
 
-                    _TransX = offset_Left;
-                    _TransY = offset_Top;
-                    _TransX += diffX;
-                    _TransY += diffY;
-
-                    _FrontalCenter.X = _TransX;
-                    _FrontalCenter.Y = _TransY;
+                    Point Center = new Point(_FrontalCenter.X + diffX, _FrontalCenter.Y + diffY);
+                    _FrontalCenter = Center;
                     RaisePropertyChanged("FrontalCenter");
 
                     FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
                     FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
 
-                    Point Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
+                    Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
                     _RotateControlCenter = Center;
                     RaisePropertyChanged("RotateControlCenter");
-
-                    offset_Left = _TransX;
-                    offset_Top = _TransY;
                 }
                 else if (((Rectangle)e.Source).Name.Equals("RightRotateIcon") || ((Rectangle)e.Source).Name.Equals("LeftRotateIcon"))
                 {
@@ -1404,7 +1340,7 @@ namespace Process_Page.ViewModel
 
         #endregion
 
-        #region Set face opacity
+        #region Set face ZIndex
         private bool clickedRight = false;
         private UserControl currentclicked;
 
@@ -1426,7 +1362,12 @@ namespace Process_Page.ViewModel
                 if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     currentclicked = ((UserControl)(e.Source));
-                    currentclicked.Opacity = 0;
+                    if (!currentclicked.Name.Equals("GagFaceImage"))
+                        return;
+                    int currentZIndex = Canvas.GetZIndex(currentclicked);
+                    Canvas.SetZIndex(currentclicked, currentZIndex - 1);
+
+                    currentclicked.Opacity = 0.5;
 
                     Mouse.Capture((IInputElement)e.Source);
                 }
@@ -1434,7 +1375,9 @@ namespace Process_Page.ViewModel
             }
             else
             {
-                currentclicked.Opacity = 0.5;
+                int currentZIndex = Canvas.GetZIndex(currentclicked);
+                Canvas.SetZIndex(currentclicked, currentZIndex + 1);
+                currentclicked.Opacity = 1;
                 clickedRight = false;
             }
         }

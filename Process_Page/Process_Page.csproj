@@ -143,6 +143,7 @@
     <Compile Include="PatientInfo_Page.xaml.cs">
       <DependentUpon>PatientInfo_Page.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SaveInfo.cs" />
     <Compile Include="SmileDesign_Page.xaml.cs">
       <DependentUpon>SmileDesign_Page.xaml</DependentUpon>
     </Compile>

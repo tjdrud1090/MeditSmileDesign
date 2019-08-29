@@ -218,16 +218,10 @@ namespace Process_Page.ViewModel
             _ToothUpperCenter.Y = _lipline.StartPoint.Y;
             RaisePropertyChanged("ToothUpperCenter");
 
-            offset_LeftUpperTooth = _ToothUpperCenter.X;
-            offset_TopUpperTooth = _ToothUpperCenter.Y;
-
             // Lower Tooth 위치 선정
             _ToothLowerCenter.X = midline.StartPoint.X;
             _ToothLowerCenter.Y = _lipline.StartPoint.Y + 10;
             RaisePropertyChanged("ToothLowerCenter");
-
-            offset_LeftLowerTooth = _ToothLowerCenter.X;
-            offset_TopLowerTooth = _ToothLowerCenter.Y;
         }
 
         public void draw_faceline()
@@ -275,11 +269,6 @@ namespace Process_Page.ViewModel
 
             _FrontalMouthPoints = ((FaceAlign_PageViewModel)(faceAlignInfo.DataContext)).FrontalMouthPoints;
             RaisePropertyChanged("FrontalMouthPoints");
-
-            offset_Left = FrontalCenter.X;
-            offset_Top = FrontalCenter.Y;
-            offset_LeftGag = GagCenter.X;
-            offset_TopGag = GagCenter.Y;
         }
         #endregion
 
@@ -425,30 +414,6 @@ namespace Process_Page.ViewModel
         private double orginal_height;
         private Point origMouseDownPoint;
 
-        // Frontal image offset
-        double offset_Left;
-        double offset_Top;
-        private double _TransX;
-        private double _TransY;
-
-        // Gag image offset
-        double offset_LeftGag;
-        double offset_TopGag;
-        private double _TransGagX;
-        private double _TransGagY;
-
-        // Upper Tooth template offset
-        double offset_LeftUpperTooth;
-        double offset_TopUpperTooth;
-        private double _TransUpperToothX;
-        private double _TransUpperToothY;
-
-        // Lower tooth template offset
-        double offset_LeftLowerTooth;
-        double offset_TopLowerTooth;
-        private double _TransLowerToothX;
-        private double _TransLowerToothY;
-
         private RelayCommand<object> _mouseMoveCommand;
         public RelayCommand<object> MouseMoveCommand
         {
@@ -480,6 +445,7 @@ namespace Process_Page.ViewModel
                 else if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     Canvas imageCanvas = ((UserControl)e.Source).Parent as Canvas;
+
                     UIElement Uppertooth = new UIElement();
                     UIElement Lowertooth = new UIElement();
 
@@ -492,41 +458,6 @@ namespace Process_Page.ViewModel
                     }
 
                     Point curMouseDownPoint = e.GetPosition((IInputElement)((UserControl)e.Source).Parent);
-                    _TransX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransX += offset_Left;
-                    _TransY += offset_Top;
-
-                    _TransGagX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransGagY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransGagX += offset_LeftGag;
-                    _TransGagY += offset_TopGag;
-
-                    _TransUpperToothX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransUpperToothY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransUpperToothX += offset_LeftUpperTooth;
-                    _TransUpperToothY += offset_TopUpperTooth;
-
-                    _TransLowerToothX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransLowerToothY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransLowerToothX += offset_LeftLowerTooth;
-                    _TransLowerToothY += offset_TopLowerTooth;
-
-                    _FrontalCenter.X = _TransX;
-                    _FrontalCenter.Y = _TransY;
-                    RaisePropertyChanged("FrontalCenter");
-
-                    _GagCenter.X = _TransGagX;
-                    _GagCenter.Y = _TransGagY;
-                    RaisePropertyChanged("GagCenter");
-
-                    _ToothUpperCenter.X = _TransUpperToothX;
-                    _ToothUpperCenter.Y = _TransUpperToothY;
-                    RaisePropertyChanged("ToothUpperCenter");
-
-                    _ToothLowerCenter.X = _TransLowerToothX;
-                    _ToothLowerCenter.Y = _TransLowerToothY;
-                    RaisePropertyChanged("ToothLowerCenter");
 
                     //face line moving
                     double diffX = (curMouseDownPoint.X - orginal_width);
@@ -544,6 +475,22 @@ namespace Process_Page.ViewModel
                     lipline.StartPoint = new Point(_lipline.StartPoint.X, _lipline.StartPoint.Y + diffY);
                     lipline.EndPoint = new Point(_lipline.EndPoint.X, _lipline.EndPoint.Y + diffY);
 
+                    Point Center = new Point(_FrontalCenter.X + diffX, _FrontalCenter.Y + diffY);
+                    _FrontalCenter = Center;
+                    RaisePropertyChanged("FrontalCenter");
+
+                    Center = new Point(_GagCenter.X + diffX, _GagCenter.Y + diffY);
+                    _GagCenter = Center;
+                    RaisePropertyChanged("GagCenter");
+
+                    Center = new Point(_ToothUpperCenter.X + diffX, _ToothUpperCenter.Y + diffY);
+                    _ToothUpperCenter = Center;
+                    RaisePropertyChanged("ToothUpperCenter");
+
+                    Center = new Point(_ToothLowerCenter.X + diffX, _ToothLowerCenter.Y + diffY);
+                    _ToothLowerCenter = Center;
+                    RaisePropertyChanged("ToothLowerCenter");
+
                     orginal_width = curMouseDownPoint.X;
                     orginal_height = curMouseDownPoint.Y;
                 }
@@ -559,25 +506,13 @@ namespace Process_Page.ViewModel
                         _midline.EndPoint = pt2;
                         RaisePropertyChanged("midline");
 
-                        _TransUpperToothX = offset_LeftUpperTooth;
-                        _TransUpperToothY = offset_TopUpperTooth;
-                        _TransLowerToothX = offset_LeftLowerTooth;
-                        _TransLowerToothY = offset_TopLowerTooth;
-
-                        _TransUpperToothX += diff;
-                        _TransLowerToothX += diff;
-
-                        _ToothUpperCenter.X = _TransUpperToothX;
-                        _ToothUpperCenter.Y = _TransUpperToothY;
+                        Point Center = new Point(_ToothUpperCenter.X + diff, _ToothUpperCenter.Y);
+                        _ToothUpperCenter = Center;
                         RaisePropertyChanged("ToothUpperCenter");
-                        _ToothLowerCenter.X = _TransLowerToothX;
-                        _ToothLowerCenter.Y = _TransLowerToothY;
-                        RaisePropertyChanged("ToothLowerCenter");
 
-                        offset_LeftUpperTooth = _TransUpperToothX;
-                        offset_TopUpperTooth = _TransUpperToothY;
-                        offset_LeftLowerTooth = _TransLowerToothX;
-                        offset_TopLowerTooth = _TransLowerToothY;
+                        Center = new Point(_ToothLowerCenter.X + diff, _ToothLowerCenter.Y);
+                        _ToothLowerCenter = Center;
+                        RaisePropertyChanged("ToothLowerCenter");
 
                         orginal_width = e.GetPosition((IInputElement)e.Source).X;
                     }
@@ -702,15 +637,6 @@ namespace Process_Page.ViewModel
             }
             if (e.Source.GetType() == typeof(ImageCanvas))
             {
-                offset_Left = _TransX;
-                offset_Top = _TransY;
-                offset_LeftGag = _TransGagX;
-                offset_TopGag = _TransGagY;
-                offset_LeftUpperTooth = _TransUpperToothX;
-                offset_TopUpperTooth = _TransUpperToothY;
-                offset_LeftLowerTooth = _TransLowerToothX;
-                offset_TopLowerTooth = _TransLowerToothY;
-
                 captured = false;
                 Mouse.Capture(null);
                 return;
@@ -719,11 +645,6 @@ namespace Process_Page.ViewModel
             {
                 if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
                 {
-                    offset_LeftUpperTooth = _TransUpperToothX;
-                    offset_TopUpperTooth = _TransUpperToothY;
-                    offset_LeftLowerTooth = _TransLowerToothX;
-                    offset_TopLowerTooth = _TransLowerToothY;
-
                     captured = false;
                     Mouse.Capture(null);
                     return;
@@ -732,7 +653,6 @@ namespace Process_Page.ViewModel
                 Mouse.Capture(null);
             }
         }
-
         #endregion
 
         #region Set face ZIndex
@@ -2280,7 +2200,7 @@ namespace Process_Page.ViewModel
 
             #endregion
 
-            #endregion
+        #endregion
         }
     }
 }
