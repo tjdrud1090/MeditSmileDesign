@@ -18,14 +18,24 @@ namespace Process_Page.Util
 {
     public class FaceDetector
     {
+        // face points
+        //  - eye
+        //  - mouth
+        //  - midline
+        //  - nose
+        //  - mouth points : 입 안의 영역을 따올 수 있도록 하는 포인트들
+        //      * 48 ~ 67까지
+
         public class face_point
         {
             public List<OpenCvSharp.Point> eye;
             public List<OpenCvSharp.Point> mouse;
             public List<OpenCvSharp.Point> midline;
             public List<OpenCvSharp.Point> nose;
+            public List<OpenCvSharp.Point> mouth;
 
             public int element_capacity = 2;
+            public int mouth_capacity;
 
             public face_point()
             {
@@ -33,6 +43,7 @@ namespace Process_Page.Util
                 mouse = new List<OpenCvSharp.Point>();
                 midline = new List<OpenCvSharp.Point>();
                 nose = new List<OpenCvSharp.Point>();
+                mouth = new List<OpenCvSharp.Point>();
             }
         }
 
@@ -126,6 +137,49 @@ namespace Process_Page.Util
                 Ecpointe.X = (cpointe1.X + cpointe2.X) / 2;
                 Ecpointe.Y = (cpointe1.Y + cpointe2.Y) / 2;
                 fp.midline.Add(Ecpointe);
+
+                // mouth points  : 입안 영역 따올 수 있는 포인트들 60~67 + 4
+                //  - capcity : 24
+                int count = 0;
+                for (var i = 60; i < shape.Parts; i++)
+                {
+                    OpenCvSharp.Point cpoint;
+                    var point = shape.GetPart((uint)i);
+                    cpoint.X = point.X;
+                    cpoint.Y = point.Y;
+                    fp.mouth.Add(cpoint);
+
+                    if (i == 60)
+                    {
+                        OpenCvSharp.Point cpointex;
+                        cpointex.X = shape.GetPart((uint)49).X;
+                        cpointex.Y = (shape.GetPart((uint)49).Y + shape.GetPart((uint)49).Y) / 2;
+                        fp.mouth.Add(cpointex);
+                    }
+                    else if (i == 63)
+                    {
+                        OpenCvSharp.Point cpointex1;
+                        cpointex1.X = shape.GetPart((uint)53).X;
+                        cpointex1.Y = (shape.GetPart((uint)64).Y + shape.GetPart((uint)53).Y) / 2;
+                        fp.mouth.Add(cpointex1);
+                    }
+                    else if (i == 64)
+                    {
+                        OpenCvSharp.Point cpointex2;
+                        cpointex2.X = shape.GetPart((uint)55).X;
+                        cpointex2.Y = (shape.GetPart((uint)55).Y + shape.GetPart((uint)64).Y) / 2;
+                        fp.mouth.Add(cpointex2);
+                    }
+                    else if (i == 67)
+                    {
+                        OpenCvSharp.Point cpointex3;
+                        cpointex3.X = shape.GetPart((uint)59).X;
+                        cpointex3.Y = (shape.GetPart((uint)59).Y + shape.GetPart((uint)60).Y) / 2;
+                        fp.mouth.Add(cpointex3);
+                    }
+                    count++;
+                }
+                fp.mouth_capacity = count;
             }
 
             //image 반환

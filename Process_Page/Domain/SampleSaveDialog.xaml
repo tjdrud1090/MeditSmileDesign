@@ -18,22 +18,22 @@
 
             </Button>
             <Button IsCancel="True" Margin="8,3,0,4" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Content="{materialDesign:PackIcon CloseOutline}" Width="48" ToolTip="취소">
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Content="{materialDesign:PackIcon CloseOutline}" Width="48" ToolTip="취소" Click="clickclose">
                 <Button.CommandParameter>
                     <system:Boolean>False</system:Boolean>
                 </Button.CommandParameter>
             </Button>
         </StackPanel>
-        <Image x:Name="image" Width="{Binding ElementName=SavePage, Path=ActualWidth}"
-               Height="700"
-               Source="{Binding finalimage}" Margin="0" Stretch="UniformToFill" />
-
-
+        <Image x:Name="image"
+               Source="{Binding finalimage}" Margin="0,50,288,135" Stretch="Uniform" />
+        <Image x:Name="upimage" HorizontalAlignment="Left" Height="284" Margin="617,50,0,0" VerticalAlignment="Top" Width="273" Source="{Binding upperimage}"/>
+        <Image x:Name="downimage" HorizontalAlignment="Left" Height="305" Margin="617,360,0,0" VerticalAlignment="Top" Width="273" Source="{Binding Lowerimage}"/>
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="2">
+
         </materialDesign:DialogHost>
-        <CheckBox x:Name="checkline" Margin="616,704,150,35" IsChecked="{Binding checkfaceline}">face line</CheckBox>
+
         <CheckBox x:Name="checkupteeth" Margin="326,704,440,35" IsChecked="{Binding checkteeth}">Upper tooth</CheckBox>
-        <CheckBox x:Name="checkdownteeth" Margin="471,704,295,35" IsChecked="{Binding checkdownfaceline}">Lower tooth</CheckBox>
+        <CheckBox x:Name="checkdownteeth" Margin="471,704,150,35" IsChecked="{Binding checkdownfaceline}">Lower tooth</CheckBox>
         <CheckBox x:Name="checksmile" Margin="181,704,585,35" IsChecked="{Binding checksmile}">Smile image</CheckBox>
         <CheckBox x:Name="checkopener" Margin="36,704,730,35" IsChecked="{Binding checkopener}">Opener image</CheckBox>
     </Grid>

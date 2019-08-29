@@ -15,12 +15,12 @@ namespace Process_Page.Util
         double img_height;
         double img_width;
 
-        private ToothTemplate_Step mainwnd;
+        private MainWindow mainwnd;
 
         public DrawFaceAlign()
         {
             face_landmark = new FaceDetector.face_point();
-            mainwnd = System.Windows.Application.Current.MainWindow as ToothTemplate_Step;
+            mainwnd = System.Windows.Application.Current.MainWindow as MainWindow;
         }
 
         public DrawFaceAlign(FaceDetector.face_point face_Point, double height, double width)

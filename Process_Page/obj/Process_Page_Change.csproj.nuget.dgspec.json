@@ -1,27 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bit\\Desktop\\Process_Page (4)\\Process_Page\\Process_Page_Change.csproj": {}
+    "D:\\Process_Page\\Process_Page_Change.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bit\\Desktop\\Process_Page (4)\\Process_Page\\Process_Page_Change.csproj": {
+    "D:\\Process_Page\\Process_Page_Change.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bit\\Desktop\\Process_Page (4)\\Process_Page\\Process_Page_Change.csproj",
+        "projectUniqueName": "D:\\Process_Page\\Process_Page_Change.csproj",
         "projectName": "Process_Page_Change",
-        "projectPath": "C:\\Users\\bit\\Desktop\\Process_Page (4)\\Process_Page\\Process_Page_Change.csproj",
-        "packagesPath": "C:\\Users\\bit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bit\\Desktop\\Process_Page (4)\\Process_Page\\obj\\",
+        "projectPath": "D:\\Process_Page\\Process_Page_Change.csproj",
+        "packagesPath": "C:\\Users\\bit-user\\.nuget\\packages\\",
+        "outputPath": "D:\\Process_Page\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
-          "C:\\Users\\bit\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\bit-user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net472"
         ],
         "sources": {
-          "D:\\Visual\\Process_Page\\MigrationBackup\\a118739c\\Process_Page\\obj": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -36,6 +37,10 @@
             "DlibDotNet": {
               "target": "Package",
               "version": "[19.17.0.20190623, )"
+            },
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[3.5.0, )"
             },
             "MaterialDesignColors": {
               "target": "Package",

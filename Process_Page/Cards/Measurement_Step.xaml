@@ -18,6 +18,8 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="0" Stretch="Uniform" Margin="20,0">
                         <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
@@ -30,20 +32,24 @@
 
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"></ColumnDefinition>
-                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="60*"></ColumnDefinition>
+                            <ColumnDefinition Width="40*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Viewbox Grid.Column="0" Margin="10">
                             <TextBlock Text="Measure (mm) : "
                                 Style="{StaticResource MaterialDesignHeadlineTextBlock}"
                                HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                         </Viewbox>
-                        <Viewbox Grid.Column="1" Stretch="Uniform">
-                            <!--<utils:NumericUpDown HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="115"></utils:NumericUpDown>-->
-                                <!--<ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Width="115"></ComboBox>-->
+                        <Viewbox Grid.Column="1" Stretch="Uniform" Margin="20">
+                            <utils:NumericUpDown x:Name="TeethActualSize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                 Width="90"
+                                                 Value="8.0" Minimum="7.8" Maximum="10.0" StepValue="0.01"></utils:NumericUpDown>
                         </Viewbox>
                     </Grid>
-                    <Button Grid.Row="3" Margin="50,20" Content="측 정"></Button>
+                    <Button Grid.Row="3" Margin="50,20" Content="측 정" Click="SetMeasurement"></Button>
+
+                    <Separator Grid.Row="4" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
+                    <Button Grid.Row="5" Margin="50,20" Content="Teeth Selected" Click="TeethPointSelect_Checked"></Button>
                 </Grid>
             </Viewbox>
         </materialDesign:Card>

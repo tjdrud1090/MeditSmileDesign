@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Process_Page_Change.Cards
+namespace Process_Page.Cards
 {
     /// <summary>
     /// layoutTemplate.xaml에 대한 상호 작용 논리
@@ -58,25 +58,6 @@ namespace Process_Page_Change.Cards
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
-
-        //private layout _SelectedItem;
-        //public layout SelectedItem
-        //{
-        //    get
-        //    {
-        //        if (_SelectedItem != null)
-        //        {
-        //            Selected = _SelectedItem.imagesource;
-        //            OnPropertyChanged("Selected");
-        //        }
-        //        return _SelectedItem;
-        //    }
-        //    set
-        //    {
-        //        _SelectedItem = value;
-        //    }
-        //}
-
 
         // Collection
         public static ObservableCollection<layout> collection { get; set; }

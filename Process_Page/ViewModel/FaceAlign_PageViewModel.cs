@@ -28,91 +28,146 @@ using MaterialDesignColors.WpfExample.Domain;
 using Process_Page_Change.Util;
 using Process_Page.ToothTemplate.Utils;
 using Process_Page.ToothTemplate.ArrowLine;
+using Process_Page.Domain;
+using System.Xml.Serialization;
 
-namespace Process_Page
+using IOText = System.IO;
+using System.Xml;
+
+namespace Process_Page.ViewModel
 {
-    using ToothType = ObservableCollection<ObservableCollection<PointViewModel>>;
-    using TeethType = ObservableCollection<PointViewModel>;
-
     public class FaceAlign_PageViewModel : ViewModelBase
     {
-        SmileDesign_Page main;
-
+     
         #region constructor
         public FaceAlign_PageViewModel()
         {
-            isSizing = false;
-            isFirstTimeMovedOnSizingTooth = true;
-            firstRotate = Enumerable.Repeat(true, 10).ToList();
+            GagFacePoints.eye.Add(new OpenCvSharp.Point(0, 0));
+            GagFacePoints.eye.Add(new OpenCvSharp.Point(0, 0));
+            GagFacePoints.mouse.Add(new OpenCvSharp.Point(0, 0));
+            GagFacePoints.mouse.Add(new OpenCvSharp.Point(0, 0));
+            GagFacePoints.midline.Add(new OpenCvSharp.Point(0, 0));
+            GagFacePoints.midline.Add(new OpenCvSharp.Point(0, 0));
 
-            fp.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp.midline.Add(new OpenCvSharp.Point(0, 0));
-            fp.midline.Add(new OpenCvSharp.Point(0, 0));
+            FrontalFacePoints.eye.Add(new OpenCvSharp.Point(0, 0));
+            FrontalFacePoints.eye.Add(new OpenCvSharp.Point(0, 0));
+            FrontalFacePoints.mouse.Add(new OpenCvSharp.Point(0, 0));
+            FrontalFacePoints.mouse.Add(new OpenCvSharp.Point(0, 0));
+            FrontalFacePoints.midline.Add(new OpenCvSharp.Point(0, 0));
+            FrontalFacePoints.midline.Add(new OpenCvSharp.Point(0, 0));
 
-            fp1.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp1.eye.Add(new OpenCvSharp.Point(0, 0));
-            fp1.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp1.mouse.Add(new OpenCvSharp.Point(0, 0));
-            fp1.midline.Add(new OpenCvSharp.Point(0, 0));
-            fp1.midline.Add(new OpenCvSharp.Point(0, 0));
-
-            flowname.Add("Face Align");
-            flowname.Add("Measurement");
-            flowname.Add("ToothTemplate");
+            // 단계별 내용
+            flowname.Add("Face Line \ncoordinates");
+            flowname.Add("Face Align \n& Measurement");
 
             _changeText = flowname.ElementAt(0);
             _showControl0 = Visibility.Visible;
             _showControl1 = Visibility.Hidden;
-            _showControl2 = Visibility.Hidden;
             _FaceLineVisiblity = Visibility.Visible;
             _LineVisiblity = Visibility.Visible;
+            _FrontalRefVisiblity = Visibility.Hidden;
+            _GagRefVisiblity = Visibility.Hidden;
 
             RaisePropertyChanged("showControl0");
             RaisePropertyChanged("showControl1");
-            RaisePropertyChanged("showControl2");
             RaisePropertyChanged("FaceLineVisiblity");
             RaisePropertyChanged("LineVisiblity");
 
             RaisePropertyChanged("changeText");
             RaisePropertyChanged("openFileClick");
+
+            RaisePropertyChanged("FrontalRefVisiblity");
+            RaisePropertyChanged("GagRefVisiblity");
         }
         #endregion
 
-        #region Change Page Command
-        //command binding
-        private RelayCommand<object> _nextFlowClick;
-        public RelayCommand<object> nextFlowClick
+        #region Page Change command
+        private RelayCommand<object> _NextPageClick;
+        public RelayCommand<object> NextPageClick
         {
             get
             {
-                if (_nextFlowClick == null)
-                    return _nextFlowClick = new RelayCommand<object>(param => this.NextFlowClicked());
-                return _nextFlowClick;
+                if (_NextPageClick == null)
+                    return _NextPageClick = new RelayCommand<object>(param => this.NextFlowClicked());
+                return _NextPageClick;
             }
             set
             {
-                _nextFlowClick = value;
-            }
-        }
-        private RelayCommand<object> _prevFlowClick;
-        public RelayCommand<object> prevFlowClick
-        {
-            get
-            {
-                if (_prevFlowClick == null)
-                    return _prevFlowClick = new RelayCommand<object>(param => this.PrevFlowClicked());
-                return _prevFlowClick;
-            }
-            set
-            {
-                _prevFlowClick = value;
+                _NextPageClick = value;
             }
         }
 
-        List<string> flowname = new List<string>();
+        //  Manual
+
+        private RelayCommand<object> _Teeth_point_manual;
+        public RelayCommand<object> Teeth_point_manual
+        {
+            get
+            {
+                if (_Teeth_point_manual == null)
+                    return _Teeth_point_manual = new RelayCommand<object>(param => this.teethManual());
+                return _Teeth_point_manual;
+            }
+            set
+            {
+                _Teeth_point_manual = value;
+            }
+        }
+        public void teethManual()
+        {
+            ExecuteRunDialoga(0);
+        }
+
+        private async void ExecuteRunDialoga(object o)
+        {
+            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            var view = new Manual1
+            {
+                DataContext = new FaceAlign_PageViewModel()
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandlerr);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+        private void ClosingEventHandlerr(object sender, DialogClosingEventArgs eventArgs)
+        {
+            Console.WriteLine("You can intercept the closing event, and cancel here.");
+        }
+
+
+
+
+
+
+
+
+
+
+
+        private RelayCommand<object> _PrePageClick;
+        public RelayCommand<object> PrePageClick
+        {
+            get
+            {
+                if (_PrePageClick == null)
+                    return _PrePageClick = new RelayCommand<object>(param => this.PrevFlowClicked());
+                return _PrePageClick;
+            }
+            set
+            {
+                _PrePageClick = value;
+            }
+        }
+       
+           
+
+
+
+            List<string> flowname = new List<string>();
+        // 단계 : Face Line coordinates(0) => Face Align & Measurement(1)
 
         public void NextFlowClicked()
         {
@@ -134,37 +189,39 @@ namespace Process_Page
                     RaisePropertyChanged("changeText");
                     break;
                 case 2:
-                    _showControl1 = Visibility.Hidden;
-                    _showControl2 = Visibility.Visible;
-                    _FaceLineVisiblity = Visibility.Visible;
-
-                    _changeText = flowname.ElementAt(2);
-                    RaisePropertyChanged("showControl1");
-                    RaisePropertyChanged("showControl2");
-                    RaisePropertyChanged("FaceLineVisiblity");
-
-                    RaisePropertyChanged("changeText");
-
-                    // Upper Tooth 위치 선정
-                    _ToothUpperCenter.X = midline.StartPoint.X;
-                    _ToothUpperCenter.Y = lipline.EndPoint.Y;
-                    RaisePropertyChanged("ToothUpperCenter");
-
-                    offset_LeftUpperTooth = _ToothUpperCenter.X;
-                    offset_TopUpperTooth = _ToothUpperCenter.Y;
-
-                    // Lower Tooth 위치 선정
-                    _ToothLowerCenter.X = midline.StartPoint.X;
-                    _ToothLowerCenter.Y = lipline.EndPoint.Y + 10;
-                    RaisePropertyChanged("ToothLowerCenter");
-
-                    offset_LeftLowerTooth = _ToothLowerCenter.X;
-                    offset_TopLowerTooth = _ToothLowerCenter.Y;
-
+                    if (RefernceCount < 4)
+                    {
+                        // 메시지 추가
+                        return;
+                    }
+                    //SaveXML();
+                    SetnewPage();
                     break;
                 default:
                     break;
             }
+        }
+
+        public void SetnewPage()
+        {
+
+            System.Windows.Application.Current.MainWindow.UpdateLayout();
+            var mainWnd = ((MainWindow)System.Windows.Application.Current.MainWindow) as MainWindow;
+            var current = mainWnd.Content as FaceAlign_Page;
+
+            if (mainWnd.OldPage != null)
+            {
+                System.Windows.Application.Current.MainWindow.Content = mainWnd.OldPage as SmileDesign_Page;
+                mainWnd.OldPage = (FrameworkElement)current;
+                return;
+            }
+
+            mainWnd.OldPage = (FrameworkElement)(System.Windows.Application.Current.MainWindow.Content);
+
+            // 다음 페이지에 넘겨주어야할 정보
+
+            SmileDesign_Page page = new SmileDesign_Page();
+            System.Windows.Application.Current.MainWindow.Content = page;
         }
 
         public void PrevFlowClicked()
@@ -185,18 +242,12 @@ namespace Process_Page
                     RaisePropertyChanged("LineVisiblity");
 
                     RaisePropertyChanged("changeText");
-                    break;
-                case 1:
-                    _showControl1 = Visibility.Visible;
-                    _showControl2 = Visibility.Hidden;
-                    _FaceLineVisiblity = Visibility.Hidden;
 
-                    _changeText = flowname.ElementAt(1);
-                    RaisePropertyChanged("showControl1");
-                    RaisePropertyChanged("showControl2");
-                    RaisePropertyChanged("FaceLineVisiblity");
+                    _FrontalRefVisiblity = Visibility.Hidden;
+                    _GagRefVisiblity = Visibility.Hidden;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+                    RaisePropertyChanged("GagRefVisiblity");
 
-                    RaisePropertyChanged("changeText");
                     break;
                 default:
                     break;
@@ -243,32 +294,6 @@ namespace Process_Page
                 }
             }
         }
-        private Visibility _showControl2;
-        public Visibility showControl2
-        {
-            get { return _showControl2; }
-            set
-            {
-                if (_showControl2 != value)
-                {
-                    _showControl2 = value;
-                    RaisePropertyChanged("showControl2");
-                }
-            }
-        }
-        private Visibility _showControl3;
-        public Visibility showControl3
-        {
-            get { return _showControl3; }
-            set
-            {
-                if (_showControl3 != value)
-                {
-                    _showControl3 = value;
-                    RaisePropertyChanged("showControl3");
-                }
-            }
-        }
 
         private Visibility _FaceLineVisiblity;
         public Visibility FaceLineVisiblity
@@ -297,15 +322,57 @@ namespace Process_Page
                 }
             }
         }
+
+        private Visibility _FrontalRefVisiblity;
+        public Visibility FrontalRefVisiblity
+        {
+            get { return _FrontalRefVisiblity; }
+            set
+            {
+                if (_FrontalRefVisiblity != value)
+                {
+                    _FrontalRefVisiblity = value;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+                }
+            }
+        }
+
+        private Visibility _GagRefVisiblity;
+        public Visibility GagRefVisiblity
+        {
+            get { return _GagRefVisiblity; }
+            set
+            {
+                if (_GagRefVisiblity != value)
+                {
+                    _GagRefVisiblity = value;
+                    RaisePropertyChanged("GagRefVisiblity");
+                }
+            }
+        }
+
+        private Visibility _RotateControlVisiblity;
+        public Visibility RotateControlVisiblity
+        {
+            get { return _RotateControlVisiblity; }
+            set
+            {
+                if (_RotateControlVisiblity != value)
+                {
+                    _RotateControlVisiblity = value;
+                    RaisePropertyChanged("RotateControlVisiblity");
+                }
+            }
+        }
         #endregion
 
         #region face_landmark line draw property
-        public FaceDetector.face_point fp = new FaceDetector.face_point();
-        public FaceDetector.face_point fp1 = new FaceDetector.face_point();
 
-        DrawFaceAlign df = new DrawFaceAlign();
+        // face point Get
+        public FaceDetector.face_point GagFacePoints = new FaceDetector.face_point();
+        public FaceDetector.face_point FrontalFacePoints = new FaceDetector.face_point();
 
-        //landmark
+        // landmark
         private ObservableCollection<Point> _FrontalPoints;
         public ObservableCollection<Point> FrontalPoints
         {
@@ -324,6 +391,15 @@ namespace Process_Page
             }
         }
 
+        private ObservableCollection<PointViewModel> _FrontalMouthPoints;
+        public ObservableCollection<PointViewModel> FrontalMouthPoints
+        {
+            get
+            {
+                return _FrontalMouthPoints;
+            }
+        }
+
         //opencv_point -> W_Point로 바꾸기
         private Point OpenCVPoint2W_Point(OpenCvSharp.Point pt)
         {
@@ -333,12 +409,12 @@ namespace Process_Page
             return result;
         }
 
-        //face line
-        LineGeometry _midline = new LineGeometry();
-        LineGeometry _noseline_L = new LineGeometry();
-        LineGeometry _noseline_R = new LineGeometry();
-        LineGeometry _eyeline = new LineGeometry();
-        LineGeometry _lipline = new LineGeometry();
+        #region Face Line
+        public LineGeometry _midline = new LineGeometry();
+        public LineGeometry _noseline_L = new LineGeometry();
+        public LineGeometry _noseline_R = new LineGeometry();
+        public LineGeometry _eyeline = new LineGeometry();
+        public LineGeometry _lipline = new LineGeometry();
 
         public LineGeometry midline
         {
@@ -370,6 +446,37 @@ namespace Process_Page
             get { return _lipline; }
             set { }
         }
+        #endregion
+
+        #region align reference
+        // teeth reference points
+        public EllipseGeometry _teethL = new EllipseGeometry();
+        public EllipseGeometry teethL
+        {
+            get { return _teethL; }
+            set { }
+        }
+        public EllipseGeometry _teethR = new EllipseGeometry();
+        public EllipseGeometry teethR
+        {
+            get { return _teethR; }
+            set { }
+        }
+
+        public EllipseGeometry _FrontalteethL = new EllipseGeometry();
+        public EllipseGeometry FrontalteethL
+        {
+            get { return _FrontalteethL; }
+            set { }
+        }
+        public EllipseGeometry _FrontalteethR = new EllipseGeometry();
+        public EllipseGeometry FrontalteethR
+        {
+            get { return _FrontalteethR; }
+            set { }
+        }
+
+        #endregion
 
         #endregion
 
@@ -380,9 +487,9 @@ namespace Process_Page
         {
             get
             {
-                openFile();
+                Init();
                 if (_openFileClick == null)
-                    return _openFileClick = new RelayCommand<object>(param => this.openFile());
+                    return _openFileClick = new RelayCommand<object>(param => this.Init());
                 return _openFileClick;
             }
             set
@@ -390,86 +497,75 @@ namespace Process_Page
                 _openFileClick = value;
             }
         }
-
+        
         //image source property binding
-        public ImageSource Source
+        public ImageSource GagFaceSource
         {
-            get { return bi; }
+            get { return GagFaceImage; }
             set
             {
-                RaisePropertyChanged("Source");
+                RaisePropertyChanged("GagFaceSource");
             }
         }
-
-        public ImageSource Source1
+        public ImageSource FrontalFaceSource
         {
-            get { return bi1; }
+            get { return FrontalFaceImage; }
             set
             {
-                RaisePropertyChanged("Source1");
+                RaisePropertyChanged("FrontalFaceSource");
             }
         }
 
         //image original
-        private BitmapImage bi1;
-        private BitmapImage bi;
-
-
-        //openfile dialog
-        OpenFileDialog ofd = new OpenFileDialog();
-
-        int count = 0;
+        public BitmapImage FrontalFaceImage;
+        public BitmapImage GagFaceImage;
 
         //command에 들어갈 file 열기 명령
-        private void openFile()
+        private void Init()
         {
+            // 개구기 사진을 기준으로 명령 확인하기
             // 파일 열기
-            FaceDetector faceDetector = new FaceDetector(PatientInfo.Patient_Info.frontfilename);
-            bi = faceDetector.face;
+            FaceDetector faceDetector = new FaceDetector(PatientInfo.Patient_Info.teeth_opener_filename);
+            GagFaceImage = faceDetector.face;
 
             // face align data draw
-            this.fp = faceDetector.fp;
+            this.GagFacePoints = faceDetector.fp;
 
             ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
 
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[1]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.midline[0]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.midline[1]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.eye[0]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.eye[1])); 
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[0]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[1]));
 
-            _FrontalPoints = savepoint;
-
-            //face point
-            RaisePropertyChanged("FrontalPoints");
-            RaisePropertyChanged("Source");
-
-            draw_faceline();
-
-            // 파일 열기
-            FaceDetector faceDetector2 = new FaceDetector(PatientInfo.Patient_Info.teeth_opener_filename);
-            bi1 = faceDetector2.face;
-
-            // face align data draw
-            this.fp1 = faceDetector2.fp;
-
-            ObservableCollection<Point> savepoint2 = new ObservableCollection<Point>();
-
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.midline[0]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.midline[1]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.eye[0]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.eye[1]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.mouse[0]));
-            savepoint2.Add(OpenCVPoint2W_Point(fp1.mouse[1]));
-
-            _GagPoints = savepoint2;
+            _GagPoints = savepoint;
 
             //face point
             RaisePropertyChanged("GagPoints");
-            RaisePropertyChanged("Source1");
+            RaisePropertyChanged("GagFaceSource");
 
-            SetAlign();
+            draw_faceline();
+
+            // 미소 사진 미리 다운로드
+            // 파일 열기
+            FaceDetector faceDetector2 = new FaceDetector(PatientInfo.Patient_Info.frontfilename);
+            FrontalFaceImage = faceDetector2.face;
+
+            // face align data draw
+            this.FrontalFacePoints = faceDetector2.fp;
+
+            ObservableCollection<Point> savepoint2 = new ObservableCollection<Point>();
+
+            savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[0]));
+            savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[1]));
+            savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[0]));
+            savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[1]));
+            savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[0]));
+            savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[1]));
+
+            _FrontalPoints = savepoint2;
         }
 
         //face point 보정
@@ -510,6 +606,13 @@ namespace Process_Page
             changing.Y = (int)(((double)points.nose[1].Y) * percentage);
             sizechange.nose.Add(changing);
 
+            foreach (var point in points.mouth)
+            {
+                changing.X = (int)(((double)point.X) * percentage + curposition);
+                changing.Y = (int)(((double)point.Y) * percentage);
+                sizechange.mouth.Add(changing);
+            }
+
             return sizechange;
         }
 
@@ -517,129 +620,184 @@ namespace Process_Page
         {
             // 현재 이미지 캔버스의 사이즈를 측정
             System.Windows.Application.Current.MainWindow.UpdateLayout();
-            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            double height = currentPage.image_view.ActualHeight;
-            double width = currentPage.image_view.ActualWidth;
+            FaceAlign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as FaceAlign_Page;
+            double height = currentPage.CanvasView.ActualHeight;
+            double width = currentPage.CanvasView.ActualWidth;
 
-            double imageCanvasHeight = currentPage.image_layer1.ActualHeight;
-            double imageCanvasWidth = currentPage.image_layer1.ActualWidth;
+            double imageCanvasHeight = currentPage.GagFaceImage.ActualHeight;
+            double imageCanvasWidth = currentPage.GagFaceImage.ActualWidth;
 
-            double imageHeight = bi.Height;
-            double imagewidth = bi.Width;
+            double imageHeight = GagFaceImage.Height;
+            double imagewidth = GagFaceImage.Width;
 
             double percentage = imageCanvasHeight / imageHeight;
 
             double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
 
-            fp = change_point_position(percentage, curimagePosition, fp);
+            GagFacePoints = change_point_position(percentage, curimagePosition, GagFacePoints);
             ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
 
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp.mouse[1]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.midline[0]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.midline[1]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.eye[0]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.eye[1]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[0]));
+            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[1]));
 
-            _FrontalPoints = savepoint;
-            RaisePropertyChanged("FrontalPoints");
+            _GagPoints = savepoint;
+            RaisePropertyChanged("GagPoints");
+
+            _TransGagCenter = _GagPoints.ElementAt(2);
+            RaisePropertyChanged("TransGagCenter");
 
             //set picture center
-            _Center.X = width / 2 - fp.midline[0].X;
-            _Center.Y = 50;
+            _GagCenter.X = width / 2 - GagFacePoints.eye[0].X - (GagFacePoints.eye[1].X - GagFacePoints.eye[0].X)/2;
+            _GagCenter.Y = 50;
 
             _noseline_L = new LineGeometry();
-            _noseline_L.StartPoint = new Point((_Center.X + fp.eye[0].X) + (fp.midline[0].X - fp.eye[0].X) / 2, 0);
-            _noseline_L.EndPoint = new Point((_Center.X + fp.eye[0].X) + (fp.midline[0].X - fp.eye[0].X) / 2, height);
+            _noseline_L.StartPoint = new Point((_GagCenter.X + GagFacePoints.eye[0].X) + (GagFacePoints.midline[0].X - GagFacePoints.eye[0].X) / 2, 0);
+            _noseline_L.EndPoint = new Point((_GagCenter.X + GagFacePoints.eye[0].X) + (GagFacePoints.midline[0].X - GagFacePoints.eye[0].X) / 2, height);
 
             _noseline_R = new LineGeometry();
-            _noseline_R.StartPoint = new Point((_Center.X + fp.eye[1].X) - (fp.eye[1].X - fp.midline[0].X) / 2, 0);
-            _noseline_R.EndPoint = new Point((_Center.X + fp.eye[1].X) - (fp.eye[1].X - fp.midline[0].X) / 2, height);
+            _noseline_R.StartPoint = new Point((_GagCenter.X + GagFacePoints.eye[1].X) - (GagFacePoints.eye[1].X - GagFacePoints.midline[0].X) / 2, 0);
+            _noseline_R.EndPoint = new Point((_GagCenter.X + GagFacePoints.eye[1].X) - (GagFacePoints.eye[1].X - GagFacePoints.midline[0].X) / 2, height);
 
             _midline = new LineGeometry();
             _midline.StartPoint = new Point(width / 2, 0);
             _midline.EndPoint = new Point(width / 2, height);
 
             _eyeline = new LineGeometry();
-            _eyeline.StartPoint = new Point(0, _Center.Y + fp.eye[0].Y);
-            _eyeline.EndPoint = new Point(width, _Center.Y + fp.eye[0].Y);
-
-            _lipline = new LineGeometry();
-            _lipline.StartPoint = new Point(0, _Center.Y + fp.mouse[0].Y);
-            _lipline.EndPoint = new Point(width, _Center.Y + fp.mouse[0].Y);
+            _eyeline.StartPoint = new Point(0, _GagCenter.Y + GagFacePoints.eye[0].Y);
+            _eyeline.EndPoint = new Point(width, _GagCenter.Y + GagFacePoints.eye[0].Y);
 
             // Align set
-            double angle = ((double)(fp.eye[1].Y - fp.eye[0].Y)) / ((double)(fp.eye[1].X - fp.eye[0].X));
+            double angle = ((double)(GagFacePoints.eye[1].Y - GagFacePoints.eye[0].Y)) / ((double)(GagFacePoints.eye[1].X - GagFacePoints.eye[0].X));
             double rotate = (Math.Atan(angle)) * (180 / Math.PI);
-            _Angle = -rotate;
+            _GagAngle = -rotate;
 
-            RaisePropertyChanged("Angle");
-            RaisePropertyChanged("Center");
+            RaisePropertyChanged("GagAngle");
+            RaisePropertyChanged("GagCenter");
 
             //propertychanged 알리기
             RaisePropertyChanged("midline");
             RaisePropertyChanged("noseline_L");
             RaisePropertyChanged("noseline_R");
             RaisePropertyChanged("eyeline");
-            RaisePropertyChanged("lipline");
 
+            // mouse wheel center set
+            _WheelMouseCenter.X = _midline.StartPoint.X;
+            _WheelMouseCenter.Y = height / 2;
+            RaisePropertyChanged("WheelMouseCenter");
         }
 
         public void SetAlign()
         {
+            //face point
+            RaisePropertyChanged("FrontalFaceSource");
+
             // 현재 이미지 캔버스의 사이즈를 측정
             System.Windows.Application.Current.MainWindow.UpdateLayout();
-            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            double height = currentPage.image_view.ActualHeight;
-            double width = currentPage.image_view.ActualWidth;
+            FaceAlign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as FaceAlign_Page;
+            double height = currentPage.CanvasView.ActualHeight;
+            double width = currentPage.CanvasView.ActualWidth;
 
-            double imageCanvasHeight = currentPage.image_layer2.ActualHeight;
-            double imageCanvasWidth = currentPage.image_layer2.ActualWidth;
+            double imageCanvasHeight = currentPage.FrontalFaceImage.ActualHeight;
+            double imageCanvasWidth = currentPage.FrontalFaceImage.ActualWidth;
 
-            double imageHeight = bi1.Height;
-            double imagewidth = bi1.Width;
+            double imageHeight = FrontalFaceImage.Height;
+            double imagewidth = FrontalFaceImage.Width;
 
             double percentage = imageCanvasHeight / imageHeight;
 
             double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
 
-            fp1 = change_point_position(percentage, curimagePosition, fp1);
+            // face point 보정
+            FrontalFacePoints = change_point_position(percentage, curimagePosition, FrontalFacePoints);
             ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
 
-            savepoint.Add(OpenCVPoint2W_Point(fp1.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(fp1.mouse[1]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[0]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[1]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[0]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[1]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[0]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[1]));
 
-            _GagPoints = savepoint;
-            RaisePropertyChanged("GagPoints");
+            _FrontalPoints = savepoint;
+            RaisePropertyChanged("FrontalPoints");
+
+            // Mouth pointviewmodel
+            ObservableCollection<PointViewModel> savepoint2 = new ObservableCollection<PointViewModel>();
+            int count = 0;
+            foreach (var point in FrontalFacePoints.mouth)
+            {
+                Point pt = OpenCVPoint2W_Point(point);
+                savepoint2.Add(new PointViewModel(pt.X,pt.Y, count));
+                count++;
+            }
+
+            _FrontalMouthPoints = savepoint2;
 
             // Scale set
-            double scalesize = (_FrontalPoints.ElementAt(3).X - _FrontalPoints.ElementAt(2).X) / (_GagPoints.ElementAt(3).X - _GagPoints.ElementAt(2).X);
-            _GagScale = scalesize;
+            _FrontalScale = 1;
+
+            // FrontalCenter Set
+            _FrontalCenter.X = _midline.StartPoint.X - FrontalFacePoints.eye[0].X - (FrontalFacePoints.eye[1].X - FrontalFacePoints.eye[0].X) / 2;
+            _FrontalCenter.Y = _eyeline.StartPoint.Y - FrontalFacePoints.eye[0].Y;
+
+            RaisePropertyChanged("FrontalCenter");
+            RaisePropertyChanged("FrontalScale");
+            //RaisePropertyChanged("FrontalAngle");
+
+            // lip line Set
+            _lipline = new LineGeometry();
+            _lipline.StartPoint = new Point(0, _GagCenter.Y + FrontalFacePoints.mouse[0].Y);
+            _lipline.EndPoint = new Point(width, _GagCenter.Y + FrontalFacePoints.mouse[0].Y);
+            RaisePropertyChanged("lipline");
+
+            // mouse wheel center set
+            _WheelMouseCenter.X = _midline.StartPoint.X;
+            _WheelMouseCenter.Y = height / 2;
+            RaisePropertyChanged("WheelMouseCenter");
+        }
+
+        private void ToothAlign()
+        {
+            // Frontal teeth ref translate
+            double diffx = (_teethL.Center.X - _FrontalteethL.Center.X);
+            double diffy = (_teethL.Center.Y - _FrontalteethL.Center.Y);
+
+            FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffx, _FrontalteethL.Center.Y + diffy);
+            FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffx, _FrontalteethR.Center.Y + diffy);
+
+            // Frontal Center X offset
+            _FrontalCenter.X += diffx;
+            _FrontalCenter.Y += diffy;
+
+            RaisePropertyChanged("FrontalCenter");
+
+            // Scale set
+            double scalesize = (_teethL.Center.X - _teethR.Center.X) / (_FrontalteethL.Center.X - _FrontalteethR.Center.X);
+            _FrontalScale = scalesize;
 
             // Align set
-            double angle = ((double)(fp1.eye[1].Y - fp1.eye[0].Y)) / ((double)(fp1.eye[1].X - fp1.eye[0].X));
+            double angle1 = (_FrontalteethR.Center.Y - teethL.Center.Y) / (_FrontalteethR.Center.X - teethL.Center.X);
+            double angle2 = (_teethR.Center.Y - teethL.Center.Y) / (_teethR.Center.X - teethL.Center.X);
+
+            double angle = Math.Abs(angle1) + Math.Abs(angle2);
+
             double rotate = (Math.Atan(angle)) * (180 / Math.PI);       //angle
+            _FrontalAngle = -rotate;
 
-            _GagAngle = -rotate;
+            RaisePropertyChanged("FrontalScale");
+            RaisePropertyChanged("FrontalAngle");
 
-            // GagCenter Set
-            // Gag Center X offset
-            _GagCenter.X = _midline.StartPoint.X - fp1.eye[0].X - (fp.midline[0].X - fp.eye[0].X);
-            _GagCenter.Y = _eyeline.StartPoint.Y - fp1.eye[0].Y;
+            RaisePropertyChanged("FrontalMouthPoints");
 
-            RaisePropertyChanged("GagCenter");
-            RaisePropertyChanged("GagScale");
-            RaisePropertyChanged("GagAngle");
+            _RotateControlCenter.X = _noseline_L.StartPoint.X;
+            _RotateControlCenter.Y = _lipline.StartPoint.Y;
+            RaisePropertyChanged("RotateControlCenter");
 
-
-            offset_Left = _Center.X;
-            offset_Top = _Center.Y;
-            offset_LeftGag = _GagCenter.X;
-            offset_TopGag = _GagCenter.Y;
+            offset_frontalangle = _FrontalAngle;
         }
         #endregion
 
@@ -648,24 +806,24 @@ namespace Process_Page
         public double ratio = 0;
 
         // Frontal Face Canvas Center
-        private Point _Center;
-        public Point Center
+        private Point _FrontalCenter;
+        public Point FrontalCenter
         {
-            get { return _Center; }
+            get { return _FrontalCenter; }
             set { }
         }
 
-        private double _Angle;
-        public double Angle
+        private double _FrontalAngle;
+        public double FrontalAngle
         {
-            get { return _Angle; }
+            get { return _FrontalAngle; }
             set { }
         }
 
-        private double _Scale;
-        public double Scale
+        private double _FrontalScale;
+        public double FrontalScale
         {
-            get { return _Scale; }
+            get { return _FrontalScale; }
             set { }
         }
 
@@ -691,35 +849,48 @@ namespace Process_Page
             set { }
         }
 
-        // Upper Tooth Control
-        private Point _ToothUpperCenter;
-        public Point ToothUpperCenter
+        // Transform Center
+        private Point _TransCenter;
+        public Point TransCenter
         {
-            get { return _ToothUpperCenter; }
+            get { return _TransCenter; }
             set { }
         }
 
-        // Lower Tooth Control
-        private Point _ToothLowerCenter;
-        public Point ToothLowerCenter
+        private Point _TransGagCenter;
+        public Point TransGagCenter
         {
-            get { return _ToothLowerCenter; }
+            get { return _TransGagCenter; }
             set { }
         }
-
+        // Rotate Control Center
+        private Point _RotateControlCenter;
+        public Point RotateControlCenter
+        {
+            get { return _RotateControlCenter; }
+            set { }
+        }
         #endregion
 
-        //scale 조정에 따른 확대 축소시 face line 조정 
         #region sizeChange MouseWheel
-        //Mouse Wheel size changed
-        private double _rectsc = 1;
-        public double rectsc
+
+        // mouse wheel sizechanged Center point
+        private Point _WheelMouseCenter;
+        public Point WheelMouseCenter
         {
-            get { return _rectsc; }
+            get { return _WheelMouseCenter; }
+            set { }
+        }
+
+        //Mouse Wheel size changed
+        private double _ViewScale = 1;
+        public double ViewScale
+        {
+            get { return _ViewScale; }
             set
             {
-                _rectsc = value;
-                RaisePropertyChanged("rectsc");
+                _ViewScale = value;
+                RaisePropertyChanged("ViewScale");
             }
         }
 
@@ -738,26 +909,25 @@ namespace Process_Page
         {
             if (e.Delta > 0)
             {
-                if (_rectsc < 7)
+                if (_ViewScale < 7)
                 {
-                    _rectsc += 0.1;
-                    RaisePropertyChanged("rectsc");
-
-
+                    _ViewScale += 0.1;
+                    RaisePropertyChanged("ViewScale");
                 }
             }
             else
             {
-                if (_rectsc > 0.3)
+                if (_ViewScale > 1)
                 {
-                    _rectsc -= 0.1;
-                    RaisePropertyChanged("rectsc");
+                    _ViewScale -= 0.1;
+                    RaisePropertyChanged("ViewScale");
                 }
             }
         }
         #endregion
 
-        //이미지 Drag시 face line 조정
+        // mouse event 수정해야될 부분
+        //  - 사진 rotation 기능 추가 imagecanvas control을 회전
         #region MouseEvent
 
         private bool captured = false;
@@ -765,37 +935,12 @@ namespace Process_Page
         private double orginal_height;
         private Point origMouseDownPoint;
 
-        //canvas offset
-        double offset_Left;
-        double offset_Top;
+        #region control offset
+        // Frontal Image angle offset
+        double offset_frontalangle;
+        private double _TransfrontalAngle;
 
-        // translate Property
-        private double _TransX;
-        private double _TransY;
-
-        //canvas offset
-        double offset_LeftGag;
-        double offset_TopGag;
-
-        // translate Property
-        private double _TransGagX;
-        private double _TransGagY;
-
-        //canvas offset
-        double offset_LeftUpperTooth;
-        double offset_TopUpperTooth;
-
-        // translate Property
-        private double _TransUpperToothX;
-        private double _TransUpperToothY;
-
-        //canvas offset
-        double offset_LeftLowerTooth;
-        double offset_TopLowerTooth;
-
-        // translate Property
-        private double _TransLowerToothX;
-        private double _TransLowerToothY;
+        #endregion
 
         private RelayCommand<object> _mouseMoveCommand;
         public RelayCommand<object> MouseMoveCommand
@@ -812,22 +957,16 @@ namespace Process_Page
         {
             if (captured == true && e.LeftButton == MouseButtonState.Pressed)
             {
-                if ((e.Source).GetType() == typeof(Teeth))
+                if (changeText.Equals(flowname.ElementAt(1)) && RefernceCount < 4 && refclicked == true)
                 {
-                    Teeth Test = (Teeth)e.Source;
-                    Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
-                    var dragDelta = curMouseDownPoint - origMouseDownPoint;
-                    origMouseDownPoint = curMouseDownPoint;
-
-                    foreach (PointViewModel point in Test.Points)
-                    {
-                        point.X += (float)dragDelta.X;
-                        point.Y += (float)dragDelta.Y;
-                    }
+                    return;
                 }
-                else if (e.Source.GetType() == typeof(ImageCanvas))
+                if (e.Source.GetType() == typeof(RotationControl))
+                    return;
+                if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     Canvas imageCanvas = ((UserControl)e.Source).Parent as Canvas;
+
                     UIElement Uppertooth = new UIElement();
                     UIElement Lowertooth = new UIElement();
 
@@ -840,44 +979,6 @@ namespace Process_Page
                     }
 
                     Point curMouseDownPoint = e.GetPosition((IInputElement)((UserControl)e.Source).Parent);
-                    _TransX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransX += offset_Left;
-                    _TransY += offset_Top;
-
-                    _TransGagX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransGagY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransGagX += offset_LeftGag;
-                    _TransGagY += offset_TopGag;
-
-                    _TransUpperToothX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransUpperToothY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransUpperToothX += offset_LeftUpperTooth;
-                    _TransUpperToothY += offset_TopUpperTooth;
-
-                    _TransLowerToothX = (curMouseDownPoint.X - origMouseDownPoint.X);
-                    _TransLowerToothY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
-                    _TransLowerToothX += offset_LeftLowerTooth;
-                    _TransLowerToothY += offset_TopLowerTooth;
-
-                    ObservableCollection<ImageCanvas> imagelayers = new ObservableCollection<ImageCanvas>();
-
-                    foreach (var layer in imageCanvas.Children)
-                    {
-                        if (layer.GetType() == typeof(ImageCanvas))
-                            imagelayers.Add((ImageCanvas)layer);
-                    }
-
-                    Canvas.SetLeft(imagelayers.ElementAt(1), _TransX);
-                    Canvas.SetTop(imagelayers.ElementAt(1), _TransY);
-
-                    Canvas.SetLeft(imagelayers.ElementAt(0), _TransGagX);
-                    Canvas.SetTop(imagelayers.ElementAt(0), _TransGagY);
-
-                    Canvas.SetLeft(Uppertooth, _TransUpperToothX);
-                    Canvas.SetTop(Uppertooth, _TransUpperToothY);
-                    Canvas.SetLeft(Lowertooth, _TransLowerToothX);
-                    Canvas.SetTop(Lowertooth, _TransLowerToothY);
 
                     //face line moving
                     double diffX = (curMouseDownPoint.X - orginal_width);
@@ -897,6 +998,34 @@ namespace Process_Page
 
                     lipline.StartPoint = new Point(_lipline.StartPoint.X, _lipline.StartPoint.Y + diffY);
                     lipline.EndPoint = new Point(_lipline.EndPoint.X, _lipline.EndPoint.Y + diffY);
+
+                    //teeth line moving
+                    teethL.Center = new Point(_teethL.Center.X + diffX, _teethL.Center.Y + diffY);
+                    teethR.Center = new Point(_teethR.Center.X + diffX, _teethR.Center.Y + diffY);
+
+                    FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
+                    FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
+
+                    // image canvas
+                    Point Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
+                    _RotateControlCenter = Center;
+                    RaisePropertyChanged("RotateControlCenter");
+
+                    Center = new Point(_FrontalCenter.X + diffX, _FrontalCenter.Y + diffY);
+                    _FrontalCenter = Center;
+                    RaisePropertyChanged("FrontalCenter");
+
+                    Center = new Point(_GagCenter.X + diffX, _GagCenter.Y + diffY);
+                    _GagCenter = Center;
+                    RaisePropertyChanged("GagCenter");
+
+                    //Center = new Point(_ToothUpperCenter.X + diffX, _ToothUpperCenter.Y + diffY);
+                    //_ToothUpperCenter = Center;
+                    //RaisePropertyChanged("ToothUpperCenter");
+
+                    //Center = new Point(_ToothLowerCenter.X + diffX, _ToothLowerCenter.Y + diffY);
+                    //_ToothLowerCenter = Center;
+                    //RaisePropertyChanged("ToothLowerCenter");
 
                     orginal_width = curMouseDownPoint.X;
                     orginal_height = curMouseDownPoint.Y;
@@ -978,8 +1107,74 @@ namespace Process_Page
             set { _LeftDown = value; }
         }
 
+        public bool refclicked = false;
+        public bool rotationclicked = false;
+        public int rotatedir = 1;
+
+        public int RefernceCount = 0;
+
         private void ExecuteMouseLeftDown(MouseEventArgs e)
         {
+            if (changeText.Equals(flowname.ElementAt(1)) && refclicked == true && e.Source.GetType() == typeof(ImageCanvas))
+            {
+                origMouseDownPoint = e.GetPosition((IInputElement)((UserControl)e.Source).Parent);
+                if (RefernceCount == 0)
+                {
+                    _GagRefVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("GagRefVisiblity");
+
+                    _teethL.Center = origMouseDownPoint;
+                    RaisePropertyChanged("teethL");
+
+                    RefernceCount++;
+                }
+                else if (RefernceCount == 1)
+                {
+                    _teethR.Center = origMouseDownPoint;
+                    RaisePropertyChanged("teethR");
+                    RefernceCount++;
+
+                    currentclicked = ((UserControl)(e.Source));
+                    currentclicked.Opacity = 0;
+
+                    SetAlign();
+
+                    _GagRefVisiblity = Visibility.Hidden;
+                    RaisePropertyChanged("GagRefVisiblity");
+                }
+                else if (RefernceCount == 2)
+                {
+                    _FrontalRefVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+
+                    _FrontalteethL.Center = origMouseDownPoint;
+                    RaisePropertyChanged("FrontalteethL");
+
+                    // TransCenter
+                    _TransCenter = e.GetPosition((IInputElement)e.Source);
+                    RaisePropertyChanged("TransCenter");
+                    RefernceCount++;
+                }
+                else if (RefernceCount == 3)
+                {
+                    _FrontalteethR.Center = origMouseDownPoint;
+                    RaisePropertyChanged("FrontalteethR");
+                    RefernceCount++;
+
+                    currentclicked.Opacity = 0.5;
+
+                    // 좌표 옮기기
+                    ToothAlign();
+
+                    _FrontalRefVisiblity = Visibility.Hidden;
+                    RaisePropertyChanged("FrontalRefVisiblity");
+
+                    _RotateControlVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("RotateControlVisiblity");
+                }
+                return;
+            }
+
             if (e.Source.GetType() == typeof(ImageCanvas))
             {
                 captured = true;
@@ -1006,6 +1201,18 @@ namespace Process_Page
             {
                 return;
             }
+            if (e.Source.GetType() == typeof(MouthControl))
+            {
+                return;
+            }
+            if (e.Source.GetType() == typeof(RotationControl))
+            {
+                return;
+            }
+
+            if (((Path)e.Source).Data.GetType() == typeof(LineGeometry))
+                ((Path)e.Source).Stroke = Brushes.Black;
+
             Path rewrite = new Path();
             rewrite.Name = ((Path)e.Source).Name;
             rewrite.Data = ((Path)e.Source).Data.CloneCurrentValue();
@@ -1016,11 +1223,6 @@ namespace Process_Page
             orginal_height = e.GetPosition((IInputElement)e.Source).Y;
             origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
             Mouse.Capture((IInputElement)e.Source);
-
-            if (((Path)e.Source).Data.GetType() == typeof(EllipseGeometry))
-                ((Path)e.Source).Stroke = Brushes.OrangeRed;
-            else if (((Path)e.Source).Data.GetType() == typeof(LineGeometry))
-                ((Path)e.Source).Stroke = Brushes.Violet;
         }
 
         private RelayCommand<object> _LeftUp;
@@ -1036,6 +1238,13 @@ namespace Process_Page
 
         private void ExecuteMouseLeftUp(MouseEventArgs e)
         {
+            if (changeText.Equals(flowname.ElementAt(1)) && refclicked == true)
+            {
+                if (RefernceCount == 4)
+                    refclicked = false;
+                return;
+            }
+
             if (e.Source.GetType() == typeof(Teeth))
             {
                 captured = false;
@@ -1044,15 +1253,6 @@ namespace Process_Page
             }
             if (e.Source.GetType() == typeof(ImageCanvas))
             {
-                offset_Left = _TransX;
-                offset_Top = _TransY;
-                offset_LeftGag = _TransGagX;
-                offset_TopGag = _TransGagY;
-                offset_LeftUpperTooth = _TransUpperToothX;
-                offset_TopUpperTooth = _TransUpperToothY;
-                offset_LeftLowerTooth = _TransLowerToothX;
-                offset_TopLowerTooth = _TransLowerToothY;
-
                 captured = false;
                 Mouse.Capture(null);
                 return;
@@ -1064,6 +1264,143 @@ namespace Process_Page
                 Mouse.Capture(null);
             }
         }
+
+        #region image tuning events
+        private RelayCommand<object> _RotateControlUp;
+        public RelayCommand<object> RotateControlUp
+        {
+            get
+            {
+                if (_RotateControlUp == null) return _RotateControlUp = new RelayCommand<object>(param => ExecuteRotateControlUp((MouseEventArgs)param));
+                return _RotateControlUp;
+            }
+            set { _RotateControlUp = value; }
+        }
+
+        private void ExecuteRotateControlUp(MouseEventArgs e)
+        {
+            if (e.Source.GetType() == typeof(Rectangle))
+            {
+                rotationclicked = false;
+                rotatedir = 1;
+                captured = false;
+                Mouse.Capture(null);
+            }
+        }
+
+        private RelayCommand<object> _RotateControlDown;
+        public RelayCommand<object> RotateControlDown
+        {
+            get
+            {
+                if (_RotateControlDown == null) return _RotateControlDown = new RelayCommand<object>(param => ExecuteRotateControlDown((MouseEventArgs)param));
+                return _RotateControlDown;
+            }
+            set { _RotateControlDown = value; }
+        }
+
+        private void ExecuteRotateControlDown(MouseEventArgs e)
+        {
+            if (e.Source.GetType() == typeof(Rectangle))
+            {
+                if (((Rectangle)e.Source).Name.Equals("DragIconImage"))
+                {
+                    captured = true;
+                    origMouseDownPoint = e.GetPosition(((IInputElement)e.Source));
+
+                    Mouse.Capture((IInputElement)e.Source);
+                    return;
+                }
+                if (((Rectangle)e.Source).Name.Equals("RightRotateIcon"))
+                {
+                    captured = true;
+                    origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                    rotatedir = 1;
+
+                    Mouse.Capture((IInputElement)e.Source);
+                    return;
+                }
+                if (((Rectangle)e.Source).Name.Equals("LeftRotateIcon"))
+                {
+                    captured = true;
+                    origMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                    rotatedir = -1;
+
+                    Mouse.Capture((IInputElement)e.Source);
+                    return;
+                }
+            }
+        }
+
+        private RelayCommand<object> _RotateControlMove;
+        public RelayCommand<object> RotateControlMove
+        {
+            get
+            {
+                if (_RotateControlMove == null) return _RotateControlMove = new RelayCommand<object>(param => ExecuteRotateControlMove((MouseEventArgs)param));
+                return _RotateControlMove;
+            }
+            set { _RotateControlMove = value; }
+        }
+
+        private void ExecuteRotateControlMove(MouseEventArgs e)
+        {
+            if (captured == true)
+            {
+                if (((Rectangle)e.Source).Name.Equals("DragIconImage"))
+                {
+                    // 중심점 위치 조정
+                    Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
+
+                    double diffX = (curMouseDownPoint.X - origMouseDownPoint.X);
+                    double diffY = (curMouseDownPoint.Y - origMouseDownPoint.Y);
+
+                    Point Center = new Point(_FrontalCenter.X + diffX, _FrontalCenter.Y + diffY);
+                    _FrontalCenter = Center;
+                    RaisePropertyChanged("FrontalCenter");
+
+                    FrontalteethL.Center = new Point(_FrontalteethL.Center.X + diffX, _FrontalteethL.Center.Y + diffY);
+                    FrontalteethR.Center = new Point(_FrontalteethR.Center.X + diffX, _FrontalteethR.Center.Y + diffY);
+
+                    Center = new Point(_RotateControlCenter.X + diffX, _RotateControlCenter.Y + diffY);
+                    _RotateControlCenter = Center;
+                    RaisePropertyChanged("RotateControlCenter");
+                }
+                else if (((Rectangle)e.Source).Name.Equals("RightRotateIcon") || ((Rectangle)e.Source).Name.Equals("LeftRotateIcon"))
+                {
+                    // 각도 조정
+                    double rotate = 0.5;
+                    if (rotationclicked == false)
+                    {
+                        rotationclicked = true;
+                    }
+
+                    rotate *= rotatedir;
+
+                    _TransfrontalAngle = offset_frontalangle;
+                    _TransfrontalAngle += rotate;
+
+                    if (_TransfrontalAngle < 0)
+                        _TransfrontalAngle += 360;
+                    else
+                        _TransfrontalAngle -= 360;
+
+                    _FrontalAngle = _TransfrontalAngle;
+                    RaisePropertyChanged("FrontalAngle");
+
+                    offset_frontalangle = _TransfrontalAngle;
+                }
+            }
+        }
+
+        #endregion
+        #endregion
+
+        #region Set face ZIndex
+        private bool clickedRight = false;
+        private UserControl currentclicked;
 
         private RelayCommand<object> _RightDown;
         public RelayCommand<object> RightDown
@@ -1078,11 +1415,28 @@ namespace Process_Page
 
         private void ExecuteMouseRigthDown(MouseEventArgs e)
         {
-
-            if (e.Source.GetType() == typeof(ImageCanvas))
+            if (clickedRight == false)
             {
-                ((UserControl)(e.Source)).Opacity = 0;
-                Mouse.Capture((IInputElement)e.Source);
+                if (e.Source.GetType() == typeof(ImageCanvas))
+                {
+                    currentclicked = ((UserControl)(e.Source));
+                    if (!currentclicked.Name.Equals("GagFaceImage"))
+                        return;
+                    int currentZIndex = Canvas.GetZIndex(currentclicked);
+                    Canvas.SetZIndex(currentclicked, currentZIndex - 1);
+
+                    currentclicked.Opacity = 0.5;
+
+                    Mouse.Capture((IInputElement)e.Source);
+                }
+                clickedRight = true;
+            }
+            else
+            {
+                int currentZIndex = Canvas.GetZIndex(currentclicked);
+                Canvas.SetZIndex(currentclicked, currentZIndex + 1);
+                currentclicked.Opacity = 1;
+                clickedRight = false;
             }
         }
 
@@ -1101,13 +1455,8 @@ namespace Process_Page
         {
             captured = false;
             Mouse.Capture(null);
-            if (e.Source.GetType() == typeof(ImageCanvas))
-            {
-                ((UserControl)(e.Source)).Opacity = 1.0;
-            }
         }
         #endregion
-
         #region redo_undo
 
         Stack<Path> undo = new Stack<Path>();
@@ -1275,1325 +1624,102 @@ namespace Process_Page
         }
         #endregion
 
-        #region save
-        private RelayCommand<object> _Savecommand;
-        public RelayCommand<object> Savecommand
+        #region save_program
+
+        private string XML_PATH = @".\save\wat_setup.xml";
+        public  SaveInfo MySetup = new SaveInfo();
+
+        public void Set_SaveInfo()
         {
-            get
-            {
-                if (_Savecommand == null)
-                    return _Savecommand = new RelayCommand<object>(param => this.Savejonopen());
-                return _Savecommand;
+            MySetup.GagFacePoints = this.GagFacePoints;
+            MySetup.FrontalFacePoints = this.FrontalFacePoints;
+
+            // 보정 후 점
+           // MySetup._FrontalPoints = this.FrontalPoints;
+           //MySetup._GagPoints = this.GagPoints;
+           // MySetup._FrontalMouthPoints = this.FrontalMouthPoints;
+
+            // face line
+            MySetup._midline = this.midline;
+            MySetup._noseline_L = this.noseline_L;
+            MySetup._noseline_R = this.noseline_R;
+            MySetup._eyeline = this.eyeline;
+            MySetup._lipline = this.lipline;
+
+            // align reference teeth points
+            MySetup._teethL = this.teethL;
+            MySetup._teethR = this.teethR;
+            MySetup._FrontalteethL = this.FrontalteethL;
+            MySetup._FrontalteethR = this.FrontalteethR;
+
+            // scale wheelmouse
+            MySetup._ViewScale = this.ViewScale;
+            MySetup._WheelMouseCenter = this.WheelMouseCenter;
+
+
+            // Frontal Face Canvas Center
+            MySetup._FrontalCenter = this.FrontalCenter;
+            MySetup._FrontalAngle = this.FrontalAngle;
+            MySetup._FrontalScale = this.FrontalScale;
+
+            // Gag Image
+            MySetup._GagCenter = this.GagCenter;
+            MySetup._GagAngle = this.GagAngle;
+            MySetup._GagScale = this.GagScale;
+
+            // Transform Center
+            MySetup._TransCenter = this.TransCenter;
+            MySetup._TransGagCenter = this.TransGagCenter;
+
+            // Rotate Control Center
+            MySetup._RotateControlCenter=this.RotateControlCenter;
             }
-            set
+
+        public void LoadXML()
+        {
+            try
             {
-                _Savecommand = value;
+                XmlSerializer deserializer = new XmlSerializer(typeof(SaveInfo));
+                IOText.TextReader textReader = new IOText.StreamReader(XML_PATH);
+
+                MySetup = (SaveInfo)deserializer.Deserialize(textReader);
+                if (MySetup == null) MySetup = new SaveInfo();
+                textReader.Close();
             }
-        }
-
-        private void Savejonopen()
-        {
-            ExecuteRunDialog(0);
-        }
-
-        private async void ExecuteRunDialog(object o)
-        {
-            //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new SampleSaveDialog
+            catch
             {
-                DataContext = new SampleSaveDialogViewModel()
-            };
-
-            //show the dialog
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
-
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
-        }
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            Console.WriteLine("You can intercept the closing event, and cancel here.");
-        }
-        #endregion
-
-        #region Tooth mouse events
-
-        List<Teeth> SelectedList = new List<Teeth>();
-
-        #region DragDrop
-
-        private bool leftdown = false;
-        private bool leftdown_with_ctrl = false;
-        private bool dragging = false;
-
-        #region DragDrop for Teeth 
-
-        private Point originalPoint;
-
-        private RelayCommand<object> _mouseLeftDownForDragAndDropTeeth;
-        public RelayCommand<object> MouseLeftDownForDragAndDropTeeth
-        {
-            get
-            {
-                if (_mouseLeftDownForDragAndDropTeeth == null)
-                    return _mouseLeftDownForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForDragAndDropTeeth((MouseEventArgs)param));
-                return _mouseLeftDownForDragAndDropTeeth;
+                MySetup = new SaveInfo();
             }
-            set { _mouseLeftDownForDragAndDropTeeth = value; }
+
+            //txbID.Text = MySetup.MyID.ToString();
+            //this.textBox1.Text = MySetup.MyString;
+
         }
-        public void ExecuteMouseLeftDownForDragAndDropTeeth(MouseEventArgs e)
+
+        public void SaveXML()
         {
-            Rectangle rect = e.Source as Rectangle;
-            Border border = ViewUtils.FindParent(rect, (new Border()).GetType()) as Border;
+            //MySetup.MyID = Convert.ToInt32(txbID.Text);
+            //MySetup.MyString = this.textBox1.Text;
 
-            Teeth th = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
-            RotateTeeth rotate = th.FindName("rotateTeeth") as RotateTeeth;
-            DrawTeeth draw = th.FindName("drawTeeth") as DrawTeeth;
-
-            leftdown = true;
-            if ((Keyboard.Modifiers & ModifierKeys.Control) != 0)
-                leftdown_with_ctrl = true;
-            else
+            try
             {
-                leftdown_with_ctrl = false;
-                if (SelectedList.Count == 0)
+                Set_SaveInfo();
+                XmlWriterSettings ws = new XmlWriterSettings();
+                ws.NewLineHandling = NewLineHandling.Entitize;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveInfo));
+                using (XmlWriter wr = XmlWriter.Create(XML_PATH, ws))
                 {
-                    SelectedList.Add(th);
-
-                    border.Opacity = 1;
-                    th.list.Visibility = Visibility.Visible;
-                    rotate.RotatePin.Visibility = Visibility.Visible;
-                    draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
-                    draw.path.Fill = draw.FindResource("FillBrush") as Brush;
-                }
-                else if (SelectedList.Contains(th))
-                {
-                    //draw.path.Fill = null;
-                    //rotate.RotatePin.Visibility = Visibility.Hidden;
-                }
-                else
-                {
-                    foreach (Teeth del in SelectedList)
-                    {
-                        RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
-                        DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
-                        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
-
-                        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
-                        Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
-
-                        border_del.Opacity = 0;
-                        draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
-                        draw_del.path.Fill = null;
-                        rotate_del.RotatePin.Visibility = Visibility.Hidden;
-                        del.list.Visibility = Visibility.Hidden;
-                    }
-                    SelectedList.Clear();
-
-                    SelectedList.Add(th);
-                    th.list.Visibility = Visibility.Visible;
-                    border.Opacity = 1;
-                    draw.path.Fill = draw.FindResource("FillBrush") as Brush;
-                    draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
-                    rotate.RotatePin.Visibility = Visibility.Visible;
-
+                    serializer.Serialize(wr, MySetup);
                 }
 
             }
-
-            Mouse.Capture((IInputElement)e.Source);
-            originalPoint = e.GetPosition((IInputElement)e.Source);
-
-            // padding
-            originalPoint.X += 5;
-            originalPoint.Y += 5;
-        }
-
-        private RelayCommand<object> _mouseMoveForDragAndDropTeeth;
-        public RelayCommand<object> MouseMoveForDragAndDropTeeth
-        {
-            get
+            catch (Exception ex)
             {
-                if (_mouseMoveForDragAndDropTeeth == null)
-                    return _mouseMoveForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForDragAndDropTeeth((MouseEventArgs)param));
-                return _mouseMoveForDragAndDropTeeth;
-            }
-            set { _mouseMoveForDragAndDropTeeth = value; }
-        }
-        public void ExecuteMouseMoveForDragAndDropTeeth(MouseEventArgs e)
-        {
-            main = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            if (dragging)
-            {
-                if (leftdown == true)
-                {
-                    Rectangle rect = e.Source as Rectangle;
-                    Teeth me_rect = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
-                    if (SelectedList.Contains(me_rect))
-                    {
-                        foreach (Teeth me in SelectedList)
-                        {
-                            Teeth you = null;
-                            if (main.ToothControl.mirror.IsChecked == true)
-                            {
-                                Grid grid_me = ViewUtils.FindParent(me, (new Grid()).GetType()) as Grid;
-
-                                int idx_me = main.ToothControl.dic[me.Name];
-                                int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
-                                var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                                you = grid_me.FindName(myKey) as Teeth;
-                            }
-
-                            Point curPoint = e.GetPosition((IInputElement)e.Source);
-                            var dragDelta = curPoint - originalPoint;
-                            foreach (PointViewModel point in me.Points)
-                            {
-                                point.X += dragDelta.X;
-                                point.Y += dragDelta.Y;
-                            }
-
-                            if (you != null)
-                            {
-                                foreach (PointViewModel point in you.Points)
-                                {
-                                    point.X -= dragDelta.X;
-                                    point.Y += dragDelta.Y;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (leftdown)
-                dragging = true;
-        }
-
-        private RelayCommand<object> _mouseLeftUpForDragAndDropTeeth;
-        public RelayCommand<object> MouseLeftUpForDragAndDropTeeth
-        {
-            get
-            {
-                if (_mouseLeftUpForDragAndDropTeeth == null)
-                    return _mouseLeftUpForDragAndDropTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForDragAndDropTeeth((MouseEventArgs)param));
-                return _mouseLeftUpForDragAndDropTeeth;
-            }
-            set { _mouseLeftUpForDragAndDropTeeth = value; }
-        }
-        public void ExecuteMouseLeftUpForDragAndDropTeeth(MouseEventArgs e)
-        {
-            int flag = 0;
-            if (leftdown)
-            {
-                Rectangle rect_dragdrop = e.Source as Rectangle;
-                Border border_dragdrop = ViewUtils.FindParent(rect_dragdrop, (new Border()).GetType()) as Border;
-
-                Teeth th = ViewUtils.FindParent(rect_dragdrop, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
-                Canvas cv = th.FindName("Canvas_Teeth") as Canvas;
-                DrawTeeth draw = cv.FindName("drawTeeth") as DrawTeeth;
-                RotateTeeth rotate = cv.FindName("rotateTeeth") as RotateTeeth;
-                if (!dragging)
-                {
-                    if (leftdown_with_ctrl)
-                    {
-                        if (SelectedList.Contains(th))
-                        {
-                            flag = 1;
-                            th.list.Visibility = Visibility.Hidden;
-                            border_dragdrop.Opacity = 0;
-                            draw.path.Fill = null;
-                            rotate.RotatePin.Visibility = Visibility.Hidden;
-                        }
-
-                        else
-                        {
-                            SelectedList.Add(th);
-                            th.list.Visibility = Visibility.Visible;
-                            draw.path.Fill = draw.FindResource("FillBrush") as Brush;
-                            border_dragdrop.Opacity = 1;
-                            rotate.RotatePin.Visibility = Visibility.Visible;
-                        }
-
-                        if (flag == 1)
-                        {
-                            flag = 0;
-                            SelectedList.Remove(th);
-                        }
-                    }
-                    else
-                    {
-                        if (SelectedList.Count == 1 && SelectedList[0] == th)
-                        {
-                            //rect_dragdrop.Visibility = Visibility.Hidden;
-                            //border_dragdrop.Visibility = Visibility.Hidden;
-
-                            //draw.path.Fill = null;
-                            //rotate.RotatePin.Visibility = Visibility.Hidden;
-                            //th.list.Visibility = Visibility.Hidden;
-                        }
-                        else
-                        {
-                            foreach (Teeth th_del in SelectedList)
-                            {
-                                RotateTeeth rotate_del = th_del.FindName("rotateTeeth") as RotateTeeth;
-                                DrawTeeth draw_del = th_del.FindName("drawTeeth") as DrawTeeth;
-                                WrapTeeth wrap_del = th_del.FindName("wrapTeeth") as WrapTeeth;
-
-                                Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
-                                Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
-
-                                th_del.list.Visibility = Visibility.Hidden;
-                                draw_del.path.Fill = null;
-                                draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
-                                border_del.Opacity = 0;
-                                rotate_del.RotatePin.Visibility = Visibility.Hidden;
-                            }
-
-                            SelectedList.Clear();
-                            SelectedList.Add(th);
-
-                            th.list.Visibility = Visibility.Visible;
-                            border_dragdrop.Opacity = 1;
-                            draw.path.Fill = draw.FindResource("FillBrush") as Brush;
-                            draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
-                            rotate.RotatePin.Visibility = Visibility.Visible;
-                        }
-                    }
-                }
-
-                Mouse.Capture(null);
-                leftdown = false;
-                leftdown_with_ctrl = false;
-                e.Handled = true;
-            }
-
-            dragging = false;
-        }
-
-        #endregion
-
-        #region DragDrop for Tooth
-
-        //private bool captured;            // teeth와 공유
-        private Brush orgBrush2;
-
-        private RelayCommand<object> _mouseLeftDownForDragAndDropTooth;
-        public RelayCommand<object> MouseLeftDownForDragAndDropTooth
-        {
-            get
-            {
-                if (_mouseLeftDownForDragAndDropTooth == null)
-                    return _mouseLeftDownForDragAndDropTooth = new RelayCommand<object>(param => ExecuteMouseLeftDownForDragAndDropTooth((MouseEventArgs)param));
-                return _mouseLeftDownForDragAndDropTooth;
-            }
-            set { _mouseLeftDownForDragAndDropTooth = value; }
-        }
-        public void ExecuteMouseLeftDownForDragAndDropTooth(MouseEventArgs e)
-        {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
-            foreach (Teeth del in SelectedList)
-            {
-                RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
-                DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
-                WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
-
-                Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
-                Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
-
-                border_del.Opacity = 0;
-                draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
-                draw_del.path.Fill = null;
-                rotate_del.RotatePin.Visibility = Visibility.Hidden;
-                del.list.Visibility = Visibility.Hidden;
-            }
-
-            SelectedList.Clear();
-            originalPoint = e.GetPosition((IInputElement)e.Source);
-
-            //padding
-            originalPoint.X += 5;
-            originalPoint.Y += 5;
-
-            orgBrush2 = me_border.BorderBrush;
-            //me.Stroke = Brushes.Red;
-            me_border.BorderBrush = Brushes.Red;
-
-            leftdown = true;
-            Mouse.Capture((IInputElement)e.Source);
-        }
-
-        private RelayCommand<object> _mouseMoveForDragAndDropTooth;
-        public RelayCommand<object> MouseMoveForDragAndDropTooth
-        {
-            get
-            {
-                if (_mouseMoveForDragAndDropTooth == null)
-                    return _mouseMoveForDragAndDropTooth = new RelayCommand<object>(param => ExecuteMouseMoveForDragAndDropTooth((MouseEventArgs)param));
-                return _mouseMoveForDragAndDropTooth;
-            }
-            set { _mouseMoveForDragAndDropTooth = value; }
-        }
-        public void ExecuteMouseMoveForDragAndDropTooth(MouseEventArgs e)
-        {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
-            WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
-            if (leftdown == true)
-            {
-                Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
-                var dragDelta = curMouseDownPoint - originalPoint;
-                foreach (TeethType points in wrap.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        point.X += dragDelta.X;
-                        point.Y += dragDelta.Y;
-                    }
-                }
-            }
-        }
-
-        private RelayCommand<object> _mouseLeftUpForDragAndDropTooth;
-        public RelayCommand<object> MouseLeftUpForDragAndDropTooth
-        {
-            get
-            {
-                if (_mouseLeftUpForDragAndDropTooth == null)
-                    return _mouseLeftUpForDragAndDropTooth = new RelayCommand<object>(param => ExecuteMouseLeftUpForDragAndDropTooth((MouseEventArgs)param));
-                return _mouseLeftUpForDragAndDropTooth;
-            }
-            set { _mouseLeftUpForDragAndDropTooth = value; }
-        }
-        public void ExecuteMouseLeftUpForDragAndDropTooth(MouseEventArgs e)
-        {
-            //rect2.Stroke = orgBrush2;
-            //border2.BorderBrush = orgBrush2;
-
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
-            //me.Stroke = orgBrush2;
-            me_border.BorderBrush = orgBrush2;
-
-            leftdown = false;
-            Mouse.Capture(null);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Resize 
-
-        private bool isSizing = false;
-        private readonly double sizeThreshold = 10;
-
-        private bool[] isFirstTimeMovedOnSizing = new bool[10];
-        private Point[] anchorMin = new Point[10];
-        private Point[] anchorMax = new Point[10];
-        #region Resize for Teeth
-
-
-        #region Resize for CommandProperties
-
-        // For Teeth
-        private RelayCommand<object> _mouseLeftDownForResizeTeeth;
-        public RelayCommand<object> MouseLeftDownForResizeTeeth
-        {
-            get
-            {
-                if (_mouseLeftDownForResizeTeeth == null)
-                    return _mouseLeftDownForResizeTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForResizeTeeth((MouseEventArgs)param));
-                return _mouseLeftDownForResizeTeeth;
-            }
-            set { _mouseLeftDownForResizeTeeth = value; }
-        }
-
-        public void ExecuteMouseLeftDownForResizeTeeth(MouseEventArgs e)
-        {
-            if (isSizing)
-                return;
-            isSizing = true;
-            Mouse.Capture((IInputElement)e.Source);
-        }
-
-        private RelayCommand<object> _mouseMoveForResizeTeeth;
-        public RelayCommand<object> MouseMoveForResizeTeeth
-        {
-            get
-            {
-                if (_mouseMoveForResizeTeeth == null)
-                    return _mouseMoveForResizeTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForResizeTeeth((MouseEventArgs)param));
-                return _mouseMoveForResizeTeeth;
-            }
-            set { _mouseMoveForResizeTeeth = value; }
-        }
-
-        public void ExecuteMouseMoveForResizeTeeth(MouseEventArgs e)
-        {
-            if (!isSizing)
-                return;
-            Border border = (Border)e.Source;
-            int i = 0;
-
-            foreach (Teeth teeth in SelectedList)
-            {
-                //Grid grid = (Grid)border.Parent;
-                //Border borderSecond = (Border)grid.Parent;
-                //WrapTeeth wrapTeeth = (WrapTeeth)borderSecond.Parent;
-                //Canvas canvas = wrapTeeth.Parent as Canvas;
-
-                Point maxPoint = Numerics.GetMaxPointTeeth(teeth);
-                Point minPoint = Numerics.GetMinPointTeeth(teeth);
-
-                if (isFirstTimeMovedOnSizing[i])
-                {
-                    anchorMin[i] = new Point(minPoint.X, minPoint.Y);
-                    anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
-                    isFirstTimeMovedOnSizing[i] = false;
-                }
-
-                if (e.LeftButton != MouseButtonState.Pressed)
-                    return;
-
-                //double actualWidth1 = minPoint.X + wrapTeeth.ActualWidth;
-                //double actualHeight1 = minPoint.Y + wrapTeeth.ActualHeight;
-                //double actualWidth2 = maxPoint.X - wrapTeeth.ActualWidth;
-                //double actualHeight2 = maxPoint.X - wrapTeeth.ActualHeight;
-
-                Point moved = e.GetPosition(e.Source as IInputElement);
-                double changedWidth = maxPoint.X - minPoint.X + moved.X;
-                double changedHeight = maxPoint.Y - minPoint.Y + moved.Y;
-                double changedWidth_rev = maxPoint.X - minPoint.X - moved.X;
-                double changedHeight_rev = maxPoint.Y - minPoint.Y - moved.Y;
-
-                double changedWidth_ori = maxPoint.X - minPoint.X;
-                double changedHeight_ori = maxPoint.Y - minPoint.Y;
-
-                Console.WriteLine("moved : " + moved);
-                Console.WriteLine("maxPoint : " + maxPoint);
-
-
-                //double dx = Math.Abs((actualWidth1 + curPoint.X) - anchorMin.X);
-                //double dy = Math.Abs((actualHeight1 + curPoint.Y) - anchorMin.Y);
-
-                if (border.Name.Equals("Border_Top"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            //double RatioY = Math.Abs((maxPoint.Y - moved.Y) / maxPoint.Y);
-                            double RatioY = changedHeight_ori / changedHeight;
-                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
-                        }
-                    }
-
-                }
-                else if (border.Name.Equals("Border_Bottom"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        if (changedHeight > sizeThreshold)
-                        {
-                            //double RatioY = Math.Abs((maxPoint.Y + moved.Y) / maxPoint.Y);
-                            double RatioY = changedHeight / changedHeight_ori;
-
-                            point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
-                        }
-
-                        //point.Y = point.Y * ((actualHeight1 + curPoint.Y) / actualHeight1) - (minPoint.Y - anchorMin.Y);
-                    }
-                }
-                else if (border.Name.Equals("Border_Left"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            //double RatioX = Math.Abs((maxPoint.X - moved.X) / maxPoint.X);
-                            double RatioX = changedWidth_ori / changedWidth;
-                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
-                        }
-                    }
-
-                }
-                else if (border.Name.Equals("Border_Right"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        //point.X = point.X * ((actualWidth1 + curPoint.X) / actualWidth1) - (minPoint.X - anchorMin.X);
-                        if (changedWidth > sizeThreshold)
-                        {
-                            //double RatioX = Math.Abs((maxPoint.X + moved.X) / maxPoint.X);
-                            double RatioX = changedWidth / changedWidth_ori;
-
-                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
-                        }
-                    }
-
-                }
-                else if (border.Name.Equals("Border_TopLeft"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = changedWidth_ori / changedWidth;
-
-                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = changedHeight_ori / changedHeight;
-
-                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
-                        }
-
-                    }
-                }
-                else if (border.Name.Equals("Border_TopRight"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        //point.X = point.X * ((actualWidth2 + curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedWidth > sizeThreshold)
-                        {
-                            double RatioX = changedWidth / changedWidth_ori;
-
-                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = changedHeight_ori / changedHeight;
-
-                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
-                        }
-                    }
-
-                }
-                else if (border.Name.Equals("Border_BottomLeft"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 + curPoint.Y) / actualHeight2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = changedWidth_ori / changedWidth;
-                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight > sizeThreshold)
-                        {
-                            double RatioY = changedHeight / changedHeight_ori;
-                            point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
-                        }
-
-                    }
-                }
-                else if (border.Name.Equals("Border_BottomRight"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        if (changedWidth > sizeThreshold)
-                        {
-                            double RatioX = changedWidth / changedWidth_ori;
-                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight > sizeThreshold)
-                        {
-                            double RatioY = changedHeight / changedHeight_ori;
-                            point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
-                        }
-                        //point.X = point.X * ((actualWidth1 + curPoint.X) / actualWidth1) - (minPoint.X - anchorMin.X);
-                        //point.Y = point.Y * ((actualHeight1 + curPoint.Y) / actualHeight1) - (minPoint.Y - anchorMin.Y);
-                    }
-                }
-                i++;
-            }
-        }
-
-        private RelayCommand<object> _mouseLeftUpForResizeTeeth;
-        public RelayCommand<object> MouseLeftUpForResizeTeeth
-        {
-            get
-            {
-                if (_mouseLeftUpForResizeTeeth == null)
-                    return _mouseLeftUpForResizeTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForResizeTeeth((MouseEventArgs)param));
-                return _mouseLeftUpForResizeTeeth;
-            }
-            set { _mouseLeftUpForResizeTeeth = value; }
-        }
-
-        public void ExecuteMouseLeftUpForResizeTeeth(MouseEventArgs e)
-        {
-            isSizing = false;
-
-            for (int i = 0; i < 10; i++)
-                isFirstTimeMovedOnSizing[i] = true;
-
-            Mouse.Capture(null);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Resize for Tooth
-
-        bool isFirstTimeMovedOnSizingTooth = true;
-        Point anchorToothMin;
-        Point anchorToothMax;
-
-        private void SetSizingTooth(MouseEventArgs e)
-        {
-            if (!isSizing)
-                return;
-
-            Border border = (Border)e.Source;
-            Grid grid = (Grid)border.Parent;
-            Border borderSecond = (Border)grid.Parent;
-            WrapTooth wrapTooth = (WrapTooth)borderSecond.Parent;
-
-            Point minPoint = Numerics.GetMinPoint(wrapTooth);
-            Point maxPoint = Numerics.GetMaxPoint(wrapTooth);
-
-            if (isFirstTimeMovedOnSizingTooth)
-            {
-                //to memory the first location of anchor point
-                anchorToothMin = new Point(minPoint.X, minPoint.Y);
-                anchorToothMax = new Point(maxPoint.X, maxPoint.Y);
-                isFirstTimeMovedOnSizingTooth = false;
-            }
-
-            if (e.LeftButton != MouseButtonState.Pressed)
-                return;
-
-            Point moved = e.GetPosition(e.Source as IInputElement);
-            double changedWidth = maxPoint.X - minPoint.X + moved.X;
-            double changedHeight = maxPoint.Y - minPoint.Y + moved.Y;
-            double changedWidth_rev = maxPoint.X - minPoint.X - moved.X;
-            double changedHeight_rev = maxPoint.Y - minPoint.Y - moved.Y;
-
-            if (border.Name.Equals("Border_Top"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = Math.Abs((maxPoint.Y - moved.Y) / maxPoint.Y);
-                            point.Y = point.Y * RatioY + anchorToothMax.Y * (1 - RatioY);
-                        }
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_Bottom"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        if (changedHeight > sizeThreshold)
-                        {
-                            double RatioY = Math.Abs((maxPoint.Y + moved.Y) / maxPoint.Y);
-                            point.Y = point.Y * RatioY + anchorToothMin.Y * (1 - RatioY);
-                        }
-                        //point.Y = point.Y * ((actualHeight1 + curPoint.Y) / actualHeight1) - (minPoint.Y - anchorMin.Y);
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_Left"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = Math.Abs((maxPoint.X - moved.X) / maxPoint.X);
-                            point.X = point.X * RatioX + anchorToothMax.X * (1 - RatioX);
-                        }
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_Right"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        //point.X = point.X * ((actualWidth1 + curPoint.X) / actualWidth1) - (minPoint.X - anchorMin.X);
-                        if (changedWidth > sizeThreshold)
-                        {
-                            double RatioX = Math.Abs((maxPoint.X + moved.X) / maxPoint.X);
-                            point.X = point.X * RatioX + anchorToothMin.X * (1 - RatioX);
-                        }
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_TopLeft"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = Math.Abs((maxPoint.X - moved.X) / maxPoint.X);
-                            point.X = point.X * RatioX + anchorToothMax.X * (1 - RatioX);
-                        }
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = Math.Abs((maxPoint.Y - moved.Y) / maxPoint.Y);
-                            point.Y = point.Y * RatioY + anchorToothMax.Y * (1 - RatioY);
-                        }
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_TopRight"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        //point.X = point.X * ((actualWidth2 + curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedWidth > sizeThreshold)
-                        {
-                            double RatioX = Math.Abs((maxPoint.X + moved.X) / maxPoint.X);
-                            point.X = point.X * RatioX + anchorToothMin.X * (1 - RatioX);
-                        }
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = Math.Abs((maxPoint.Y - moved.Y) / maxPoint.Y);
-                            point.Y = point.Y * RatioY + anchorToothMax.Y * (1 - RatioY);
-                        }
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_BottomLeft"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 + curPoint.Y) / actualHeight2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = Math.Abs((maxPoint.X - moved.X) / maxPoint.X);
-                            point.X = point.X * RatioX + anchorToothMax.X * (1 - RatioX);
-                        }
-                        if (changedHeight > sizeThreshold)
-                        {
-                            double RatioY = Math.Abs((maxPoint.Y + moved.Y) / maxPoint.Y);
-                            point.Y = point.Y * RatioY + anchorToothMin.Y * (1 - RatioY);
-                        }
-                    }
-                }
-            }
-            else if (border.Name.Equals("Border_BottomRight"))
-            {
-                foreach (TeethType points in wrapTooth.Points)
-                {
-                    foreach (PointViewModel point in points)
-                    {
-                        if (changedWidth > sizeThreshold)
-                        {
-                            double RatioX = Math.Abs((maxPoint.X + moved.X) / maxPoint.X);
-                            point.X = point.X * RatioX + anchorToothMin.X * (1 - RatioX);
-                        }
-                        if (changedHeight > sizeThreshold)
-                        {
-                            double RatioY = Math.Abs((maxPoint.Y + moved.Y) / maxPoint.Y);
-                            point.Y = point.Y * RatioY + anchorToothMin.Y * (1 - RatioY);
-                        }
-                        //point.X = point.X * ((actualWidth1 + curPoint.X) / actualWidth1) - (minPoint.X - anchorMin.X);
-                        //point.Y = point.Y * ((actualHeight1 + curPoint.Y) / actualHeight1) - (minPoint.Y - anchorMin.Y);
-                    }
-                }
-            }
-        }
-        #region Resize for CommandProperties
-
-        // For Tooth
-        private RelayCommand<object> _mouseLeftDownForResizeTooth;
-        public RelayCommand<object> MouseLeftDownForResizeTooth
-        {
-            get
-            {
-                if (_mouseLeftDownForResizeTooth == null)
-                    return _mouseLeftDownForResizeTooth = new RelayCommand<object>(param => ExecuteMouseLeftDownForResizeTooth((MouseEventArgs)param));
-                return _mouseLeftDownForResizeTooth;
-            }
-            set { _mouseLeftDownForResizeTooth = value; }
-        }
-
-        public void ExecuteMouseLeftDownForResizeTooth(MouseEventArgs e)
-        {
-            isSizing = true;
-            //anchorPoint = e.GetPosition((IInputElement)e.Source);
-            Mouse.Capture((IInputElement)e.Source);
-        }
-
-        private RelayCommand<object> _mouseMoveForResizeTooth;
-        public RelayCommand<object> MouseMoveForResizeTooth
-        {
-            get
-            {
-                if (_mouseMoveForResizeTooth == null)
-                    return _mouseMoveForResizeTooth = new RelayCommand<object>(param => ExecuteMouseMoveForResizeTooth((MouseEventArgs)param));
-                return _mouseMoveForResizeTooth;
-            }
-            set { _mouseMoveForResizeTooth = value; }
-        }
-
-        public void ExecuteMouseMoveForResizeTooth(MouseEventArgs e)
-        {
-            SetSizingTooth(e);
-        }
-
-        private RelayCommand<object> _mouseLeftUpForResizeTooth;
-        public RelayCommand<object> MouseLeftUpForResizeTooth
-        {
-            get
-            {
-                if (_mouseLeftUpForResizeTooth == null)
-                    return _mouseLeftUpForResizeTooth = new RelayCommand<object>(param => ExecuteMouseLeftUpForResizeTooth((MouseEventArgs)param));
-                return _mouseLeftUpForResizeTooth;
-            }
-            set { _mouseLeftUpForResizeTooth = value; }
-        }
-
-        public void ExecuteMouseLeftUpForResizeTooth(MouseEventArgs e)
-        {
-            isSizing = false;
-            Mouse.Capture(null);
-            isFirstTimeMovedOnSizingTooth = true;
-        }
-
-        #endregion
-
-        #endregion
-
-        #endregion
-
-        #region SmileLine
-
-        //private Rectangle rect3;
-        private Point arc_origin;
-        private bool captured_arc;
-
-        private RelayCommand<object> _mouseLeftDownForSmileLine;
-        public RelayCommand<object> MouseLeftDownForSmileLine
-        {
-            get
-            {
-                if (_mouseLeftDownForSmileLine == null)
-                    return _mouseLeftDownForSmileLine = new RelayCommand<object>(param => ExecuteMouseLeftDownForSmileLine((MouseEventArgs)param));
-                return _mouseLeftDownForSmileLine;
-            }
-            set { _mouseLeftDownForSmileLine = value; }
-        }
-        private void ExecuteMouseLeftDownForSmileLine(MouseEventArgs e)
-        {
-            Path smile = e.Source as Path;
-            if (smile == null)
-                return;
-
-            //arc_origin = e.GetPosition(e.Source as IInputElement);
-            captured_arc = true;
-            Mouse.Capture(smile);
-        }
-
-        private RelayCommand<object> _mouseMoveForSmileLine;
-        public RelayCommand<object> MouseMoveForSmileLine
-        {
-            get
-            {
-                if (_mouseMoveForSmileLine == null)
-                    return _mouseMoveForSmileLine = new RelayCommand<object>(param => ExecuteMouseMoveForSmileLine((MouseEventArgs)param));
-                return _mouseMoveForSmileLine;
-            }
-            set { _mouseMoveForSmileLine = value; }
-        }
-        private void ExecuteMouseMoveForSmileLine(MouseEventArgs e)
-        {
-            Path smile = e.Source as Path;
-            if (smile == null)
-                return;
-
-            Ellipse me = e.Source as Ellipse;
-
-        }
-
-        private RelayCommand<object> _mouseLeftUpForSmileLine;
-        public RelayCommand<object> MouseLeftUpForSmileLine
-        {
-            get
-            {
-                if (_mouseLeftUpForSmileLine == null)
-                    return _mouseLeftUpForSmileLine = new RelayCommand<object>(param => ExecuteMouseLeftUpForSmileLine((MouseEventArgs)param));
-                return _mouseLeftUpForSmileLine;
-            }
-            set { _mouseLeftUpForSmileLine = value; }
-        }
-        private void ExecuteMouseLeftUpForSmileLine(MouseEventArgs e)
-        {
-            captured_arc = false;
-            Mouse.Capture(null);
-        }
-
-        #endregion
-
-        #region Rotate
-
-        private bool captured_rotate = false;
-        private List<bool> firstRotate = new List<bool>(10);
-
-        private double[] degrees = new double[10];
-        private double[] accAlangle = new double[10];
-        private List<Point> RotateAnchor = new List<Point>();
-
-        #region Rotate for Teeth
-
-        private RelayCommand<object> _mouseLeftDownForRotateTeeth;
-        public RelayCommand<object> MouseLeftDownForRotateTeeth
-        {
-            get
-            {
-                if (_mouseLeftDownForRotateTeeth == null)
-                    return _mouseLeftDownForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForRotateTeeth(param as MouseEventArgs));
-                return _mouseLeftDownForRotateTeeth;
-            }
-            set { _mouseLeftDownForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseLeftDownForRotateTeeth(MouseEventArgs e)
-        {
-            if (captured_rotate)
-                return;
-            captured_rotate = true;
-            Mouse.Capture(e.Source as IInputElement);
-        }
-
-        private RelayCommand<object> _mouseMoveForRotateTeeth;
-        public RelayCommand<object> MouseMoveForRotateTeeth
-        {
-            get
-            {
-                if (_mouseMoveForRotateTeeth == null)
-                    return _mouseMoveForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForRotateTeeth(param as MouseEventArgs));
-                return _mouseMoveForRotateTeeth;
-            }
-            set { _mouseMoveForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseMoveForRotateTeeth(MouseEventArgs e)
-        {
-            if (!captured_rotate)
-                return;
-
-            RotateTeeth me = e.Source as RotateTeeth;
-            Teeth teeth = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
-
-            List<Point> rotate = Numerics.TeethToList(teeth);
-            Point min = new Point(Numerics.GetMinX_Teeth(rotate).X, Numerics.GetMinY_Teeth(rotate).Y);
-            Point max = new Point(Numerics.GetMaxX_Teeth(rotate).X, Numerics.GetMaxY_Teeth(rotate).Y);
-
-            Point ctrl = new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
-            Point cur = e.GetPosition(e.Source as IInputElement);
-
-            int i = 0;
-            foreach (Teeth t in SelectedList)
-            {
-                List<Point> l = Numerics.TeethToList(t);
-                Point min_t = new Point(Numerics.GetMinX_Teeth(l).X, Numerics.GetMinY_Teeth(l).Y);
-                Point max_t = new Point(Numerics.GetMaxX_Teeth(l).X, Numerics.GetMaxY_Teeth(l).Y);
-
-                if (firstRotate[i])
-                {
-                    if (i == 0)
-                        RotateAnchor.Clear();
-                    RotateAnchor.Add(new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2));
-                    firstRotate[i] = false;
-                    Console.WriteLine($"{i}, {RotateAnchor[i]}");
-                    i++;
-                }
-            }
-
-            double rad = Math.Atan2(cur.Y - ctrl.Y, cur.X - ctrl.X);
-            double deg = Numerics.Rad2Deg(rad);
-
-            int j = 0;
-
-
-            foreach (Teeth t in SelectedList)
-            {
-                degrees[j] = deg;
-                degrees[j] += accAlangle[j] + 90;
-                if (degrees[j] <= -30 || degrees[j] >= 30)
-                    continue;
-                RotateTransform rotatetransform = new RotateTransform(degrees[j], RotateAnchor[j].X, RotateAnchor[j].Y);
-                t.RenderTransform = rotatetransform;
-                accAlangle[j] = degrees[j];
-                j++;
-            }
-        }
-
-        private RelayCommand<object> _mouseLeftUpForRotateTeeth;
-        public RelayCommand<object> MouseLeftUpForRotateTeeth
-        {
-            get
-            {
-                if (_mouseLeftUpForRotateTeeth == null)
-                    return _mouseLeftUpForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForRotateTeeth(param as MouseEventArgs));
-                return _mouseLeftUpForRotateTeeth;
-            }
-            set { _mouseLeftUpForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseLeftUpForRotateTeeth(MouseEventArgs e)
-        {
-            captured_rotate = false;
-            for (int i = 0; i < firstRotate.Count; i++)
-                firstRotate[i] = true;
-            Mouse.Capture(null);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Add Points
-
-        private RelayCommand<object> _mouseLeftDownForAddPoints;
-        public RelayCommand<object> MouseLeftDownForAddPoints
-        {
-            get
-            {
-                if (_mouseLeftDownForAddPoints == null)
-                    return _mouseLeftDownForAddPoints = new RelayCommand<object>(param => ExecuteMouseLeftDownForAddPoints(param as MouseEventArgs));
-                return _mouseLeftDownForAddPoints;
-            }
-            set { _mouseLeftDownForAddPoints = value; }
-        }
-
-        private void ExecuteMouseLeftDownForAddPoints(MouseEventArgs e)
-        {
-            main = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            if (main.ToothControl.EditPoints.IsChecked == false)
-                return;
-
-            if (!isSizing)
-            {
-                UserControl tooth = e.Source as UserControl;        // UpperTooth, LowerTooth
-                WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
-                //Grid grid = tooth.FindName("GridInTooth") as Grid;
-
-                Point curPoint = e.GetPosition(e.Source as IInputElement);
-
-                // Find the 1st-nearest point from the curPoint
-                double min_dist1 = double.MaxValue;
-                PointViewModel nearest1 = null;
-                TeethType target1 = null;
-                foreach (TeethType teeth in wrap.Points)
-                {
-                    foreach (PointViewModel point in teeth)
-                    {
-                        double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist1)
-                        {
-                            min_dist1 = dist;
-                            nearest1 = point;
-                            target1 = teeth;
-                        }
-                    }
-                }
-
-                // Find the 2nd-nearest point from the curPoint
-                double min_dist2 = double.MaxValue;
-                PointViewModel nearest2 = null;
-                TeethType target2 = null;
-                foreach (TeethType teeth in wrap.Points)
-                {
-                    foreach (PointViewModel point in teeth)
-                    {
-                        double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist2)
-                        {
-                            min_dist2 = dist;
-                            nearest2 = point;
-                            //nearest2 = new Point(point.X, point.Y);
-                            target2 = teeth;
-                        }
-                    }
-                }
-
-                if (target1 == target2)
-                {
-                    List<Point> tolist = new List<Point>();
-                    foreach (var p in target1)
-                        tolist.Add(new Point(p.X, p.Y));
-                    List<Point> segment = new List<Point>();
-
-                    for (int i = 0; i < tolist.Count; i++)
-                    {
-                        if (tolist[i].X == nearest1.X && tolist[i].Y == nearest1.Y)     // tolist[i] == nearest1
-                        {
-                            if (i == 0)
-                            {
-                                segment.Add(tolist[tolist.Count - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[i + 1]);
-                            }
-                            else if (i == tolist.Count - 1)
-                            {
-                                segment.Add(tolist[i - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[0]);
-                            }
-                            else
-                            {
-                                segment.Add(tolist[i - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[i + 1]);
-                            }
-                            break;
-                        }
-                    }
-
-                    Point control = InterpolationUtils.InterpolatePointWithBezierCurves(segment, true)[0].FirstControlPoint;
-
-                    Numerics.Sign tangentline = Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
-                    Numerics.Sign normalline = Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
-
-                    double dst = float.MaxValue;
-                    double min_dst = float.MaxValue;
-                    int mem = 0;
-                    for (int i = 0; i < tolist.Count; i++)
-                    {
-                        if (Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == tangentline
-                            && Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == normalline)
-                        {
-                            dst = Numerics.Distance(curPoint, tolist[i]);
-                            Console.WriteLine($"{i}, {dst}, {min_dst}");
-                            if (dst < min_dst)
-                            {
-                                min_dst = dst;
-                                mem = i;
-                            }
-                        }
-                    }
-
-                    Console.WriteLine($"{mem}");
-
-                    int pos = nearest1.I < mem ? mem : nearest1.I;
-                    if (nearest1.I == 0 && nearest2.I == tolist.Count - 1 || nearest1.I == tolist.Count - 1 && nearest2.I == 0)
-                        target1.Add(new PointViewModel(curPoint.X, curPoint.Y, tolist.Count));
-                    else
-                    {
-                        target1.Insert(pos, new PointViewModel(curPoint.X, curPoint.Y, pos));
-                        foreach (var p in target1)
-                        {
-                            if (p.I == pos)
-                            {
-                                for (int i = 0; i < target1.Count - pos - 1; i++)
-                                    target1[i + pos + 1].I++;
-                                break;
-                            }
-                        }
-                    }
-                    RaisePropertyChanged("UpperPoints");
-                    RaisePropertyChanged("LowerPoints");
-                }
+                Console.Write("write2에러:" + ex.Message);
             }
         }
 
         #endregion
-
-        #region Move KeyBoard
-
-        //키보드 키다운 커맨드,
-        //지금은 1픽셀씩 이동하지만 zoom-scale을 참조해서
-        //비율에 알맞게 이동시키는 것이 이상적임.
-        private RelayCommand<object> _keyboardDown;
-        public RelayCommand<object> keyboardDown
-        {
-            get
-            {
-                if (_keyboardDown == null)
-                    return _keyboardDown = new RelayCommand<object>(param => ExecuteKeyboardDown((KeyboardEventArgs)param));
-                return _keyboardDown;
-            }
-            set { _keyboardDown = value; }
-        }
-
-        public void ExecuteKeyboardDown(KeyboardEventArgs e)
-        {
-            if (e.KeyboardDevice.IsKeyDown(Key.Down))
-            {
-                foreach (Teeth teeth in SelectedList)
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        point.Y += 1;
-                    }
-                }
-            }
-            else if (e.KeyboardDevice.IsKeyDown(Key.Up))
-            {
-                foreach (Teeth teeth in SelectedList)
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        point.Y -= 1;
-                    }
-                }
-            }
-            else if (e.KeyboardDevice.IsKeyDown(Key.Right))
-            {
-                foreach (Teeth teeth in SelectedList)
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        point.X += 1;
-                    }
-                }
-            }
-            else if (e.KeyboardDevice.IsKeyDown(Key.Left))
-            {
-                foreach (Teeth teeth in SelectedList)
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        point.X -= 1;
-                    }
-                }
-            }
-
-            #endregion
-
-        #endregion
-        }
     }
 }
