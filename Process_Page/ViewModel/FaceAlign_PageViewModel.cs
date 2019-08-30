@@ -2815,7 +2815,6 @@ namespace Process_Page
                     // me & own : different side
                     if (idx_me < 3 && idx_own >= 3 || idx_me >= 3 && idx_own < 3)
                         degrees[j] = -deg - 90 + accAlangle[j];
-
                 if (degrees[j] <= -limitAngle || degrees[j] >= limitAngle)
                 {
                     j++;
@@ -3146,6 +3145,9 @@ namespace Process_Page
         }
 
         #endregion
+
+        
+
 
         #endregion
     }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj": {}
+    "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj": {}
   },
   "projects": {
-    "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj": {
+    "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
+        "projectUniqueName": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
         "projectName": "Process_Page_Change",
-        "projectPath": "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
+        "projectPath": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
         "packagesPath": "C:\\Users\\bit\\.nuget\\packages\\",
-        "outputPath": "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\obj\\",
+        "outputPath": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
