@@ -185,7 +185,8 @@ namespace Process_Page.ToothTemplate
                 return;
 
             DrawRect();
-          //DrawSmileLine(pointses);
+            //DrawSmileLine(pointses);
+            DrawJoseLine(pointses);
             DrawTeethBetweenLine(pointses);
 
         }
@@ -248,25 +249,23 @@ namespace Process_Page.ToothTemplate
         #endregion
 
         #region SmileLine 
+
         private void DrawJoseLine(List<List<Point>> all)
         {
             Point MaxPoint = Numerics.GetMaxXY_Tooth(Points);
             Point MinPoint = Numerics.GetMinXY_Tooth(Points);
+
             double unitDistance = (MaxPoint.Y - MinPoint.Y) / 2;
-            Point StartPoint =new Point(MinPoint.X-unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
-            Point EndPoint =new Point(MaxPoint.X+unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
+            Point StartPoint = new Point(MinPoint.X - unitDistance, MaxPoint.Y / 2 + MinPoint.Y / 2);
+            Point EndPoint = new Point(MaxPoint.X + unitDistance, MaxPoint.Y / 2 + MinPoint.Y / 2);
 
             double temp = (MinPoint.X / 2 + MaxPoint.X / 2 - StartPoint.X) / 1.7320508075688772935;//3^0.5
             Size size = new Size(2 * temp, 2 * temp);
-            ArcSegment arcSegment = new ArcSegment(EndPoint,size,0,false,SweepDirection.Counterclockwise,true);
-
+            ArcSegment arcSegment = new ArcSegment(EndPoint, size, 0, false, SweepDirection.Counterclockwise, true);
         }
 
         private void DrawSmileLine(List<List<Point>> all)
         {
-
-
-
             Point Left2 = Numerics.GetMinX_Teeth(all[5]);
             Point Left1 = Numerics.GetMaxY_Teeth(all[4]);
 

@@ -199,32 +199,6 @@ namespace Process_Page.ToothTemplate
 
             Canvas.SetLeft(this, Left);
             Canvas.SetTop(this, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-            //Canvas.SetLeft(ResizeControl_Top, Left);
-            //Canvas.SetTop(ResizeControl_Top, Top);
-
-
         }
 
         #endregion

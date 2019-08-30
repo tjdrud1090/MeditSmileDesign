@@ -39,11 +39,11 @@
                 <Separator Grid.Row="1" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
 
                 <Grid  Grid.Row="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Expander Header="Upper Templates" Margin="10" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Expander Header="Upper Templates" Margin="10" Grid.Row="0">
                         <StackPanel>
                             <RadioButton x:Name="Upper_no" Margin="20,10,0,0"
                                              IsChecked="{Binding UpperTmpNo}" Content="None"/>
@@ -67,7 +67,7 @@
                                              IsChecked="{Binding UpperTmp9}" Content="Upper Template #9"/>
                         </StackPanel>
                     </Expander>
-                    <Expander Header="Lower Templates" Margin="10" Grid.Column="1">
+                    <Expander Header="Lower Templates" Margin="10" Grid.Row="1">
                         <StackPanel>
                             <RadioButton x:Name="Lower_no" Grid.Column="0" Margin="20,10,0,0"
                                          IsChecked="{Binding LowerTmpNo}">None</RadioButton>

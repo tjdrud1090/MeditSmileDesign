@@ -24,7 +24,7 @@
                     <SolidColorBrush Color="Transparent"/>
                 </Rectangle.Fill>
             </Rectangle>
-            
+
             <Border x:Name="Border_Top" Cursor="SizeNS" Visibility="Hidden"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth}"
                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
@@ -39,12 +39,6 @@
                 </Border.Background>
             </Border>
 
-            <!--<Image x:Name="MoveTop" Source="/image/DragArrow1.png" 
-                   Visibility="Hidden" Width="7" Height="7" Cursor="Hand"
-                   Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
-                   Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
-                   Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>-->            
-
             <Line x:Name="Teethline5" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline6" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
             <Line x:Name="Teethline7" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
@@ -54,7 +48,7 @@
             <Line x:Name="Teethline1" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
 
             <Canvas x:Name="Canvas_Smile">
-                <Path x:Name="SmileLine" Stroke="SkyBlue" StrokeThickness="3">
+                <Path x:Name="SmileLine" Stroke="SkyBlue" StrokeThickness="1">
                         <Path.Data>
                             <PathGeometry>
                                 <PathGeometry.Figures>
