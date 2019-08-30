@@ -185,7 +185,7 @@ namespace Process_Page.ToothTemplate
                 return;
 
             DrawRect();
-            DrawSmileLine(pointses);
+          //DrawSmileLine(pointses);
             DrawTeethBetweenLine(pointses);
 
         }

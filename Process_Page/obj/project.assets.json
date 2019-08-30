@@ -845,11 +845,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
+      "projectUniqueName": "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
       "projectName": "Process_Page_Change",
-      "projectPath": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
+      "projectPath": "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
       "packagesPath": "C:\\Users\\bit\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\obj\\",
+      "outputPath": "D:\\ho-ho\\WPF\\MeditSmileDesign\\Process_Page\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [

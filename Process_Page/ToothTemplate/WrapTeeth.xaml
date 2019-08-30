@@ -7,7 +7,6 @@
              
              xmlns:ar="clr-namespace:Process_Page.ToothTemplate.ArrowLine"
              xmlns:Util="clr-namespace:Process_Page.Util"
-             xmlns:ViewModel="clr-namespace:Process_Page"
              
              x:Name="WrapTeethControl"
              
