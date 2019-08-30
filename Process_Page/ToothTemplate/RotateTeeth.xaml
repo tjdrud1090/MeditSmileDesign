@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Process_Page.ToothTemplate"
              mc:Ignorable="d" 
              
-             xmlns:ViewModel="clr-namespace:Process_Page"
+             xmlns:ViewModel="clr-namespace:Process_Page.ViewModel"
              xmlns:Utils="clr-namespace:Process_Page.Util"
              
              Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForRotateTeeth}"
@@ -23,7 +23,7 @@
 
         <Path x:Name="RotatePin" Stroke="CadetBlue" StrokeThickness="0.5" Fill="LightBlue" Visibility="Hidden">
             <Path.DataContext>
-                <ViewModel:FaceAlign_PageViewModel/>
+                <ViewModel:SmilePageViewModel/>
             </Path.DataContext>
             <Path.Data>
                 <EllipseGeometry x:Name="Pin" Center="0,0"

@@ -68,6 +68,7 @@ namespace Process_Page.ViewModel
             _FrontalRefVisiblity = Visibility.Hidden;
             _GagRefVisiblity = Visibility.Hidden;
             _RotateControlVisiblity = Visibility.Hidden;
+            _FrontalImageVisiblity = Visibility.Hidden;
 
             RaisePropertyChanged("showControl0");
             RaisePropertyChanged("showControl1");
@@ -80,6 +81,7 @@ namespace Process_Page.ViewModel
             RaisePropertyChanged("FrontalRefVisiblity");
             RaisePropertyChanged("GagRefVisiblity");
             RaisePropertyChanged("RotateControlVisiblity");
+            RaisePropertyChanged("FrontalImageVisiblity");
         }
         #endregion
 
@@ -139,16 +141,6 @@ namespace Process_Page.ViewModel
             Console.WriteLine("You can intercept the closing event, and cancel here.");
         }
 
-
-
-
-
-
-
-
-
-
-
         private RelayCommand<object> _PrePageClick;
         public RelayCommand<object> PrePageClick
         {
@@ -163,12 +155,8 @@ namespace Process_Page.ViewModel
                 _PrePageClick = value;
             }
         }
-       
-           
 
-
-
-            List<string> flowname = new List<string>();
+        List<string> flowname = new List<string>();
         // 단계 : Face Line coordinates(0) => Face Align & Measurement(1)
 
         public void NextFlowClicked()
@@ -236,6 +224,8 @@ namespace Process_Page.ViewModel
                     _showControl1 = Visibility.Hidden;
                     _FaceLineVisiblity = Visibility.Visible;
                     _LineVisiblity = Visibility.Visible;
+                    _RotateControlVisiblity = Visibility.Hidden;
+                    _FrontalImageVisiblity = Visibility.Hidden;
 
                     _changeText = flowname.ElementAt(0);
                     RaisePropertyChanged("showControl0");
@@ -247,8 +237,12 @@ namespace Process_Page.ViewModel
 
                     _FrontalRefVisiblity = Visibility.Hidden;
                     _GagRefVisiblity = Visibility.Hidden;
+                    _RotateControlVisiblity = Visibility.Hidden;
+
                     RaisePropertyChanged("FrontalRefVisiblity");
                     RaisePropertyChanged("GagRefVisiblity");
+                    RaisePropertyChanged("RotateControlVisiblity");
+                    RaisePropertyChanged("FrontalImageVisiblity");
 
                     break;
                 default:
@@ -365,6 +359,78 @@ namespace Process_Page.ViewModel
                     RaisePropertyChanged("RotateControlVisiblity");
                 }
             }
+        }
+
+        private Visibility _FrontalImageVisiblity;
+        public Visibility FrontalImageVisiblity
+        {
+            get { return _FrontalImageVisiblity; }
+            set
+            {
+                if (_FrontalImageVisiblity != value)
+                {
+                    _FrontalImageVisiblity = value;
+                    RaisePropertyChanged("FrontalImageVisiblity");
+                }
+            }
+        }
+        #endregion
+
+        #region ResetCommand
+        //Teeth Ref Reset
+        private RelayCommand<object> _TeethRefSelected;
+        public RelayCommand<object> TeethRefSelected
+        {
+            get
+            {
+                if (_TeethRefSelected == null)
+                    return _TeethRefSelected = new RelayCommand<object>(param => this.TeethRefReselect());
+                return _TeethRefSelected;
+            }
+            set
+            {
+                _TeethRefSelected = value;
+            }
+        }
+
+        private void TeethRefReselect()
+        {
+            // Init
+            RefernceCount = 0;
+            refclicked = true;
+            GagRefVisiblity = Visibility.Hidden;
+            FrontalRefVisiblity = Visibility.Hidden;
+            RotateControlVisiblity = Visibility.Hidden;
+            FrontalImageVisiblity = Visibility.Hidden;
+
+            teethL.Center = new Point(-100, -100);
+            teethR.Center = new Point(-100, -100);
+            FrontalteethL.Center = new Point(-100, -100);
+            FrontalteethR.Center = new Point(-100, -100);
+
+            if(currentclicked != null)
+                currentclicked.Opacity = 1;
+        }
+
+        // FaceLine Reset
+        private RelayCommand<object> _FaceLineReset;
+        public RelayCommand<object> FaceLineReset
+        {
+            get
+            {
+                if (_FaceLineReset == null)
+                    return _FaceLineReset = new RelayCommand<object>(param => this.FaceLineResetting());
+                return _FaceLineReset;
+            }
+            set
+            {
+                _FaceLineReset = value;
+            }
+        }
+
+        private void FaceLineResetting()
+        {
+
         }
         #endregion
 
@@ -548,8 +614,6 @@ namespace Process_Page.ViewModel
             RaisePropertyChanged("GagPoints");
             RaisePropertyChanged("GagFaceSource");
 
-            draw_faceline();
-
             // 미소 사진 미리 다운로드
             // 파일 열기
             FaceDetector faceDetector2 = new FaceDetector(PatientInfo.Patient_Info.frontfilename);
@@ -568,6 +632,8 @@ namespace Process_Page.ViewModel
             savepoint2.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[1]));
 
             _FrontalPoints = savepoint2;
+
+            draw_faceline();
         }
 
         //face point 보정
@@ -636,17 +702,43 @@ namespace Process_Page.ViewModel
 
             double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
 
-            GagFacePoints = change_point_position(percentage, curimagePosition, GagFacePoints);
+            // face point 보정
+            FrontalFacePoints = change_point_position(percentage, curimagePosition, FrontalFacePoints);
             ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
 
-            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[1]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[0]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[1]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[0]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[1]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[0]));
+            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[1]));
 
-            _GagPoints = savepoint;
+            _FrontalPoints = savepoint;
+            RaisePropertyChanged("FrontalPoints");
+
+            // Mouth pointviewmodel
+            ObservableCollection<PointViewModel> savepoint2 = new ObservableCollection<PointViewModel>();
+            int count = 0;
+            foreach (var point in FrontalFacePoints.mouth)
+            {
+                Point pt = OpenCVPoint2W_Point(point);
+                savepoint2.Add(new PointViewModel(pt.X, pt.Y, count));
+                count++;
+            }
+
+            _FrontalMouthPoints = savepoint2;
+
+            GagFacePoints = change_point_position(percentage, curimagePosition, GagFacePoints);
+            ObservableCollection<Point> savepoint3 = new ObservableCollection<Point>();
+
+            savepoint3.Add(OpenCVPoint2W_Point(GagFacePoints.midline[0]));
+            savepoint3.Add(OpenCVPoint2W_Point(GagFacePoints.midline[1]));
+            savepoint3.Add(OpenCVPoint2W_Point(GagFacePoints.eye[0]));
+            savepoint3.Add(OpenCVPoint2W_Point(GagFacePoints.eye[1]));
+            savepoint3.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[0]));
+            savepoint3.Add(OpenCVPoint2W_Point(GagFacePoints.mouse[1]));
+
+            _GagPoints = savepoint3;
             RaisePropertyChanged("GagPoints");
 
             _TransGagCenter = _GagPoints.ElementAt(2);
@@ -703,44 +795,9 @@ namespace Process_Page.ViewModel
             double height = currentPage.CanvasView.ActualHeight;
             double width = currentPage.CanvasView.ActualWidth;
 
-            double imageCanvasHeight = currentPage.FrontalFaceImage.ActualHeight;
-            double imageCanvasWidth = currentPage.FrontalFaceImage.ActualWidth;
-
-            double imageHeight = FrontalFaceImage.Height;
-            double imagewidth = FrontalFaceImage.Width;
-
-            double percentage = imageCanvasHeight / imageHeight;
-
-            double curimagePosition = (imageCanvasWidth - imagewidth * percentage) / 2;
-
-            // face point 보정
-            FrontalFacePoints = change_point_position(percentage, curimagePosition, FrontalFacePoints);
-            ObservableCollection<Point> savepoint = new ObservableCollection<Point>();
-
-            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[0]));
-            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.midline[1]));
-            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[0]));
-            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.eye[1]));
-            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[0]));
-            savepoint.Add(OpenCVPoint2W_Point(FrontalFacePoints.mouse[1]));
-
-            _FrontalPoints = savepoint;
-            RaisePropertyChanged("FrontalPoints");
-
-            // Mouth pointviewmodel
-            ObservableCollection<PointViewModel> savepoint2 = new ObservableCollection<PointViewModel>();
-            int count = 0;
-            foreach (var point in FrontalFacePoints.mouth)
-            {
-                Point pt = OpenCVPoint2W_Point(point);
-                savepoint2.Add(new PointViewModel(pt.X,pt.Y, count));
-                count++;
-            }
-
-            _FrontalMouthPoints = savepoint2;
-
             // Scale set
             _FrontalScale = 1;
+            _FrontalAngle = 0;
 
             // FrontalCenter Set
             _FrontalCenter.X = _midline.StartPoint.X - FrontalFacePoints.eye[0].X - (FrontalFacePoints.eye[1].X - FrontalFacePoints.eye[0].X) / 2;
@@ -748,7 +805,7 @@ namespace Process_Page.ViewModel
 
             RaisePropertyChanged("FrontalCenter");
             RaisePropertyChanged("FrontalScale");
-            //RaisePropertyChanged("FrontalAngle");
+            RaisePropertyChanged("FrontalAngle");
 
             // lip line Set
             _lipline = new LineGeometry();
@@ -875,6 +932,16 @@ namespace Process_Page.ViewModel
         #endregion
 
         #region sizeChange MouseWheel
+        // 선 비율 조정
+        private readonly double ScaleFactor = 0.5;
+        private readonly double _alignLineThickness = 2.5;
+        public double alignLineThickness
+        {
+            get
+            {
+                return ScaleFactor * _alignLineThickness / ViewScale;
+            }
+        }
 
         // mouse wheel sizechanged Center point
         private Point _WheelMouseCenter;
@@ -893,6 +960,7 @@ namespace Process_Page.ViewModel
             {
                 _ViewScale = value;
                 RaisePropertyChanged("ViewScale");
+                RaisePropertyChanged("alignLineThickness");
             }
         }
 
@@ -915,6 +983,7 @@ namespace Process_Page.ViewModel
                 {
                     _ViewScale += 0.1;
                     RaisePropertyChanged("ViewScale");
+                    RaisePropertyChanged("alignLineThickness");
                 }
             }
             else
@@ -923,6 +992,7 @@ namespace Process_Page.ViewModel
                 {
                     _ViewScale -= 0.1;
                     RaisePropertyChanged("ViewScale");
+                    RaisePropertyChanged("alignLineThickness");
                 }
             }
         }
@@ -1132,6 +1202,9 @@ namespace Process_Page.ViewModel
 
                     _GagRefVisiblity = Visibility.Hidden;
                     RaisePropertyChanged("GagRefVisiblity");
+
+                    _FrontalImageVisiblity = Visibility.Visible;
+                    RaisePropertyChanged("FrontalImageVisiblity");
                 }
                 else if (RefernceCount == 2)
                 {

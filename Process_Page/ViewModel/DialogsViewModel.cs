@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -181,6 +184,17 @@ namespace Process_Page.ViewModel
         public void nextPage(object obj)
         {
             // 만약 selected된 객체가 없으면 message 띄워주기
+            if (Selected == null)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(500);
+                }).ContinueWith(t =>
+                {
+                    ((PatientInfo_Page)(Application.Current.MainWindow.Content)).MainSnackbar.MessageQueue.Enqueue("선택된 정보가 없습니다.");
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+                return;
+            }
 
             FaceAlign_Page page = new FaceAlign_Page();
             System.Windows.Application.Current.MainWindow.Content = page;

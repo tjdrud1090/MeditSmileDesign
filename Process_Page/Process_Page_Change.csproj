@@ -167,6 +167,7 @@
     <Compile Include="ToothTemplate\UpperTooth.xaml.cs">
       <DependentUpon>UpperTooth.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\FaceAlignInfo.cs" />
     <Compile Include="Util\KeyBoardBehaviors.cs" />
     <Compile Include="ToothTemplate\Utils\MouseBehaviors.cs" />
     <Compile Include="ToothTemplate\WrapTooth.xaml.cs">
@@ -186,16 +187,13 @@
       <DependentUpon>RotationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\XamlDisplayEx.cs" />
-    <Compile Include="ViewModel\SmilePageViewModel.cs" />
+    <Compile Include="ViewModel\FaceControlViewModel.cs" />
     <Compile Include="ViewModel\DialogsViewModel.cs" />
     <Compile Include="ViewModel\layoutViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PointViewModel.cs" />
     <Compile Include="ToothTemplate\Teeth.xaml.cs">
       <DependentUpon>Teeth.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ToothTemplate\Tooth.xaml.cs">
-      <DependentUpon>Tooth.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToothTemplate\Utils\InterpolationUtils.cs" />
     <Compile Include="ToothTemplate\Utils\Numerics.cs" />
@@ -208,6 +206,7 @@
     <Compile Include="Util\FaceDetector.cs" />
     <Compile Include="Util\MouseBehaviour.cs" />
     <Compile Include="ViewModel\SampleSaveDialogViewModel.cs" />
+    <Compile Include="ViewModel\SmilePageViewModel.cs" />
     <Compile Include="ViewModel\TeethControlViewModel.cs" />
     <Page Include="Cards\FaceAlign_Step.xaml">
       <SubType>Designer</SubType>
@@ -258,8 +257,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Domain\Manual1.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Domain\Sample4Dialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -278,8 +277,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="FaceAlign_Page.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Login_Page.xaml">
       <SubType>Designer</SubType>
@@ -333,10 +332,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToothTemplate\Tooth.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ToothTemplate\UpperTooth.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -354,16 +349,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Util\MouthControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Util\NumericUpDown.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Util\RotationControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -395,7 +390,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DlibDotNet">
-      <Version>19.17.0.20190623</Version>
+      <Version>19.17.0.20190813</Version>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
       <Version>3.5.0</Version>
@@ -442,7 +437,8 @@
     <Resource Include="Resource\th3.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="image\manual.PNG" />
+    <Resource Include="image\DragArrow1.png" />
+    <Resource Include="image\DragArrow2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\curved-arrow.png" />

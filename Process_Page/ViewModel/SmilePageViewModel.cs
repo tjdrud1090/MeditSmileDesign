@@ -384,7 +384,20 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
+
         #region sizeChange MouseWheel
+
+        //Mouse Wheel size changed
+        private readonly double ScaleFactor = 0.5;
+        private readonly double _dotSize = 1;//닷 사이즈와 wrapping rect의 strokeThickness
+        private readonly double _dotTranslation = -0.5;
+        private readonly double _emphaDotSize = 2;
+        private readonly double _emphaDotTranslation = -1.0;
+        //점 및 강조점 보정은 점 및 강조점의 크기의 -1/2배로 해주면 됩니당ㅇ.ㅇ!!
+        private readonly double _drawTeethThickness = 0.5;
+        private readonly double _resizeBorderThickness = 1;
+        private readonly double _alignLineThickness = 2.5;
+        private readonly double _pinHeadSize = 2.5;
 
         // mouse wheel sizechanged Center point
         private Point _WheelMouseCenter;
@@ -394,7 +407,70 @@ namespace Process_Page.ViewModel
             set { }
         }
 
-        //Mouse Wheel size changed
+        public double alignLineThickness
+        {
+            get
+            {
+                return ScaleFactor * _alignLineThickness / ViewScale;
+            }
+        }
+
+        public double pinHeadSize
+        {
+            get
+            {
+                return ScaleFactor * _pinHeadSize / ViewScale;
+            }
+        }
+
+        public double drawTeethThickness
+        {
+            get
+            {
+                return ScaleFactor * _drawTeethThickness / ViewScale;
+            }
+        }
+
+        public double resizeBorderThickness
+        {
+            get
+            {
+                return ScaleFactor * _resizeBorderThickness / ViewScale;
+            }
+        }
+
+        public double emphaDotSize
+        {
+            get
+            {
+                return ScaleFactor * _emphaDotSize / ViewScale;
+            }
+        }
+
+        public double emphaDotTranslation
+        {
+            get
+            {
+                return ScaleFactor * _emphaDotTranslation / ViewScale;
+            }
+        }
+
+        public double dotSize
+        {
+            get
+            {
+                return ScaleFactor * _dotSize / ViewScale;
+            }
+        }
+
+        public double dotTranslation
+        {
+            get
+            {
+                return ScaleFactor * _dotTranslation / ViewScale;
+            }
+        }
+
         private double _ViewScale = 1;
         public double ViewScale
         {
@@ -403,6 +479,14 @@ namespace Process_Page.ViewModel
             {
                 _ViewScale = value;
                 RaisePropertyChanged("ViewScale");
+                RaisePropertyChanged("dotSize");
+                RaisePropertyChanged("dotTranslation");
+                RaisePropertyChanged("emphaDotSize");
+                RaisePropertyChanged("emphaDotTranslation");
+                RaisePropertyChanged("teethLineThickness");
+                RaisePropertyChanged("pinHeadSize");
+                RaisePropertyChanged("alignLineThickness");
+
             }
         }
 
@@ -416,33 +500,41 @@ namespace Process_Page.ViewModel
             }
             set { _SizeChangedWheel = value; }
         }
-       
-            
+
         private void ExecuteMouseWheel(MouseWheelEventArgs e)
         {
-          SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-            currentPage.MagnifiyingGlass.ZoomFactor = 0.5;
             if (e.Delta > 0)
-             {
-                if (_ViewScale < 7)
+            {
+                if (_ViewScale < 8)
                 {
-                    _ViewScale += 0.1;
-
+                    _ViewScale += 0.25;
                     RaisePropertyChanged("ViewScale");
-                    currentPage.MagnifiyingGlass.ZoomFactor = 0.5;
-
+                    RaisePropertyChanged("dotSize");
+                    RaisePropertyChanged("dotTranslation");
+                    RaisePropertyChanged("emphaDotSize");
+                    RaisePropertyChanged("emphaDotTranslation");
+                    RaisePropertyChanged("teethLineThickness");
+                    RaisePropertyChanged("pinHeadSize");
+                    RaisePropertyChanged("alignLineThickness");
                 }
             }
             else
             {
-                if (_ViewScale > 1)
+                if (_ViewScale > 0.25)
                 {
-                    _ViewScale -= 0.1;
+                    _ViewScale -= 0.25;
                     RaisePropertyChanged("ViewScale");
-                    currentPage.MagnifiyingGlass.ZoomFactor = 0.5;
+                    RaisePropertyChanged("dotSize");
+                    RaisePropertyChanged("dotTranslation");
+                    RaisePropertyChanged("emphaDotSize");
+                    RaisePropertyChanged("emphaDotTranslation");
+                    RaisePropertyChanged("teethLineThickness");
+                    RaisePropertyChanged("pinHeadSize");
+                    RaisePropertyChanged("alignLineThickness");
                 }
             }
         }
+
         #endregion
 
         #region MouseEvent
@@ -906,19 +998,22 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
-        #region Tooth mouse events
+        #region Events for Tooth Control
 
         List<Teeth> SelectedList = new List<Teeth>();
+        private bool inTeeth = false;
 
         #region DragDrop
 
         private bool leftdown = false;
         private bool leftdown_with_ctrl = false;
         private bool dragging = false;
+        private Teeth own = null;
 
         #region DragDrop for Teeth 
 
         private Point originalPoint;
+        private List<Teeth> dragged = new List<Teeth>();
 
         private RelayCommand<object> _mouseLeftDownForDragAndDropTeeth;
         public RelayCommand<object> MouseLeftDownForDragAndDropTeeth
@@ -933,10 +1028,11 @@ namespace Process_Page.ViewModel
         }
         public void ExecuteMouseLeftDownForDragAndDropTeeth(MouseEventArgs e)
         {
+            inTeeth = true;
             Rectangle rect = e.Source as Rectangle;
             Border border = ViewUtils.FindParent(rect, (new Border()).GetType()) as Border;
 
-            Teeth th = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
+            Teeth th = ViewUtils.FindParent(rect, (new Teeth()).GetType()) as Teeth;
             RotateTeeth rotate = th.FindName("rotateTeeth") as RotateTeeth;
             DrawTeeth draw = th.FindName("drawTeeth") as DrawTeeth;
 
@@ -948,6 +1044,7 @@ namespace Process_Page.ViewModel
                 leftdown_with_ctrl = false;
                 if (SelectedList.Count == 0)
                 {
+                    own = th;
                     SelectedList.Add(th);
 
                     border.Opacity = 1;
@@ -958,6 +1055,7 @@ namespace Process_Page.ViewModel
                 }
                 else if (SelectedList.Contains(th))
                 {
+                    own = th;
                     //draw.path.Fill = null;
                     //rotate.RotatePin.Visibility = Visibility.Hidden;
                 }
@@ -980,6 +1078,7 @@ namespace Process_Page.ViewModel
                     }
                     SelectedList.Clear();
 
+                    own = th;
                     SelectedList.Add(th);
                     th.list.Visibility = Visibility.Visible;
                     border.Opacity = 1;
@@ -993,10 +1092,6 @@ namespace Process_Page.ViewModel
 
             Mouse.Capture((IInputElement)e.Source);
             originalPoint = e.GetPosition((IInputElement)e.Source);
-
-            // padding
-            originalPoint.X += 5;
-            originalPoint.Y += 5;
         }
 
         private RelayCommand<object> _mouseMoveForDragAndDropTeeth;
@@ -1012,41 +1107,79 @@ namespace Process_Page.ViewModel
         }
         public void ExecuteMouseMoveForDragAndDropTeeth(MouseEventArgs e)
         {
-            main = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            main = Application.Current.MainWindow.Content as SmileDesign_Page;
             if (dragging)
             {
                 if (leftdown == true)
                 {
                     Rectangle rect = e.Source as Rectangle;
-                    Teeth me_rect = ViewUtils.FindParent(rect, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
+                    Teeth me_rect = ViewUtils.FindParent(rect, (new Teeth()).GetType()) as Teeth;
                     if (SelectedList.Contains(me_rect))
                     {
                         foreach (Teeth me in SelectedList)
                         {
-                            Teeth you = null;
-                            if (main.ToothControl.mirror.IsChecked == true)
-                            {
-                                Grid grid_me = ViewUtils.FindParent(me, (new Grid()).GetType()) as Grid;
-
-                                int idx_me = main.ToothControl.dic[me.Name];
-                                int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
-                                var myKey = main.ToothControl.dic.FirstOrDefault(p => p.Value == idx_you).Key;
-                                you = grid_me.FindName(myKey) as Teeth;
-                            }
-
                             Point curPoint = e.GetPosition((IInputElement)e.Source);
                             var dragDelta = curPoint - originalPoint;
-                            foreach (PointViewModel point in me.Points)
+                            // Mirror Mode
+                            if (main.ToothControl.mirror.IsChecked == true)
                             {
-                                point.X += dragDelta.X;
-                                point.Y += dragDelta.Y;
-                            }
-
-                            if (you != null)
-                            {
-                                foreach (PointViewModel point in you.Points)
+                                if (dragged.Contains(me) == false)
                                 {
-                                    point.X -= dragDelta.X;
+                                    int idx_me = main.ToothControl.dic[me.Name];
+                                    int idx_own = main.ToothControl.dic[own.Name];
+
+                                    // me & own : different side
+                                    if ((idx_me < 3 && idx_own >= 3) || (idx_me >= 3 && idx_own < 3))
+                                    {
+                                        foreach (PointViewModel point in me.Points)
+                                        {
+                                            point.X -= dragDelta.X;
+                                            point.Y += dragDelta.Y;
+                                        }
+                                    }
+                                    // me & own : same side
+                                    else
+                                    {
+                                        foreach (PointViewModel point in me.Points)
+                                        {
+                                            point.X += dragDelta.X;
+                                            point.Y += dragDelta.Y;
+                                        }
+                                    }
+                                    dragged.Add(me);
+
+                                    // Mirror
+                                    Teeth you = ViewUtils.FindSymmetric(me, main.ToothControl.dic);
+                                    if (dragged.Contains(you) == false)
+                                    {
+                                        // you & own : same side
+                                        if ((idx_me < 3 && idx_own >= 3) || (idx_me >= 3 && idx_own < 3))
+                                        {
+                                            foreach (PointViewModel point in you.Points)
+                                            {
+                                                point.X += dragDelta.X;
+                                                point.Y += dragDelta.Y;
+                                            }
+                                        }
+                                        // you & own : different side
+                                        else
+                                        {
+                                            foreach (PointViewModel point in you.Points)
+                                            {
+                                                point.X -= dragDelta.X;
+                                                point.Y += dragDelta.Y;
+                                            }
+                                        }
+                                    }
+                                    dragged.Add(you);
+                                }
+                            }
+                            // No Mirror
+                            else
+                            {
+                                foreach (PointViewModel point in me.Points)
+                                {
+                                    point.X += dragDelta.X;
                                     point.Y += dragDelta.Y;
                                 }
                             }
@@ -1056,6 +1189,7 @@ namespace Process_Page.ViewModel
             }
             else if (leftdown)
                 dragging = true;
+            dragged.Clear();
         }
 
         private RelayCommand<object> _mouseLeftUpForDragAndDropTeeth;
@@ -1089,8 +1223,9 @@ namespace Process_Page.ViewModel
                         {
                             flag = 1;
                             th.list.Visibility = Visibility.Hidden;
-                            border_dragdrop.Opacity = 0;
                             draw.path.Fill = null;
+                            draw.path.Stroke = draw.FindResource("NonSelected_StrokeBrush") as Brush;
+                            border_dragdrop.Opacity = 0;
                             rotate.RotatePin.Visibility = Visibility.Hidden;
                         }
 
@@ -1099,6 +1234,7 @@ namespace Process_Page.ViewModel
                             SelectedList.Add(th);
                             th.list.Visibility = Visibility.Visible;
                             draw.path.Fill = draw.FindResource("FillBrush") as Brush;
+                            draw.path.Stroke = draw.FindResource("Selected_StrokeBrush") as Brush;
                             border_dragdrop.Opacity = 1;
                             rotate.RotatePin.Visibility = Visibility.Visible;
                         }
@@ -1153,10 +1289,11 @@ namespace Process_Page.ViewModel
                 Mouse.Capture(null);
                 leftdown = false;
                 leftdown_with_ctrl = false;
-                e.Handled = true;
+                // e.Handled = true;
             }
 
             dragging = false;
+            inTeeth = false;
         }
 
         #endregion
@@ -1179,10 +1316,12 @@ namespace Process_Page.ViewModel
         }
         public void ExecuteMouseLeftDownForDragAndDropTooth(MouseEventArgs e)
         {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
+            //ArrowLine me = e.Source as ArrowLine;
+            //Ellipse me = e.Source as Ellipse;
+            Image me = e.Source as Image;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+            Border me_border = wrap.FindName("Border_WrapTooth") as Border;
             foreach (Teeth del in SelectedList)
             {
                 RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
@@ -1202,12 +1341,8 @@ namespace Process_Page.ViewModel
             SelectedList.Clear();
             originalPoint = e.GetPosition((IInputElement)e.Source);
 
-            //padding
-            originalPoint.X += 5;
-            originalPoint.Y += 5;
 
             orgBrush2 = me_border.BorderBrush;
-            //me.Stroke = Brushes.Red;
             me_border.BorderBrush = Brushes.Red;
 
             leftdown = true;
@@ -1227,10 +1362,12 @@ namespace Process_Page.ViewModel
         }
         public void ExecuteMouseMoveForDragAndDropTooth(MouseEventArgs e)
         {
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
-            WrapTooth wrap = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.WrapTooth")) as WrapTooth;
+            //ArrowLine me = e.Source as ArrowLine;
+            //Ellipse me = e.Source as Ellipse;
+            Image me = e.Source as Image;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+
             if (leftdown == true)
             {
                 Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
@@ -1259,14 +1396,12 @@ namespace Process_Page.ViewModel
         }
         public void ExecuteMouseLeftUpForDragAndDropTooth(MouseEventArgs e)
         {
-            //rect2.Stroke = orgBrush2;
-            //border2.BorderBrush = orgBrush2;
-
-            //Rectangle me = e.Source as Rectangle;
-            ArrowLine me = e.Source as ArrowLine;
-            //DragArrow me = e.Source as DragArrow;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
-            //me.Stroke = orgBrush2;
+            //ArrowLine me = e.Source as ArrowLine;
+            //Ellipse me = e.Source as Ellipse;
+            Image me = e.Source as Image;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+            Border me_border = wrap.FindName("Border_WrapTooth") as Border;
             me_border.BorderBrush = orgBrush2;
 
             leftdown = false;
@@ -1279,16 +1414,17 @@ namespace Process_Page.ViewModel
 
         #region Resize 
 
+        private List<bool> isFirstTimeMovedOnSizing = new List<bool>();
+        private List<bool> isFirstTimeMovedOnSizing_you = new List<bool>();
         private bool isSizing = false;
         private readonly double sizeThreshold = 10;
 
-        private bool[] isFirstTimeMovedOnSizing = new bool[10];
         private Point[] anchorMin = new Point[10];
         private Point[] anchorMax = new Point[10];
+        private Point[] anchorMin_you = new Point[10];
+        private Point[] anchorMax_you = new Point[10];
+
         #region Resize for Teeth
-
-
-        #region Resize for CommandProperties
 
         // For Teeth
         private RelayCommand<object> _mouseLeftDownForResizeTeeth;
@@ -1327,192 +1463,549 @@ namespace Process_Page.ViewModel
         {
             if (!isSizing)
                 return;
-            Border border = (Border)e.Source;
-            int i = 0;
+            if (e.LeftButton != MouseButtonState.Pressed)
+                return;
 
-            foreach (Teeth teeth in SelectedList)
+            Point moved = e.GetPosition(e.Source as IInputElement);
+            Border border = e.Source as Border;
+
+            int i = 0, j = 0;
+            if (border.Name.Equals("Border_Top"))
             {
-                //Grid grid = (Grid)border.Parent;
-                //Border borderSecond = (Border)grid.Parent;
-                //WrapTeeth wrapTeeth = (WrapTeeth)borderSecond.Parent;
-                //Canvas canvas = wrapTeeth.Parent as Canvas;
-
-                Point maxPoint = Numerics.GetMaxPointTeeth(teeth);
-                Point minPoint = Numerics.GetMinPointTeeth(teeth);
-
-                if (isFirstTimeMovedOnSizing[i])
+                // Sibling
+                foreach (Teeth sibling in SelectedList)
                 {
-                    anchorMin[i] = new Point(minPoint.X, minPoint.Y);
-                    anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
-                    isFirstTimeMovedOnSizing[i] = false;
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_Height = maxPoint.Y - minPoint.Y;
+                    double changedHeight = ori_Height - moved.Y;
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedHeight > sizeThreshold)
+                        {
+                            double RatioY = changedHeight / ori_Height;
+                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
+                        }
+                    }
+                    i++;
+
+                    // Mirror Mode
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_Height_you = maxPoint_you.Y - minPoint_you.Y;
+                        double changedHeight_you = ori_Height_you - moved.Y;
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedHeight_you > sizeThreshold)
+                            {
+                                double RatioY = changedHeight_you / ori_Height_you;
+                                point.Y = point.Y * RatioY + anchorMax_you[j].Y * (1 - RatioY);
+                            }
+                        }
+                    }
+                    j++;
+                }
+            }
+            else if (border.Name.Equals("Border_Bottom"))
+            {
+                // Sibling
+                foreach (Teeth sibling in SelectedList)
+                {
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_height = maxPoint.Y - minPoint.Y;
+                    double changedHeight = ori_height + moved.Y;
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedHeight > sizeThreshold)
+                        {
+                            double RatioY = changedHeight / ori_height;
+                            point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
+                        }
+                    }
+                    i++;
+
+                    // Mirror
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_height_you = maxPoint_you.Y - minPoint_you.Y;
+                        double changedHeight_you = ori_height_you + moved.Y;
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedHeight_you > sizeThreshold)
+                            {
+                                double RatioY = changedHeight_you / ori_height_you;
+                                point.Y = point.Y * RatioY + anchorMin_you[j].Y * (1 - RatioY);
+                            }
+                        }
+                    }
+                    j++;
                 }
 
-                if (e.LeftButton != MouseButtonState.Pressed)
-                    return;
-
-                //double actualWidth1 = minPoint.X + wrapTeeth.ActualWidth;
-                //double actualHeight1 = minPoint.Y + wrapTeeth.ActualHeight;
-                //double actualWidth2 = maxPoint.X - wrapTeeth.ActualWidth;
-                //double actualHeight2 = maxPoint.X - wrapTeeth.ActualHeight;
-
-                Point moved = e.GetPosition(e.Source as IInputElement);
-                double changedWidth = maxPoint.X - minPoint.X + moved.X;
-                double changedHeight = maxPoint.Y - minPoint.Y + moved.Y;
-                double changedWidth_rev = maxPoint.X - minPoint.X - moved.X;
-                double changedHeight_rev = maxPoint.Y - minPoint.Y - moved.Y;
-
-                double changedWidth_ori = maxPoint.X - minPoint.X;
-                double changedHeight_ori = maxPoint.Y - minPoint.Y;
-
-                Console.WriteLine("moved : " + moved);
-                Console.WriteLine("maxPoint : " + maxPoint);
-
-
-                //double dx = Math.Abs((actualWidth1 + curPoint.X) - anchorMin.X);
-                //double dy = Math.Abs((actualHeight1 + curPoint.Y) - anchorMin.Y);
-
-                if (border.Name.Equals("Border_Top"))
+            }
+            else if (border.Name.Equals("Border_Left"))
+            {
+                // Sibling
+                foreach (Teeth sibling in SelectedList)
                 {
-                    foreach (PointViewModel point in teeth.Points)
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
                     {
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedHeight_rev > sizeThreshold)
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_width = maxPoint.X - minPoint.X;
+                    double changedWidth = ori_width - moved.X;
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedWidth > sizeThreshold)
                         {
-                            //double RatioY = Math.Abs((maxPoint.Y - moved.Y) / maxPoint.Y);
-                            double RatioY = changedHeight_ori / changedHeight;
+                            double RatioX = changedWidth / ori_width;
+                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
+                        }
+                    }
+                    i++;
+
+                    // Mirror
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_width_you = maxPoint_you.X - minPoint_you.X;
+                        double changedWidth_you = ori_width_you - moved.X;
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedWidth_you > sizeThreshold)
+                            {
+                                double RatioX = changedWidth_you / ori_width_you;
+                                point.X = point.X * RatioX + anchorMin_you[j].X * (1 - RatioX);
+                            }
+                        }
+                    }
+                    j++;
+                }
+
+            }
+            else if (border.Name.Equals("Border_Right"))
+            {
+                // Sibling
+                foreach (Teeth sibling in SelectedList)
+                {
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_width = maxPoint.X - minPoint.X;
+                    double changedWidth = ori_width + moved.X;
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedWidth > sizeThreshold)
+                        {
+                            double RatioX = changedWidth / ori_width;
+                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
+                        }
+                    }
+                    i++;
+
+                    // Mirror
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_width_you = maxPoint_you.X - minPoint_you.X;
+                        double changedWidth_you = ori_width_you + moved.X;
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedWidth_you > sizeThreshold)
+                            {
+                                double RatioX = changedWidth_you / ori_width_you;
+                                point.X = point.X * RatioX + anchorMax_you[j].X * (1 - RatioX);
+                            }
+                        }
+                    }
+                    j++;
+                }
+
+            }
+            else if (border.Name.Equals("Border_TopLeft"))
+            {
+                foreach (Teeth sibling in SelectedList)
+                {
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_width = maxPoint.X - minPoint.X;
+                    double changedWidth = ori_width - moved.X;
+
+                    double ori_height = maxPoint.Y - minPoint.Y;
+                    double changedHeight = ori_height - moved.Y;
+
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedWidth > sizeThreshold)
+                        {
+                            double RatioX = changedWidth / ori_width;
+                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
+                        }
+
+                        if (changedHeight > sizeThreshold)
+                        {
+                            double RatioY = changedHeight / ori_height;
+                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
+                        }
+                    }
+                    i++;
+
+                    // Mirror
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_width_you = maxPoint_you.X - minPoint_you.X;
+                        double changedWidth_you = ori_width_you - moved.X;
+
+                        double ori_height_you = maxPoint_you.Y - minPoint_you.Y;
+                        double changedHeight_you = ori_height_you - moved.Y;
+
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedWidth_you > sizeThreshold)
+                            {
+                                double RatioX = changedWidth_you / ori_width_you;
+                                point.X = point.X * RatioX + anchorMin_you[j].X * (1 - RatioX);
+                            }
+
+                            if (changedHeight_you > sizeThreshold)
+                            {
+                                double RatioY = changedHeight_you / ori_height_you;
+                                point.Y = point.Y * RatioY + anchorMax_you[j].Y * (1 - RatioY);
+                            }
+                        }
+                        j++;
+                    }
+                }
+            }
+            else if (border.Name.Equals("Border_TopRight"))
+            {
+                foreach (Teeth sibling in SelectedList)
+                {
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_width = maxPoint.X - minPoint.X;         // right
+                    double changedWidth = ori_width + moved.X;
+
+                    double ori_height = maxPoint.Y - minPoint.Y;        // top
+                    double changedHeight = ori_height - moved.Y;
+
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedWidth > sizeThreshold)               // right
+                        {
+                            double RatioX = changedWidth / ori_width;
+                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
+                        }
+
+                        if (changedHeight > sizeThreshold)              // top
+                        {
+                            double RatioY = changedHeight / ori_height;
                             point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
                         }
                     }
 
-                }
-                else if (border.Name.Equals("Border_Bottom"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
+                    // Mirror
+                    if (main.ToothControl.mirror.IsChecked == true)
                     {
-                        if (changedHeight > sizeThreshold)
-                        {
-                            //double RatioY = Math.Abs((maxPoint.Y + moved.Y) / maxPoint.Y);
-                            double RatioY = changedHeight / changedHeight_ori;
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
 
-                            point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            Console.WriteLine($"you: {you.Name}, j: {j}");
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
                         }
 
-                        //point.Y = point.Y * ((actualHeight1 + curPoint.Y) / actualHeight1) - (minPoint.Y - anchorMin.Y);
-                    }
-                }
-                else if (border.Name.Equals("Border_Left"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        if (changedWidth_rev > sizeThreshold)
+                        double ori_width_you = maxPoint_you.X - minPoint_you.X;         // right
+                        double changedWidth_you = ori_width_you + moved.X;
+
+                        double ori_height_you = maxPoint_you.Y - minPoint_you.Y;        // top
+                        double changedHeight_you = ori_height_you - moved.Y;
+
+                        foreach (PointViewModel point in you.Points)
                         {
-                            //double RatioX = Math.Abs((maxPoint.X - moved.X) / maxPoint.X);
-                            double RatioX = changedWidth_ori / changedWidth;
+                            if (changedWidth_you > sizeThreshold)                   // right
+                            {
+                                double RatioX = changedWidth_you / ori_width_you;
+                                point.X = point.X * RatioX + anchorMax_you[j].X * (1 - RatioX);
+                            }
+
+                            if (changedHeight_you > sizeThreshold)                  // top
+                            {
+                                double RatioY = changedHeight_you / ori_height_you;
+                                point.Y = point.Y * RatioY + anchorMax_you[j].Y * (1 - RatioY);
+                            }
+                        }
+                    }
+
+                    i++; j++;
+                }
+
+            }
+            else if (border.Name.Equals("Border_BottomLeft"))
+            {
+                foreach (Teeth sibling in SelectedList)
+                {
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_width = maxPoint.X - minPoint.X;             // left
+                    double changedWidth = ori_width - moved.X;
+
+                    double ori_height = maxPoint.Y - minPoint.Y;            // bottom
+                    double changedHeight = ori_height + moved.Y;
+
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedWidth > sizeThreshold)                   // left
+                        {
+                            double RatioX = changedWidth / ori_width;
                             point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
                         }
-                    }
 
-                }
-                else if (border.Name.Equals("Border_Right"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-                        //point.X = point.X * ((actualWidth1 + curPoint.X) / actualWidth1) - (minPoint.X - anchorMin.X);
-                        if (changedWidth > sizeThreshold)
+                        if (changedHeight > sizeThreshold)                  // bottom
                         {
-                            //double RatioX = Math.Abs((maxPoint.X + moved.X) / maxPoint.X);
-                            double RatioX = changedWidth / changedWidth_ori;
-
-                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
-                        }
-                    }
-
-                }
-                else if (border.Name.Equals("Border_TopLeft"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = changedWidth_ori / changedWidth;
-
-                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = changedHeight_ori / changedHeight;
-
-                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
-                        }
-
-                    }
-                }
-                else if (border.Name.Equals("Border_TopRight"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        //point.X = point.X * ((actualWidth2 + curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 - curPoint.Y) / actualHeight2);
-                        if (changedWidth > sizeThreshold)
-                        {
-                            double RatioX = changedWidth / changedWidth_ori;
-
-                            point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight_rev > sizeThreshold)
-                        {
-                            double RatioY = changedHeight_ori / changedHeight;
-
-                            point.Y = point.Y * RatioY + anchorMax[i].Y * (1 - RatioY);
-                        }
-                    }
-
-                }
-                else if (border.Name.Equals("Border_BottomLeft"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
-
-                        //point.X = point.X * ((actualWidth2 - curPoint.X) / actualWidth2);
-                        //point.Y = point.Y * ((actualHeight2 + curPoint.Y) / actualHeight2);
-                        if (changedWidth_rev > sizeThreshold)
-                        {
-                            double RatioX = changedWidth_ori / changedWidth;
-                            point.X = point.X * RatioX + anchorMax[i].X * (1 - RatioX);
-                        }
-                        if (changedHeight > sizeThreshold)
-                        {
-                            double RatioY = changedHeight / changedHeight_ori;
+                            double RatioY = changedHeight / ori_height;
                             point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
                         }
-
                     }
-                }
-                else if (border.Name.Equals("Border_BottomRight"))
-                {
-                    foreach (PointViewModel point in teeth.Points)
-                    {
+                    i++;
 
-                        if (changedWidth > sizeThreshold)
+                    // Mirror Mode
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
                         {
-                            double RatioX = changedWidth / changedWidth_ori;
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_width_you = maxPoint_you.X - minPoint_you.X;             // left
+                        double changedWidth_you = ori_width_you - moved.X;
+
+                        double ori_height_you = maxPoint_you.Y - minPoint_you.Y;            // bottom
+                        double changedHeight_you = ori_height_you + moved.Y;
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedWidth_you > sizeThreshold)                   // left
+                            {
+                                double RatioX = changedWidth_you / ori_width_you;
+                                point.X = point.X * RatioX + anchorMin_you[j].X * (1 - RatioX);
+                            }
+
+                            if (changedHeight_you > sizeThreshold)                  // bottom
+                            {
+                                double RatioY = changedHeight_you / ori_height_you;
+                                point.Y = point.Y * RatioY + anchorMin_you[j].Y * (1 - RatioY);
+                            }
+                        }
+                    }
+                    j++;
+                }
+
+            }
+            else if (border.Name.Equals("Border_BottomRight"))
+            {
+                foreach (Teeth sibling in SelectedList)
+                {
+                    var pts_sibling = Numerics.TeethToList(sibling);
+                    Point maxPoint = new Point(Numerics.GetMaxX_Teeth(pts_sibling).X, Numerics.GetMaxY_Teeth(pts_sibling).Y);
+                    Point minPoint = new Point(Numerics.GetMinX_Teeth(pts_sibling).X, Numerics.GetMinY_Teeth(pts_sibling).Y);
+
+                    if (isFirstTimeMovedOnSizing[i])
+                    {
+                        anchorMin[i] = new Point(minPoint.X, minPoint.Y);
+                        anchorMax[i] = new Point(maxPoint.X, maxPoint.Y);
+                        isFirstTimeMovedOnSizing[i] = false;
+                    }
+
+                    double ori_width = maxPoint.X - minPoint.X;         // right
+                    double changedWidth = ori_width + moved.X;
+
+                    double ori_height = maxPoint.Y - minPoint.Y;        // bottom
+                    double changedHeight = ori_height + moved.Y;
+
+                    foreach (PointViewModel point in sibling.Points)
+                    {
+                        if (changedWidth > sizeThreshold)               // right
+                        {
+                            double RatioX = changedWidth / ori_width;
                             point.X = point.X * RatioX + anchorMin[i].X * (1 - RatioX);
                         }
-                        if (changedHeight > sizeThreshold)
+
+                        if (changedHeight > sizeThreshold)              // bottom
                         {
-                            double RatioY = changedHeight / changedHeight_ori;
+                            double RatioY = changedHeight / ori_height;
                             point.Y = point.Y * RatioY + anchorMin[i].Y * (1 - RatioY);
                         }
-                        //point.X = point.X * ((actualWidth1 + curPoint.X) / actualWidth1) - (minPoint.X - anchorMin.X);
-                        //point.Y = point.Y * ((actualHeight1 + curPoint.Y) / actualHeight1) - (minPoint.Y - anchorMin.Y);
                     }
+                    i++;
+
+                    // Mirror Mode
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(sibling, main.ToothControl.dic);
+                        var pts_you = Numerics.TeethToList(you);
+
+                        Point maxPoint_you = new Point(Numerics.GetMaxX_Teeth(pts_you).X, Numerics.GetMaxY_Teeth(pts_you).Y);
+                        Point minPoint_you = new Point(Numerics.GetMinX_Teeth(pts_you).X, Numerics.GetMinY_Teeth(pts_you).Y);
+                        if (isFirstTimeMovedOnSizing_you[j])
+                        {
+                            anchorMin_you[j] = new Point(minPoint_you.X, minPoint_you.Y);
+                            anchorMax_you[j] = new Point(maxPoint_you.X, maxPoint_you.Y);
+                            isFirstTimeMovedOnSizing_you[j] = false;
+                        }
+
+                        double ori_width_you = maxPoint_you.X - minPoint_you.X;         // right
+                        double changedWidth_you = ori_width_you + moved.X;
+
+                        double ori_height_you = maxPoint_you.Y - minPoint_you.Y;        // bottom
+                        double changedHeight_you = ori_height_you + moved.Y;
+                        foreach (PointViewModel point in you.Points)
+                        {
+                            if (changedWidth_you > sizeThreshold)
+                            {
+                                double RatioX = changedWidth_you / ori_width_you;
+                                point.X = point.X * RatioX + anchorMax_you[j].X * (1 - RatioX);
+                            }
+
+                            if (changedHeight_you > sizeThreshold)
+                            {
+                                double RatioY = changedHeight_you / ori_height_you;
+                                point.Y = point.Y * RatioY + anchorMin_you[j].Y * (1 - RatioY);
+                            }
+                        }
+                    }
+                    j++;
                 }
-                i++;
+
             }
         }
 
@@ -1530,15 +2023,11 @@ namespace Process_Page.ViewModel
 
         public void ExecuteMouseLeftUpForResizeTeeth(MouseEventArgs e)
         {
-            isSizing = false;
-
-            for (int i = 0; i < 10; i++)
-                isFirstTimeMovedOnSizing[i] = true;
-
             Mouse.Capture(null);
+            isSizing = false;
+            isFirstTimeMovedOnSizing = Enumerable.Repeat(true, 10).ToList();
+            isFirstTimeMovedOnSizing_you = Enumerable.Repeat(true, 10).ToList();
         }
-
-        #endregion
 
         #endregion
 
@@ -1558,8 +2047,9 @@ namespace Process_Page.ViewModel
             Border borderSecond = (Border)grid.Parent;
             WrapTooth wrapTooth = (WrapTooth)borderSecond.Parent;
 
-            Point minPoint = Numerics.GetMinPoint(wrapTooth);
-            Point maxPoint = Numerics.GetMaxPoint(wrapTooth);
+            var list = Numerics.ToothToList(wrapTooth);
+            Point minPoint = Numerics.GetMinXY_Tooth(list);
+            Point maxPoint = Numerics.GetMaxXY_Tooth(list);
 
             if (isFirstTimeMovedOnSizingTooth)
             {
@@ -1787,6 +2277,155 @@ namespace Process_Page.ViewModel
 
         #endregion
 
+        #region Rotate
+
+        private bool captured_rotate = false;
+        private double[] accAlangle = new double[10];
+
+        private List<bool> firstRotate = new List<bool>(10);
+        private double[] degrees = new double[10];
+        private List<Point> RotateAnchor = new List<Point>();
+
+        private List<Teeth> rotatedlist = new List<Teeth>();
+
+        private int limitAngle = 30;
+
+        #region Rotate for Teeth
+
+        private RelayCommand<object> _mouseLeftDownForRotateTeeth;
+        public RelayCommand<object> MouseLeftDownForRotateTeeth
+        {
+            get
+            {
+                if (_mouseLeftDownForRotateTeeth == null)
+                    return _mouseLeftDownForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForRotateTeeth(param as MouseEventArgs));
+                return _mouseLeftDownForRotateTeeth;
+            }
+            set { _mouseLeftDownForRotateTeeth = value; }
+        }
+
+        private void ExecuteMouseLeftDownForRotateTeeth(MouseEventArgs e)
+        {
+            if (captured_rotate)
+                return;
+            captured_rotate = true;
+            Mouse.Capture(e.Source as IInputElement);
+        }
+
+        private RelayCommand<object> _mouseMoveForRotateTeeth;
+        public RelayCommand<object> MouseMoveForRotateTeeth
+        {
+            get
+            {
+                if (_mouseMoveForRotateTeeth == null)
+                    return _mouseMoveForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForRotateTeeth(param as MouseEventArgs));
+                return _mouseMoveForRotateTeeth;
+            }
+            set { _mouseMoveForRotateTeeth = value; }
+        }
+
+        private void ExecuteMouseMoveForRotateTeeth(MouseEventArgs e)
+        {
+            if (!captured_rotate)
+                return;
+
+            RotateTeeth rotate = e.Source as RotateTeeth;
+            Teeth teeth = ViewUtils.FindParent(rotate, (new Teeth()).GetType()) as Teeth;
+            own = teeth;
+
+            List<Point> pts = Numerics.TeethToList(teeth);
+            Point min_t = new Point(Numerics.GetMinX_Teeth(pts).X, Numerics.GetMinY_Teeth(pts).Y);
+            Point max_t = new Point(Numerics.GetMaxX_Teeth(pts).X, Numerics.GetMaxY_Teeth(pts).Y);
+
+
+            Point ctrl = new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2);
+
+            Point cur = e.GetPosition(e.Source as IInputElement);
+            double rad = Math.Atan2(cur.Y - ctrl.Y, cur.X - ctrl.X);
+            double deg = Numerics.Rad2Deg(rad);
+
+            // make a list of be rotated
+            foreach (Teeth me in SelectedList)
+            {
+                if (rotatedlist.Contains(me) == false)
+                {
+                    rotatedlist.Add(me);
+                    if (main.ToothControl.mirror.IsChecked == true)
+                    {
+                        Teeth you = ViewUtils.FindSymmetric(me, main.ToothControl.dic);
+                        rotatedlist.Add(you);
+                    }
+                }
+            }
+
+            // set the anchor of rotate only when the rotate is first
+            int i = 0;
+            foreach (Teeth me in rotatedlist)
+            {
+                if (firstRotate[i])
+                {
+                    List<Point> l = Numerics.TeethToList(me);
+                    Point min = new Point(Numerics.GetMinX_Teeth(l).X, Numerics.GetMinY_Teeth(l).Y);
+                    Point max = new Point(Numerics.GetMaxX_Teeth(l).X, Numerics.GetMaxY_Teeth(l).Y);
+
+                    if (i == 0)
+                        RotateAnchor.Clear();
+
+                    RotateAnchor.Add(new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2));
+                    firstRotate[i++] = false;
+                }
+            }
+
+            int j = 0;
+            foreach (Teeth me in rotatedlist)
+            {
+                degrees[j] = deg + 90 + accAlangle[j];
+
+                int idx_own = main.ToothControl.dic[own.Name];
+                int idx_me = main.ToothControl.dic[me.Name];
+                // Mirror Mode
+                if (main.ToothControl.mirror.IsChecked == true)
+                    // me & own : different side
+                    if (idx_me < 3 && idx_own >= 3 || idx_me >= 3 && idx_own < 3)
+                        degrees[j] = -deg - 90 + accAlangle[j];
+
+                if (degrees[j] <= -limitAngle || degrees[j] >= limitAngle)
+                {
+                    j++;
+                    continue;
+                }
+
+                RotateTransform rotatetransform = new RotateTransform(degrees[j], RotateAnchor[j].X, RotateAnchor[j].Y);
+                me.RenderTransform = rotatetransform;
+                accAlangle[j] = degrees[j];
+                j++;
+            }
+            rotatedlist.Clear();
+        }
+
+        private RelayCommand<object> _mouseLeftUpForRotateTeeth;
+        public RelayCommand<object> MouseLeftUpForRotateTeeth
+        {
+            get
+            {
+                if (_mouseLeftUpForRotateTeeth == null)
+                    return _mouseLeftUpForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForRotateTeeth(param as MouseEventArgs));
+                return _mouseLeftUpForRotateTeeth;
+            }
+            set { _mouseLeftUpForRotateTeeth = value; }
+        }
+
+        private void ExecuteMouseLeftUpForRotateTeeth(MouseEventArgs e)
+        {
+            captured_rotate = false;
+            firstRotate = Enumerable.Repeat(true, 10).ToList();
+            Mouse.Capture(null);
+        }
+
+        #endregion
+
+        #endregion
+
         #region SmileLine
 
         //private Rectangle rect3;
@@ -1855,125 +2494,6 @@ namespace Process_Page.ViewModel
 
         #endregion
 
-        #region Rotate
-
-        private bool captured_rotate = false;
-        private List<bool> firstRotate = new List<bool>(10);
-
-        private double[] degrees = new double[10];
-        private double[] accAlangle = new double[10];
-        private List<Point> RotateAnchor = new List<Point>();
-
-        #region Rotate for Teeth
-
-        private RelayCommand<object> _mouseLeftDownForRotateTeeth;
-        public RelayCommand<object> MouseLeftDownForRotateTeeth
-        {
-            get
-            {
-                if (_mouseLeftDownForRotateTeeth == null)
-                    return _mouseLeftDownForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftDownForRotateTeeth(param as MouseEventArgs));
-                return _mouseLeftDownForRotateTeeth;
-            }
-            set { _mouseLeftDownForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseLeftDownForRotateTeeth(MouseEventArgs e)
-        {
-            if (captured_rotate)
-                return;
-            captured_rotate = true;
-            Mouse.Capture(e.Source as IInputElement);
-        }
-
-        private RelayCommand<object> _mouseMoveForRotateTeeth;
-        public RelayCommand<object> MouseMoveForRotateTeeth
-        {
-            get
-            {
-                if (_mouseMoveForRotateTeeth == null)
-                    return _mouseMoveForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseMoveForRotateTeeth(param as MouseEventArgs));
-                return _mouseMoveForRotateTeeth;
-            }
-            set { _mouseMoveForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseMoveForRotateTeeth(MouseEventArgs e)
-        {
-            if (!captured_rotate)
-                return;
-
-            RotateTeeth me = e.Source as RotateTeeth;
-            Teeth teeth = ViewUtils.FindParent(me, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
-
-            List<Point> rotate = Numerics.TeethToList(teeth);
-            Point min = new Point(Numerics.GetMinX_Teeth(rotate).X, Numerics.GetMinY_Teeth(rotate).Y);
-            Point max = new Point(Numerics.GetMaxX_Teeth(rotate).X, Numerics.GetMaxY_Teeth(rotate).Y);
-
-            Point ctrl = new Point((max.X + min.X) / 2, (max.Y + min.Y) / 2);
-            Point cur = e.GetPosition(e.Source as IInputElement);
-
-            int i = 0;
-            foreach (Teeth t in SelectedList)
-            {
-                List<Point> l = Numerics.TeethToList(t);
-                Point min_t = new Point(Numerics.GetMinX_Teeth(l).X, Numerics.GetMinY_Teeth(l).Y);
-                Point max_t = new Point(Numerics.GetMaxX_Teeth(l).X, Numerics.GetMaxY_Teeth(l).Y);
-
-                if (firstRotate[i])
-                {
-                    if (i == 0)
-                        RotateAnchor.Clear();
-                    RotateAnchor.Add(new Point((max_t.X + min_t.X) / 2, (max_t.Y + min_t.Y) / 2));
-                    firstRotate[i] = false;
-                    Console.WriteLine($"{i}, {RotateAnchor[i]}");
-                    i++;
-                }
-            }
-
-            double rad = Math.Atan2(cur.Y - ctrl.Y, cur.X - ctrl.X);
-            double deg = Numerics.Rad2Deg(rad);
-
-            int j = 0;
-
-
-            foreach (Teeth t in SelectedList)
-            {
-                degrees[j] = deg;
-                degrees[j] += accAlangle[j] + 90;
-                if (degrees[j] <= -30 || degrees[j] >= 30)
-                    continue;
-                RotateTransform rotatetransform = new RotateTransform(degrees[j], RotateAnchor[j].X, RotateAnchor[j].Y);
-                t.RenderTransform = rotatetransform;
-                accAlangle[j] = degrees[j];
-                j++;
-            }
-        }
-
-        private RelayCommand<object> _mouseLeftUpForRotateTeeth;
-        public RelayCommand<object> MouseLeftUpForRotateTeeth
-        {
-            get
-            {
-                if (_mouseLeftUpForRotateTeeth == null)
-                    return _mouseLeftUpForRotateTeeth = new RelayCommand<object>(param => ExecuteMouseLeftUpForRotateTeeth(param as MouseEventArgs));
-                return _mouseLeftUpForRotateTeeth;
-            }
-            set { _mouseLeftUpForRotateTeeth = value; }
-        }
-
-        private void ExecuteMouseLeftUpForRotateTeeth(MouseEventArgs e)
-        {
-            captured_rotate = false;
-            for (int i = 0; i < firstRotate.Count; i++)
-                firstRotate[i] = true;
-            Mouse.Capture(null);
-        }
-
-        #endregion
-
-        #endregion
-
         #region Add Points
 
         private RelayCommand<object> _mouseLeftDownForAddPoints;
@@ -1990,134 +2510,150 @@ namespace Process_Page.ViewModel
 
         private void ExecuteMouseLeftDownForAddPoints(MouseEventArgs e)
         {
-            main = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            if (isSizing) return;
+
+            main = Application.Current.MainWindow.Content as SmileDesign_Page;
             if (main.ToothControl.EditPoints.IsChecked == false)
-                return;
-
-            if (!isSizing)
             {
-                UserControl tooth = e.Source as UserControl;        // UpperTooth, LowerTooth
-                WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
-                //Grid grid = tooth.FindName("GridInTooth") as Grid;
-
-                Point curPoint = e.GetPosition(e.Source as IInputElement);
-
-                // Find the 1st-nearest point from the curPoint
-                double min_dist1 = double.MaxValue;
-                PointViewModel nearest1 = null;
-                TeethType target1 = null;
-                foreach (TeethType teeth in wrap.Points)
+                if (inTeeth == false)
                 {
-                    foreach (PointViewModel point in teeth)
+                    foreach (Teeth del in SelectedList)
                     {
-                        double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist1)
-                        {
-                            min_dist1 = dist;
-                            nearest1 = point;
-                            target1 = teeth;
-                        }
+                        RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
+                        DrawTeeth draw_del = del.FindName("drawTeeth") as DrawTeeth;
+                        WrapTeeth wrap_del = del.FindName("wrapTeeth") as WrapTeeth;
+
+                        Border border_del = wrap_del.FindName("Border_WrapTeeth") as Border;
+                        Rectangle rect_del = wrap_del.FindName("Rectangle_WrapTeeth") as Rectangle;
+
+                        border_del.Opacity = 0;
+                        draw_del.path.Stroke = draw_del.FindResource("NonSelected_StrokeBrush") as Brush;
+                        draw_del.path.Fill = null;
+                        rotate_del.RotatePin.Visibility = Visibility.Hidden;
+                        del.list.Visibility = Visibility.Hidden;
                     }
+                    SelectedList.Clear();
                 }
+                return;
+            }
 
-                // Find the 2nd-nearest point from the curPoint
-                double min_dist2 = double.MaxValue;
-                PointViewModel nearest2 = null;
-                TeethType target2 = null;
-                foreach (TeethType teeth in wrap.Points)
+            if (SelectedList.Count != 1)
+            {
+                MessageBox.Show("편집할 치아를 선택해주세요!");
+                return;
+            }
+
+            UserControl tooth = e.Source as UserControl;     // UpperTooth, LowerTooth
+            WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
+
+            Teeth me = SelectedList[0];
+            TeethType me_type = null;
+            //TeethType me_type = wrap.Points[main.ToothControl.dic[me.Name]] as TeethType;
+            int idx_me = main.ToothControl.dic[me.Name];
+            int j = 0;
+            foreach (TeethType tt in wrap.Points)
+            {
+                if (j == idx_me)
                 {
-                    foreach (PointViewModel point in teeth)
-                    {
-                        double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist2)
-                        {
-                            min_dist2 = dist;
-                            nearest2 = point;
-                            //nearest2 = new Point(point.X, point.Y);
-                            target2 = teeth;
-                        }
-                    }
-                }
-
-                if (target1 == target2)
-                {
-                    List<Point> tolist = new List<Point>();
-                    foreach (var p in target1)
-                        tolist.Add(new Point(p.X, p.Y));
-                    List<Point> segment = new List<Point>();
-
-                    for (int i = 0; i < tolist.Count; i++)
-                    {
-                        if (tolist[i].X == nearest1.X && tolist[i].Y == nearest1.Y)     // tolist[i] == nearest1
-                        {
-                            if (i == 0)
-                            {
-                                segment.Add(tolist[tolist.Count - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[i + 1]);
-                            }
-                            else if (i == tolist.Count - 1)
-                            {
-                                segment.Add(tolist[i - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[0]);
-                            }
-                            else
-                            {
-                                segment.Add(tolist[i - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[i + 1]);
-                            }
-                            break;
-                        }
-                    }
-
-                    Point control = InterpolationUtils.InterpolatePointWithBezierCurves(segment, true)[0].FirstControlPoint;
-
-                    Numerics.Sign tangentline = Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
-                    Numerics.Sign normalline = Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
-
-                    double dst = float.MaxValue;
-                    double min_dst = float.MaxValue;
-                    int mem = 0;
-                    for (int i = 0; i < tolist.Count; i++)
-                    {
-                        if (Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == tangentline
-                            && Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == normalline)
-                        {
-                            dst = Numerics.Distance(curPoint, tolist[i]);
-                            Console.WriteLine($"{i}, {dst}, {min_dst}");
-                            if (dst < min_dst)
-                            {
-                                min_dst = dst;
-                                mem = i;
-                            }
-                        }
-                    }
-
-                    Console.WriteLine($"{mem}");
-
-                    int pos = nearest1.I < mem ? mem : nearest1.I;
-                    if (nearest1.I == 0 && nearest2.I == tolist.Count - 1 || nearest1.I == tolist.Count - 1 && nearest2.I == 0)
-                        target1.Add(new PointViewModel(curPoint.X, curPoint.Y, tolist.Count));
-                    else
-                    {
-                        target1.Insert(pos, new PointViewModel(curPoint.X, curPoint.Y, pos));
-                        foreach (var p in target1)
-                        {
-                            if (p.I == pos)
-                            {
-                                for (int i = 0; i < target1.Count - pos - 1; i++)
-                                    target1[i + pos + 1].I++;
-                                break;
-                            }
-                        }
-                    }
-                    RaisePropertyChanged("UpperPoints");
-                    RaisePropertyChanged("LowerPoints");
+                    me_type = tt;
+                    break;
                 }
             }
+
+            Point curPoint = e.GetPosition(e.Source as IInputElement);
+
+            double min_dist1 = double.MaxValue;
+            PointViewModel nearest1 = null;
+            foreach (PointViewModel point in me.Points)
+            {
+                double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
+                if (dist < min_dist1)
+                {
+                    min_dist1 = dist;
+                    nearest1 = point;
+                }
+            }
+
+            double min_dist2 = double.MaxValue;
+            PointViewModel nearest2 = null;
+            foreach (PointViewModel point in me.Points)
+            {
+                double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
+                if (dist < min_dist2 && dist > min_dist1)
+                {
+                    min_dist2 = dist;
+                    nearest2 = point;
+                }
+            }
+
+            List<Point> me_list = Numerics.TeethToList(me);
+            var segment = new List<Point>();
+
+            if (nearest1.I == 0)
+            {
+                segment.Add(me_list[me_list.Count - 1]);
+                segment.Add(me_list[nearest1.I]);
+                segment.Add(me_list[nearest1.I + 1]);
+            }
+            else if (nearest1.I == me_list.Count - 1)
+            {
+                segment.Add(me_list[nearest1.I - 1]);
+                segment.Add(me_list[nearest1.I]);
+                segment.Add(me_list[0]);
+            }
+            else
+            {
+                segment.Add(me_list[nearest1.I - 1]);
+                segment.Add(me_list[nearest1.I]);
+                segment.Add(me_list[nearest1.I + 1]);
+            }
+
+            Point ctrl = InterpolationUtils.InterpolatePointWithBezierCurves(segment, true)[0].FirstControlPoint;
+
+            //make tangent and normal line
+            Numerics.Sign tangentline = Numerics.TangentLineTest(me_list[nearest1.I], ctrl, curPoint);
+            Numerics.Sign normalline = Numerics.NormalLineTest(me_list[nearest1.I], ctrl, curPoint);
+
+            double dst = float.MaxValue;
+            double min_dst = float.MaxValue;
+            int mem = 0;
+            for (int i = 0; i < me_list.Count; i++)
+            {
+                // Among points, Find points on the same side
+                if (Numerics.TangentLineTest(me_list[nearest1.I], ctrl, me_list[i]) == tangentline
+                    && Numerics.NormalLineTest(me_list[nearest1.I], ctrl, me_list[i]) == normalline)
+                {
+                    dst = Numerics.Distance(curPoint, me_list[i]);
+                    if (dst < min_dst)
+                    {
+                        min_dst = dst;
+                        mem = i;
+                    }
+                }
+            }
+
+            int pos = (nearest1.I < mem ? mem : nearest1.I);
+            if ((nearest1.I == 0 && nearest2.I == me_list.Count - 1) || (nearest1.I == me_list.Count - 1 && nearest2.I == 0))
+                me_type.Add(new PointViewModel(curPoint.X, curPoint.Y, me_list.Count));
+            else
+            {
+                me_type.Insert(pos, new PointViewModel(curPoint.X, curPoint.Y, pos));
+                foreach (var p in me_type)
+                {
+                    if (p.I == pos)
+                    {
+                        for (int i = 0; i < me_type.Count - pos - 1; i++)
+                            me_type[i + pos + 1].I++;
+                        break;
+                    }
+                }
+            }
+
+            RaisePropertyChanged("UpperPoints");
+            RaisePropertyChanged("LowerPoints");
+
         }
+
 
         #endregion
 
@@ -2180,10 +2716,10 @@ namespace Process_Page.ViewModel
                     }
                 }
             }
-
-            #endregion
-
-            #endregion
         }
+
+        #endregion
+
+        #endregion
     }
 }

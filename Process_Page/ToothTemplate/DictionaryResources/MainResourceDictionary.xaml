@@ -24,7 +24,7 @@
         </DataTemplate.Resources>
         <Grid>
             <Grid.DataContext>
-                <ProcessPage:FaceAlign_PageViewModel/>
+                <ViewModel:SmilePageViewModel/>
             </Grid.DataContext>
             <Ellipse x:Name="ellipse" Fill="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top"
                      Width="{Binding emphaDotSize}" Height="{Binding emphaDotSize}"

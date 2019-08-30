@@ -51,7 +51,8 @@
                                    ScaleXY="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalScale}"
                                    RotateAngle="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalAngle}"
                                    Canvas.Left="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.X}"
-                                   Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.Y}">
+                                   Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.Y}"
+                                   Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalImageVisiblity}">
                 </local:ImageCanvas>
 
                 <local:ImageCanvas x:Name="GagFaceImage"
@@ -103,19 +104,19 @@
                 <Canvas x:Name="Faceline_layer0"
                     Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
                     Height="{Binding ElementName=CanvasView, Path=ActualHeight}">
-                    <Path Name="midline" Data="{Binding midline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="midline" Data="{Binding midline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="noseline_L" Data="{Binding noseline_L}" Stroke="Red" StrokeThickness="1" Fill="Black"
+                    <Path Name="noseline_L" Data="{Binding noseline_L}" Stroke="Red" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="1" Fill="Black"
+                    <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="EyeLine" Data="{Binding eyeline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="EyeLine" Data="{Binding eyeline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                           Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.LineVisiblity}"
                               ></Path>
-                    <Path Name="LipLine" Data="{Binding lipline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="LipLine" Data="{Binding lipline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                           Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.LineVisiblity}"
                               ></Path>
 

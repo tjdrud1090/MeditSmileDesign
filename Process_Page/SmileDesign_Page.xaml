@@ -4,14 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      
       xmlns:local="clr-namespace:Process_Page.Cards"
-      xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:View="clr-namespace:Process_Page.ToothTemplate"
       xmlns:Utils="clr-namespace:Process_Page.Util"
       xmlns:wpfx1="http://schemas.xceed.com/wpf/xaml/toolkit"
-      mc:Ignorable="d" 
       x:Name="SmileDesignPage"
       d:DesignHeight="900" d:DesignWidth="1200"
       Title="SmileDesignPage">
@@ -41,15 +38,15 @@
 
         <!--실제 이미지 조정 부분 : face align, tooth template 조정-->
         <Grid Name="CanvasView" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="20"
-              MouseBehaviours:MouseBehaviour.MouseWheelCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.SizeChangedWheel}">
+              Utils:MouseBehaviour.MouseWheelCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.SizeChangedWheel}">
             <Canvas x:Name="Image_Canvas" Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
                     Height="{Binding ElementName=CanvasView, Path=ActualHeight}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
-                    MouseBehaviours:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}"
-                    MouseBehaviours:MouseBehaviour.MouseRightButtonDownCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightDown}"
-                    MouseBehaviours:MouseBehaviour.MouseRightButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightUp}"
-                    MouseBehaviours:KeyBoardBehaviors.KeyboardDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.keyboardDown}">
+                    Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
+                    Utils:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
+                    Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}"
+                    Utils:MouseBehaviour.MouseRightButtonDownCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightDown}"
+                    Utils:MouseBehaviour.MouseRightButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightUp}"
+                    Utils:KeyBoardBehaviors.KeyboardDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.keyboardDown}">
                 <Canvas x:Name="cap_canvas" Width="1000" Height="1000">
                     <local:ImageCanvas x:Name="GagFaceImage"
                                    FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.GagPoints}"
@@ -121,9 +118,9 @@
             <Canvas x:Name="Draw_Canvas" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
                     Height="{Binding ElementName=CanvasView, Path=ActualHeight}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
-                    MouseBehaviours:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}">
+                    Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
+                    Utils:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
+                    Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}">
 
                 <Canvas x:Name="Faceline_layer0"
                     Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
@@ -153,9 +150,9 @@
             <DockPanel>
                 <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="42" Foreground="White" HorizontalAlignment="Left" Height="22" >
                     <StackPanel >
-                        <Button Content="로그아웃" Click="Button_Click" />
+                        <Button Content="로그아웃" Click="LoginClicked" />
                         <Separator/>
-                        <Button Content="끝내기" Click="Button_Click_1" />
+                        <Button Content="끝내기" Click="EndProgram" />
                     </StackPanel>
                 </materialDesign:PopupBox>
 
@@ -249,7 +246,7 @@
                                   VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                   Visibility="Visible"/>
 
-        <Button x:Name="SaveButton" Click="Button1_Click" Content="save" Grid.Column="0" Grid.Row="5" 
+        <Button x:Name="SaveButton" Click="Save_Clicked" Content="save" Grid.Column="0" Grid.Row="5" 
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20"
                 Command="{Binding Savecommand}" />
 

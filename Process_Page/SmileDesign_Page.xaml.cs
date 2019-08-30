@@ -32,11 +32,7 @@ namespace Process_Page
             this.DataContext = new SmilePageViewModel();
         }
 
-
-
-
-
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void Save_Clicked(object sender, RoutedEventArgs e)
         {
             SampleSaveDialogViewModel.firstcheck = 0;
             Snapshot(cap_canvas, 1, 100);
@@ -171,13 +167,13 @@ namespace Process_Page
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoginClicked(object sender, RoutedEventArgs e)
         {
             Login_Page page = new Login_Page();
             System.Windows.Application.Current.MainWindow.Content = page;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void EndProgram(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }

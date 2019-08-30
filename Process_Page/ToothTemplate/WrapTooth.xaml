@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"              
              xmlns:Util="clr-namespace:Process_Page.Util"
+             xmlns:Arrow="clr-namespace:Process_Page.ToothTemplate.ArrowLine"
              x:Name="Wrap"
              d:DesignHeight="860" d:DesignWidth="1280">
 
@@ -36,68 +37,21 @@
                 </Border.Background>
             </Border>
 
-            <Arrow:ArrowLine x:Name="MoveTop" 
-                    Visibility="Hidden" Stroke="SkyBlue" StrokeThickness="2" Fill="MidnightBlue" Cursor="Hand"
-                    ArrowEnds="Start" ArrowLength="5" IsArrowClosed="True"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
-
-            <Border x:Name="Border_Bottom" Cursor="SizeNS" Background="DarkCyan" Opacity="0"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}" 
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Style="{StaticResource BorderStyle}"/>
-
-            <Border x:Name="Border_Left" Cursor="SizeWE" Background="LightCoral" Opacity="0"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Width="5" HorizontalAlignment="Left" VerticalAlignment="Stretch" Style="{StaticResource BorderStyle}"/>
-
-            <Border x:Name="Border_Right" Cursor="SizeWE" Background="Olive" Opacity="0"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Style="{StaticResource BorderStyle}"/>
-
-            <Border x:Name="Border_TopLeft" Cursor="SizeNWSE" Background="DarkSalmon" Opacity="0"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Height="5" Width="5" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource BorderStyle}"/>
-
-            <Border x:Name="Border_TopRight" Cursor="SizeNESW" Background="AliceBlue" Opacity="0"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Height="5" Width="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource BorderStyle}"/>
-
-            <Border x:Name="Border_BottomLeft" Cursor="SizeNESW" Background="DarkViolet" Opacity="0"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Height="5" Width="5" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource BorderStyle}"/>
-
-            <Border x:Name="Border_BottomRight" Cursor="SizeNWSE" Background="Orange" Opacity="0"                              
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth }"
-                    MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
-                    MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
-                    Height="5" Width="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource BorderStyle}"/>
-
-            <Line x:Name="Teethline5" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline6" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline7" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline4" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline3" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline2" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-            <Line x:Name="Teethline1" StrokeThickness="1" Stroke="SkyBlue" Visibility="Visible"/>
-			
             <!--<Image x:Name="MoveTop" Source="/image/DragArrow1.png" 
                    Visibility="Hidden" Width="7" Height="7" Cursor="Hand"
                    Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
                    Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
                    Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>-->
+
+            <Line x:Name="Teethline5" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline6" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline7" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline4" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline3" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline2" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+            <Line x:Name="Teethline1" StrokeThickness="0.1" Stroke="SkyBlue" Visibility="Visible"/>
+
+
         </Grid>
     </Border>
 </UserControl>
