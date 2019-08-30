@@ -18,18 +18,25 @@
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
 
         <Grid Name="GridInTooth">
-            <local:Teeth x:Name="LateralIncisorL" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[3]}" 
+            <local:Teeth x:Name="CanineL" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[2]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
-            <local:Teeth x:Name="CentralIncisorL" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[2]}" 
+            <local:Teeth x:Name="LateralIncisorL" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[1]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
-            <local:Teeth x:Name="CentralIncisorR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[0]}" 
+            <local:Teeth x:Name="CentralIncisorL" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[0]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
-            <local:Teeth x:Name="LateralIncisorR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[1]}" 
+            <local:Teeth x:Name="CentralIncisorR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[3]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
+            <local:Teeth x:Name="LateralIncisorR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[4]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
+                         Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
+            <local:Teeth x:Name="CanineR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[5]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
+                         Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
+            
         </Grid>
         
         <Image x:Name="MoveTop" Source="/image/DragArrow1.png" 

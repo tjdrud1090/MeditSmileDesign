@@ -151,6 +151,7 @@ namespace Process_Page.ToothTemplate
         }
 
         #region PropertyChanged
+
         private void RegisterCollectionItemPropertyChanged(IEnumerable collection)
         {
             if (collection == null)
@@ -180,6 +181,7 @@ namespace Process_Page.ToothTemplate
             if (e.PropertyName == "X" || e.PropertyName == "Y")
                 SetWrapTeethRectAndLine();
         }
+
         #endregion
 
         #region DrawRect

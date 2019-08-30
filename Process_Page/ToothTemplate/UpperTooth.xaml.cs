@@ -1,5 +1,6 @@
 ﻿using Process_Page.ToothTemplate.Utils;
 using Process_Page.ViewModel;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace Process_Page.ToothTemplate {
+
     using TeethType = ObservableCollection<PointViewModel>;
 
     public partial class UpperTooth : UserControl
@@ -15,6 +17,15 @@ namespace Process_Page.ToothTemplate {
         public UpperTooth()
         {
             InitializeComponent();
+
+            SmileLineUp.Visibility = Visibility.Hidden;
+            SmileLineDown.Visibility = Visibility.Hidden;
+
+            UpSmile_Left.Visibility = Visibility.Hidden;
+            UpSmile_Right.Visibility = Visibility.Hidden;
+            DownSmile_Left.Visibility = Visibility.Hidden;
+            DownSmile_Right.Visibility = Visibility.Hidden;
+
         }
 
         #region Points
@@ -26,7 +37,7 @@ namespace Process_Page.ToothTemplate {
         }
 
         public static readonly DependencyProperty ToothDataProperty
-                = DependencyProperty.Register("Tooth_Points", typeof(IEnumerable), typeof(UpperTooth), new PropertyMetadata(null, ToothDataPropertyChanged));
+                = DependencyProperty.Register("Tooth_Points", typeof(IEnumerable), typeof(UpperTooth), new PropertyMetadata(ToothDataPropertyChanged));
 
         private static void ToothDataPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -48,32 +59,25 @@ namespace Process_Page.ToothTemplate {
             if (e.NewValue == null) return;
 
             upper.DrawMover();
-            upper.DrawHoHoLine();
+            upper.DrawSmileLine();
         }       
 
-        #region PropertyChanged
+        #region NotifyPropertyChanged
 
         private void RegisterCollectionItemPropertyChanged(IEnumerable collection)
         {
-            if (collection == null)
-                return;
-
+            if (collection == null) return;
             foreach (TeethType points in collection)
-            {
                 foreach (INotifyPropertyChanged point in points)
                     point.PropertyChanged += OnPointPropertyChanged;
-            }
         }
 
         private void UnRegisterCollectionItemPropertyChanged(IEnumerable collection)
         {
-            if (collection == null)
-                return;
+            if (collection == null) return;
             foreach (TeethType points in collection)
-            {
                 foreach (INotifyPropertyChanged point in points)
                     point.PropertyChanged -= OnPointPropertyChanged;
-            }
         }
 
         private void OnPointCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -81,14 +85,14 @@ namespace Process_Page.ToothTemplate {
             RegisterCollectionItemPropertyChanged(e.NewItems);
             UnRegisterCollectionItemPropertyChanged(e.OldItems);
             DrawMover();
-            DrawHoHoLine();
+            DrawSmileLine();
         }
 
         private void OnPointPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "X" || e.PropertyName == "Y") { 
                 DrawMover();
-                DrawHoHoLine();
+                DrawSmileLine();
             }
         }
 
@@ -97,6 +101,7 @@ namespace Process_Page.ToothTemplate {
         #endregion
 
         #region ShowLengths
+
         public static readonly DependencyProperty ShowLengthsProperty =
             DependencyProperty.Register("ShowLengths", typeof(bool), typeof(UpperTooth));
 
@@ -105,6 +110,7 @@ namespace Process_Page.ToothTemplate {
             get { return (bool)GetValue(ShowLengthsProperty); }
             set { SetValue(ShowLengthsProperty, value); }
         }
+
         #endregion
 
         #region Fill
@@ -116,6 +122,7 @@ namespace Process_Page.ToothTemplate {
             get { return (bool)GetValue(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
+
         #endregion
 
         private void DrawMover()
@@ -123,28 +130,47 @@ namespace Process_Page.ToothTemplate {
             Point min = Numerics.GetMinXY_Tooth(Tooth_Points);
             Point max = Numerics.GetMaxXY_Tooth(Tooth_Points);
 
-            double left = (min.X + max.X) / 2 - MoveTop.Width / 2;
-            double top = (min.Y) - (-min.Y + max.Y) / 2 - MoveTop.Height;
+            double left = (min.X + max.X) / 2 - Mover.Width / 2;
+            double top = (min.Y) - (-min.Y + max.Y) / 2 - Mover.Height;
 
-            Canvas.SetLeft(MoveTop, left);
-            Canvas.SetTop(MoveTop, top);
-            MoveTop.Visibility = Visibility.Visible;
+            Canvas.SetLeft(Mover, left);
+            Canvas.SetTop(Mover, top);
+            Mover.Visibility = Visibility.Visible;
         }
 
-        private void DrawHoHoLine() {
-
+        private void DrawSmileLine()
+        {
+            // SmileLine
             Point MaxPoint = Numerics.GetMaxXY_Tooth(Tooth_Points);
             Point MinPoint = Numerics.GetMinXY_Tooth(Tooth_Points);
+
             double unitDistance = (MaxPoint.Y - MinPoint.Y) / 3;
-            double temp = 2*(System.Math.Abs(MinPoint.X / 2 + MaxPoint.X / 2 - DownPathFigure.StartPoint.X)) / 1.7320508075688772935;//3^0.5
-            DownPathFigure.StartPoint =new Point(MinPoint.X-2*unitDistance, MaxPoint.Y-unitDistance);
-            DownArcSegment.Point=new Point(MaxPoint.X+2*unitDistance, MaxPoint.Y-unitDistance); ;
-            DownArcSegment.Size=new Size(1.5*temp, temp);
-            UpPathFigure.StartPoint =new Point(MinPoint.X-2*unitDistance, MinPoint.Y-unitDistance);
-            UpArcSegment.Point=new Point(MaxPoint.X+2*unitDistance, MinPoint.Y-unitDistance); ;
-            UpArcSegment.Size=new Size(1.5*temp, temp);
 
+            DownPathFigure.StartPoint = new Point(MinPoint.X - 2 * unitDistance, MaxPoint.Y - unitDistance);
+            DownArcSegment.Point = new Point(MaxPoint.X + 2 * unitDistance, MaxPoint.Y - unitDistance);
+
+            UpPathFigure.StartPoint = new Point(MinPoint.X - 2 * unitDistance, MinPoint.Y - unitDistance);
+            UpArcSegment.Point = new Point(MaxPoint.X + 2 * unitDistance, MinPoint.Y - unitDistance);
+
+            double temp = 2 * Math.Abs(MinPoint.X / 2 + MaxPoint.X / 2 - DownPathFigure.StartPoint.X) / 1.7320508075688772935;//3^0.5
+            DownArcSegment.Size = new Size(1.5 * temp, temp);
+            UpArcSegment.Size = new Size(1.5 * temp, temp);
+
+            // SmileControl
+            //double x, y, q;
+            LeftSmileControl_up.Center = UpPathFigure.StartPoint;
+            //x = (UpPathFigure.StartPoint.X + UpArcSegment.Point.X) / 2;
+            //q = (UpArcSegment.Point.X - UpPathFigure.StartPoint.X) / 1.5;
+            //y = q / 2;
+            //MidSmileControl_up.Center = new Point(x, y);
+            RightSmileControl_up.Center = UpArcSegment.Point;
+
+            LeftSmileControl_down.Center = DownPathFigure.StartPoint;
+            //x = (DownPathFigure.StartPoint.X + DownArcSegment.Point.X) / 2;
+            //q = (DownArcSegment.Point.X - DownPathFigure.StartPoint.X) / 1.5;
+            //y = DownPathFigure.StartPoint.Y + q / 2;
+            //MidSmileControl_down.Center = new Point(x, y);
+            RightSmileControl_down.Center = DownArcSegment.Point;
         }
-
     }
 }

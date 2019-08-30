@@ -23,7 +23,8 @@
         <Canvas.DataContext>
             <ViewModel:FaceAlign_PageViewModel/>
         </Canvas.DataContext>
-        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" 
+        <Path x:Name="path" 
+              Stroke="{Binding PathColor, ElementName=DrawTeethControl}" 
               StrokeThickness="{Binding drawTeethThickness}"/>
     </Canvas>
 

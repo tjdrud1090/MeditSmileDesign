@@ -20,7 +20,8 @@ using System.Windows.Shapes;
 namespace Process_Page.ToothTemplate
 {
     /// <summary>
-    /// RotateTeeth.xaml에 대한 상호 작용 논리
+    /// 
+    /// .xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class RotateTeeth : UserControl
     {

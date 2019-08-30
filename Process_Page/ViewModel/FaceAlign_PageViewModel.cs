@@ -2844,10 +2844,9 @@ namespace Process_Page {
         #endregion
 
         #region SmileLine
-
-        //private Rectangle rect3;
-        private Point arc_origin;
+        
         private bool captured_arc;
+        private Point org;
 
         private RelayCommand<object> _mouseLeftDownForSmileLine;
         public RelayCommand<object> MouseLeftDownForSmileLine
@@ -2866,8 +2865,8 @@ namespace Process_Page {
             if (smile == null)
                 return;
 
-            //arc_origin = e.GetPosition(e.Source as IInputElement);
             captured_arc = true;
+            org = e.GetPosition(e.Source as IInputElement);
             Mouse.Capture(smile);
         }
 
@@ -2885,10 +2884,25 @@ namespace Process_Page {
         private void ExecuteMouseMoveForSmileLine(MouseEventArgs e)
         {
             Path smile = e.Source as Path;
-            if (smile == null)
+            if (smile == null || captured_arc == false)
                 return;
 
-            Ellipse me = e.Source as Ellipse;
+            Point cur = e.GetPosition(e.Source as IInputElement);
+            var moved = cur - org;
+
+            //var cv = smile.Parent as Canvas;
+            //if (smile.Name.Equals("UpSmile_Left") || smile.Name.Equals("UpSmile_Right"))
+            //{
+            //    Path smileline = cv.FindName("SmileLineUp") as Path;
+            //}
+            //else if (smile.Name.Equals("DownSmile_Left") || smile.Name.Equals("DownSmile_Right"))
+            //{
+            //    Path smileline = cv.FindName("SmileLineDown") as Path;
+            //    Down
+            //}
+            //else return;
+
+            
 
         }
 
@@ -3136,6 +3150,8 @@ namespace Process_Page {
         }
 
         #endregion
+
+
 
         #endregion
     }

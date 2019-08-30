@@ -9,6 +9,7 @@
              
              x:Name="TeethControl"
              d:DesignHeight="860" d:DesignWidth="1280">
+    
     <Canvas x:Name="Canvas_Teeth">
 
         <local:RotateTeeth x:Name="rotateTeeth"
@@ -31,5 +32,7 @@
                 </ControlTemplate>
             </ListBox.Template>
         </ListBox>
+        
     </Canvas>
+    
 </UserControl>

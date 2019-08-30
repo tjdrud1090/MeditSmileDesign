@@ -4,9 +4,10 @@
 	xmlns:PointInterpolation.View="clr-namespace:Process_Page.ToothTemplate"
     
 	xmlns:ViewModel="clr-namespace:Process_Page.ViewModel"
-    xmlns:ProcessPage="clr-namespace:Process_Page"
+    xmlns:Process_Page="clr-namespace:Process_Page"
     
-	xmlns:AttachedProperty="clr-namespace:Process_Page.ToothTemplate.AttachedProperties">
+	xmlns:AttachedProperty="clr-namespace:Process_Page.ToothTemplate.AttachedProperties"
+    >
 
     <!--    Data template for points-->
     <DataTemplate DataType="{x:Type ViewModel:PointViewModel}">
@@ -24,7 +25,7 @@
         </DataTemplate.Resources>
         <Grid>
             <Grid.DataContext>
-                <ProcessPage:FaceAlign_PageViewModel/>
+                <Process_Page:FaceAlign_PageViewModel/>
             </Grid.DataContext>
             <Ellipse x:Name="ellipse" Fill="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top"
                      Width="{Binding emphaDotSize}" Height="{Binding emphaDotSize}"
@@ -81,8 +82,8 @@
     <Style x:Key="SmileControlStyle" TargetType="Ellipse">
         <Setter Property="Width" Value="10"/>
         <Setter Property="Height" Value="10"/>
-        <Setter Property="Fill" Value="SkyBlue"/>
-        <Setter Property="Stroke" Value="Blue"/>
+        <Setter Property="Fill" Value="Red"/>
+        <Setter Property="Stroke" Value="Red"/>
         <Setter Property="StrokeThickness" Value="2"/>
     </Style>
 

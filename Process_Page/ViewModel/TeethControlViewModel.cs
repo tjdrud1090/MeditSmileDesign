@@ -81,6 +81,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp2 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp2 = value;
                     UpperToothList[2] = value;
                     RaisePropertyChanged("Points");
@@ -97,6 +99,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp3 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp3 = value;
                     UpperToothList[3] = value;
                     RaisePropertyChanged("_UpperTmp3");
@@ -113,6 +117,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp4 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp4 = value;
                     UpperToothList[4] = value;
                     RaisePropertyChanged("UpperTmp4");
@@ -129,6 +135,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp5 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp5 = value;
                     UpperToothList[5] = value;
                     RaisePropertyChanged("UpperTmp5");
@@ -145,6 +153,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp6 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp6 = value;
                     UpperToothList[6] = value;
                     RaisePropertyChanged("UpperTmp6");
@@ -161,6 +171,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp7 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp7 = value;
                     UpperToothList[7] = value;
                     RaisePropertyChanged("UpperTmp7");
@@ -177,6 +189,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp8 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp8 = value;
                     UpperToothList[8] = value;
                     RaisePropertyChanged("UpperTmp8");
@@ -193,6 +207,8 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp9 != value)
                 {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp9 = value;
                     UpperToothList[9] = value;
                     RaisePropertyChanged("UpperTmp9");

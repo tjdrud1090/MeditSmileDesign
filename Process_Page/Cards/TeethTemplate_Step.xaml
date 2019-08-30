@@ -92,8 +92,7 @@
                         </StackPanel>
                     </Expander>
                 </Grid>
-
-
+                
             </Grid>
         </materialDesign:Card>
     </Grid>

@@ -65,24 +65,24 @@
                 </local:ImageCanvas>
 
                 <View:LowerTooth x:Name="UserLower" Tooth_Points="{Binding ElementName=ToothControl, Path=DataContext.LowerPoints}"
-                                Visibility="Hidden"
+                                 Visibility="Hidden"
                                  Canvas.Left="{Binding ElementName=FunctionPage, Path=DataContext.ToothLowerCenter.X}"
                                  Canvas.Top="{Binding ElementName=FunctionPage, Path=DataContext.ToothLowerCenter.Y}"
-                                ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
-                                Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:LowerTooth>
+                                 ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
+                                 Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:LowerTooth>
 
                 <View:UpperTooth x:Name="UserUpper" Tooth_Points="{Binding ElementName=ToothControl, Path=DataContext.UpperPoints}"
-                               Visibility="Hidden"
+                                 Visibility="Hidden"
                                  Canvas.Left="{Binding ElementName=FunctionPage, Path=DataContext.ToothUpperCenter.X}"
                                  Canvas.Top="{Binding ElementName=FunctionPage, Path=DataContext.ToothUpperCenter.Y}"
-                                ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
-                                Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:UpperTooth>
+                                 ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
+                                 Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:UpperTooth>
 
                 <Canvas.RenderTransform>
                     <ScaleTransform CenterX="{Binding ElementName=FunctionPage, Path=DataContext.FrontalPoints[0].X}" 
                                     CenterY="{Binding ElementName=FunctionPage, Path=DataContext.FrontalPoints[0].Y}"
-                        ScaleX="{Binding ElementName=FunctionPage, Path=DataContext.rectsc}"
-                        ScaleY="{Binding ElementName=FunctionPage, Path=DataContext.rectsc}"></ScaleTransform>
+                            ScaleX="{Binding ElementName=FunctionPage, Path=DataContext.rectsc}"
+                            ScaleY="{Binding ElementName=FunctionPage, Path=DataContext.rectsc}"></ScaleTransform>
                 </Canvas.RenderTransform>
             </Canvas>
 
@@ -182,7 +182,7 @@
 
         <!--control changed panel :  Clear, TeethTemplate/다시-->
         <Grid x:Name="control_Changed" Grid.Row="3" Grid.Column="0" Grid.RowSpan="2" Margin="35,0,0,0">
-            <local:TeethTemplate_Step x:Name="ToothControl" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl2}" Margin="-24,0,-10,0"></local:TeethTemplate_Step>
+            <local:TeethTemplate_Step x:Name="ToothControl" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl2}" Margin="-10,-42,-24,42"></local:TeethTemplate_Step>
             <local:FaceAlign_Step x:Name="FaceControl" Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl0}" Margin="-10"></local:FaceAlign_Step>
         </Grid>
 
@@ -224,6 +224,7 @@
                          materialDesign:HintAssist.Hint="Memo"
                          IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
                 </Grid>
+                
             </Grid>
         </Grid>
 
@@ -236,7 +237,7 @@
 
         <Button x:Name="SaveButton" Click="Button1_Click" Content="save" Grid.Column="0" HorizontalAlignment="Stretch" Margin="20" Grid.Row="5" VerticalAlignment="Top"
                 Visibility="{Binding ElementName=FunctionPage, Path=DataContext.showControl2}"  Command="{Binding Savecommand}" />
-        <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="5" Grid.ColumnSpan="3" >
+        <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="5" Grid.ColumnSpan="3" Margin="-6,-1,6,1" >
         </materialDesign:DialogHost>
 
     </Grid>

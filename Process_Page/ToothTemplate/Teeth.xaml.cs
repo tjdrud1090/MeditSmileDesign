@@ -52,6 +52,7 @@ namespace Process_Page.ToothTemplate
         #endregion
 
         #region Fill
+
         public static readonly DependencyProperty FillProperty =
             DependencyProperty.Register("Fill", typeof(bool), typeof(Teeth));
 
@@ -60,6 +61,7 @@ namespace Process_Page.ToothTemplate
             get { return (bool)GetValue(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
+
         #endregion
 
 
