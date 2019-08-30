@@ -31,6 +31,7 @@ namespace Process_Page.ToothTemplate
         public WrapTooth()
         {
             InitializeComponent();
+            this.DataContext=this;
             fillImgName = "color3";
         }
 
@@ -72,6 +73,7 @@ namespace Process_Page.ToothTemplate
                     fr.Visibility = Visibility.Visible;
 
                 wrap.SetWrapToothRect();
+                wrap.DrawHoHoLine();
             }
             else
             {
@@ -147,12 +149,15 @@ namespace Process_Page.ToothTemplate
             RegisterCollectionItemPropertyChanged(e.NewItems);
             UnRegisterCollectionItemPropertyChanged(e.OldItems);
             SetWrapToothRect();
+            DrawHoHoLine();
         }
 
         private void OnPointPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "X" || e.PropertyName == "Y")
+            if(e.PropertyName == "X" || e.PropertyName == "Y") {
                 SetWrapToothRect();
+                DrawHoHoLine();
+            }
         }
 
         #endregion
@@ -185,8 +190,7 @@ namespace Process_Page.ToothTemplate
                 return;
 
             DrawRect();
-            //DrawSmileLine(pointses);
-            DrawJoseLine(pointses);
+          //DrawSmileLine(pointses);
             DrawTeethBetweenLine(pointses);
 
         }
@@ -249,78 +253,93 @@ namespace Process_Page.ToothTemplate
         #endregion
 
         #region SmileLine 
-
         private void DrawJoseLine(List<List<Point>> all)
         {
             Point MaxPoint = Numerics.GetMaxXY_Tooth(Points);
             Point MinPoint = Numerics.GetMinXY_Tooth(Points);
-
             double unitDistance = (MaxPoint.Y - MinPoint.Y) / 2;
-            Point StartPoint = new Point(MinPoint.X - unitDistance, MaxPoint.Y / 2 + MinPoint.Y / 2);
-            Point EndPoint = new Point(MaxPoint.X + unitDistance, MaxPoint.Y / 2 + MinPoint.Y / 2);
+            Point StartPoint =new Point(MinPoint.X-unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
+            Point EndPoint =new Point(MaxPoint.X+unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
 
             double temp = (MinPoint.X / 2 + MaxPoint.X / 2 - StartPoint.X) / 1.7320508075688772935;//3^0.5
             Size size = new Size(2 * temp, 2 * temp);
-            ArcSegment arcSegment = new ArcSegment(EndPoint, size, 0, false, SweepDirection.Counterclockwise, true);
+            ArcSegment arcSegment = new ArcSegment(EndPoint,size,0,false,SweepDirection.Counterclockwise,true);
+
+        }
+
+        private void DrawHoHoLine()
+        {
+            
+            //Point MaxPoint = Numerics.GetMaxXY_Tooth(Points);
+            //Point MinPoint = Numerics.GetMinXY_Tooth(Points);
+            //double unitDistance = (MaxPoint.Y - MinPoint.Y) / 2;
+            //pathFigure.StartPoint =new Point(MinPoint.X-unitDistance,MaxPoint.Y/2+MinPoint.Y/2);
+            //arcSegment.Point=new Point(MaxPoint.X+2*unitDistance, MaxPoint.Y/2+MinPoint.Y/2); ;
+            //double temp =2*( System.Math.Abs( MinPoint.X / 2 + MaxPoint.X / 2 - pathFigure.StartPoint.X)) / 1.7320508075688772935;//3^0.5
+            //arcSegment.Size=new Size(temp,temp);
+            
         }
 
         private void DrawSmileLine(List<List<Point>> all)
         {
-            Point Left2 = Numerics.GetMinX_Teeth(all[5]);
-            Point Left1 = Numerics.GetMaxY_Teeth(all[4]);
 
-            Point Mid = Numerics.GetMaxXY_Tooth(Points);
 
-            Point Right1 = Numerics.GetMaxY_Teeth(all[1]);
-            Point Right2 = Numerics.GetMaxX_Teeth(all[2]);
 
-            double padding = 30;
-            Point LeftCont = new Point(Left2.X - Left - padding, Border_WrapTooth.Height / 2);
-            Point MidCont = new Point(Border_WrapTooth.Width / 2, Mid.Y - Top + 5);
-            Point RightCont = new Point(Right2.X - Left + padding, Border_WrapTooth.Height / 2);
+            //Point Left2 = Numerics.GetMinX_Teeth(all[5]);
+            //Point Left1 = Numerics.GetMaxY_Teeth(all[4]);
 
-            // Make a list of Control Points.
-            List<Point> list = new List<Point>();
-            list.Add(LeftCont);
-            list.Add(MidCont);
-            list.Add(RightCont);
+            //Point Mid = Numerics.GetMaxXY_Tooth(Points);
 
-            // Draw Control Points
-            int adj = 7;
-            Canvas.SetLeft(LeftSmileControl, LeftCont.X - adj);
-            Canvas.SetTop(LeftSmileControl, LeftCont.Y - adj);
-            LeftSmileControl.Visibility = Visibility.Visible;
+            //Point Right1 = Numerics.GetMaxY_Teeth(all[1]);
+            //Point Right2 = Numerics.GetMaxX_Teeth(all[2]);
 
-            MidSmileControl.Visibility = Visibility.Visible;
-            Canvas.SetLeft(MidSmileControl, MidCont.X - adj);
-            Canvas.SetTop(MidSmileControl, MidCont.Y - adj);
+            //double padding = 30;
+            //Point LeftCont = new Point(Left2.X - Left - padding, Border_WrapTooth.Height / 2);
+            //Point MidCont = new Point(Border_WrapTooth.Width / 2, Mid.Y - Top + 5);
+            //Point RightCont = new Point(Right2.X - Left + padding, Border_WrapTooth.Height / 2);
 
-            RightSmileControl.Visibility = Visibility.Visible;
-            Canvas.SetLeft(RightSmileControl, RightCont.X - adj);
-            Canvas.SetTop(RightSmileControl, RightCont.Y - adj);
+            //// Make a list of Control Points.
+            //List<Point> list = new List<Point>();
+            //list.Add(LeftCont);
+            //list.Add(MidCont);
+            //list.Add(RightCont);
 
-            // Draw SmileLine.
-            var smile_geometry = new PathGeometry();
-            var smile_pathfigureCollection = new PathFigureCollection();
-            var path_figure = new PathFigure();
-            path_figure.StartPoint = LeftCont;
-            var path_segmentCollection = new PathSegmentCollection();
+            //// Draw Control Points
+            //int adj = 7;
+            //Canvas.SetLeft(LeftSmileControl, LeftCont.X - adj);
+            //Canvas.SetTop(LeftSmileControl, LeftCont.Y - adj);
+            //LeftSmileControl.Visibility = Visibility.Visible;
 
-            int pad = 20;
-            PointCollection pc = new PointCollection();
-            pc.Add(new Point(Left1.X - Left, Left1.Y - Top + pad));
-            pc.Add(MidCont);
-            pc.Add(new Point(Right1.X - Left, Right1.Y - Top + pad));
-            pc.Add(RightCont);
-            var segment = new PolyQuadraticBezierSegment()
-            {
-                Points = pc
-            };
-            path_segmentCollection.Add(segment);
-            path_figure.Segments = path_segmentCollection;
-            smile_pathfigureCollection.Add(path_figure);
-            smile_geometry.Figures = smile_pathfigureCollection;
-            SmileLine.Data = smile_geometry;
+            //MidSmileControl.Visibility = Visibility.Visible;
+            //Canvas.SetLeft(MidSmileControl, MidCont.X - adj);
+            //Canvas.SetTop(MidSmileControl, MidCont.Y - adj);
+
+            //RightSmileControl.Visibility = Visibility.Visible;
+            //Canvas.SetLeft(RightSmileControl, RightCont.X - adj);
+            //Canvas.SetTop(RightSmileControl, RightCont.Y - adj);
+
+            //// Draw SmileLine.
+            //var smile_geometry = new PathGeometry();
+            //var smile_pathfigureCollection = new PathFigureCollection();
+            //var path_figure = new PathFigure();
+            //path_figure.StartPoint = LeftCont;
+            //var path_segmentCollection = new PathSegmentCollection();
+
+            //int pad = 20;
+            //PointCollection pc = new PointCollection();
+            //pc.Add(new Point(Left1.X - Left, Left1.Y - Top + pad));
+            //pc.Add(MidCont);
+            //pc.Add(new Point(Right1.X - Left, Right1.Y - Top + pad));
+            //pc.Add(RightCont);
+            //var segment = new PolyQuadraticBezierSegment()
+            //{
+            //    Points = pc
+            //};
+            //path_segmentCollection.Add(segment);
+            //path_figure.Segments = path_segmentCollection;
+            //smile_pathfigureCollection.Add(path_figure);
+            //smile_geometry.Figures = smile_pathfigureCollection;
+            //SmileLine.Data = smile_geometry;
         }
 
         #endregion

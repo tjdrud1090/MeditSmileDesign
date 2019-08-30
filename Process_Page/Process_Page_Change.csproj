@@ -360,7 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DlibDotNet">
-      <Version>19.17.0.20190623</Version>
+      <Version>19.17.0.20190813</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
       <Version>1.2.0</Version>
