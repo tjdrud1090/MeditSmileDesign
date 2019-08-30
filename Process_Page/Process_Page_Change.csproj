@@ -126,6 +126,9 @@
     <Compile Include="Domain\Manual1.xaml.cs">
       <DependentUpon>Manual1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Manual2.xaml.cs">
+      <DependentUpon>Manual2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Domain\NotEmptyValidationRule.cs" />
     <Compile Include="Domain\NotifyPropertyChangedExtension.cs" />
     <Compile Include="Domain\Sample4Dialog.xaml.cs" />
@@ -258,6 +261,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Domain\Manual1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Domain\Manual2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

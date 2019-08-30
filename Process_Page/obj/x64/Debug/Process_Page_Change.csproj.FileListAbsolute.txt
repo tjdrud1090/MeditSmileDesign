@@ -425,3 +425,5 @@ D:\Process_Page\obj\x64\Debug\Domain\Manual1.g.cs
 D:\Process_Page\obj\x64\Debug\Domain\Manual1.baml
 D:\Process_Page\obj\x64\Debug\Util\RotationControl.g.cs
 D:\Process_Page\obj\x64\Debug\Util\RotationControl.baml
+D:\Process_Page\obj\x64\Debug\Domain\Manual2.g.cs
+D:\Process_Page\obj\x64\Debug\Domain\Manual2.baml

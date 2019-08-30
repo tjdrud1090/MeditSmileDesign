@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,7 @@ namespace Process_Page
         {
             InitializeComponent();
             this.DataContext = new FaceAlign_PageViewModel();
+          
         }
 
         private void Logout_Clicked(object sender, RoutedEventArgs e)

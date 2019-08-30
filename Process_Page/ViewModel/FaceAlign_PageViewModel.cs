@@ -33,12 +33,14 @@ using System.Xml.Serialization;
 
 using IOText = System.IO;
 using System.Xml;
+using System.Threading;
 
 namespace Process_Page.ViewModel
 {
     public class FaceAlign_PageViewModel : ViewModelBase
     {
-     
+        public static int pagecount = 0;
+
         #region constructor
         public FaceAlign_PageViewModel()
         {
@@ -67,6 +69,7 @@ namespace Process_Page.ViewModel
             _LineVisiblity = Visibility.Visible;
             _FrontalRefVisiblity = Visibility.Hidden;
             _GagRefVisiblity = Visibility.Hidden;
+            _RotateControlVisiblity = Visibility.Hidden;
 
             RaisePropertyChanged("showControl0");
             RaisePropertyChanged("showControl1");
@@ -78,6 +81,7 @@ namespace Process_Page.ViewModel
 
             RaisePropertyChanged("FrontalRefVisiblity");
             RaisePropertyChanged("GagRefVisiblity");
+            RaisePropertyChanged("RotateControlVisiblity");
         }
         #endregion
 
@@ -121,16 +125,33 @@ namespace Process_Page.ViewModel
         private async void ExecuteRunDialoga(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new Manual1
+            if (pagecount==0)
             {
-                DataContext = new FaceAlign_PageViewModel()
-            };
+                var view = new Manual2
+                {
+                    DataContext = new FaceAlign_PageViewModel()
+                };
 
-            //show the dialog
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandlerr);
+                //show the dialog
+                var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandlerr);
 
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+                //check the result...
+                Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+            }
+            else if (pagecount==1)
+            {
+
+                var view1 = new Manual1
+                {
+                    DataContext = new FaceAlign_PageViewModel()
+                };
+                //show the dialog
+                var result1 = await DialogHost.Show(view1, "RootDialog", ClosingEventHandlerr);
+
+                //check the result...
+                Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result1 ?? "NULL"));
+            }
+
         }
         private void ClosingEventHandlerr(object sender, DialogClosingEventArgs eventArgs)
         {
@@ -175,6 +196,7 @@ namespace Process_Page.ViewModel
             switch (index)
             {
                 case 1:
+                    pagecount = 1;
                     _showControl0 = Visibility.Hidden;
                     _showControl1 = Visibility.Visible;
                     _FaceLineVisiblity = Visibility.Hidden;
@@ -187,11 +209,21 @@ namespace Process_Page.ViewModel
                     RaisePropertyChanged("LineVisiblity");
 
                     RaisePropertyChanged("changeText");
+                    
                     break;
                 case 2:
                     if (RefernceCount < 4)
                     {
-                        // 메시지 추가
+                        FaceAlign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as FaceAlign_Page;
+                        Task.Factory.StartNew(() =>
+                        {
+                            Thread.Sleep(400);
+                        }).ContinueWith(t =>
+                        {
+                            //note you can use the message queue from any thread, but just for the demo here we 
+                            //need to get the message queue from the snackbar, so need to be on the dispatcher
+                            currentPage.MainSnackbar.MessageQueue.Enqueue("          치아 거리를 조정하세요.");
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
                         return;
                     }
                     //SaveXML();
@@ -230,6 +262,7 @@ namespace Process_Page.ViewModel
             switch (index)
             {
                 case 0:
+                    pagecount = 0;
                     _showControl0 = Visibility.Visible;
                     _showControl1 = Visibility.Hidden;
                     _FaceLineVisiblity = Visibility.Visible;
@@ -1420,7 +1453,7 @@ namespace Process_Page.ViewModel
                 if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     currentclicked = ((UserControl)(e.Source));
-                    if (!currentclicked.Name.Equals("GagFaceImage"))
+                    if (!currentclicked.Name.Equals("FrontalFaceImage"))
                         return;
                     int currentZIndex = Canvas.GetZIndex(currentclicked);
                     Canvas.SetZIndex(currentclicked, currentZIndex - 1);

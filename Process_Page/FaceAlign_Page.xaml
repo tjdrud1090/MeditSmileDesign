@@ -236,6 +236,7 @@
                                   VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                   Visibility="Visible"/>
 
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" Margin="276,0,262,0" Width="302" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Grid.Row="1" />
 
 
         <Button
