@@ -1,0 +1,609 @@
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using GalaSoft.MvvmLight;
+using Process_Page.ToothTemplate.Utils;
+using Process_Page.Util;
+using Process_Page.Cards;
+
+namespace Process_Page.ViewModel
+{
+    using ToothType = ObservableCollection<ObservableCollection<PointViewModel>>;
+    using TeethType = ObservableCollection<PointViewModel>;
+
+    class TeethControlViewModel : ViewModelBase, INotifyPropertyChanged
+    {
+        // <summary>
+        //  - Teeth control function
+        //      1) selected template
+        //      2) show real teeth size
+        //      3) symmetric control mode
+
+        double ratiox = 0.3;
+
+        public TeethControlViewModel()
+        {
+            UpperToothList = Enumerable.Repeat(false, 10).ToList();
+            LowerToothList = Enumerable.Repeat(false, 10).ToList();
+        }
+
+        #region ToothSelection
+
+        private List<bool> UpperToothList;
+        private List<bool> LowerToothList;
+
+        #region UpperTmp
+
+        private bool _UpperTmpNo;
+        public bool UpperTmpNo
+        {
+            get { return _UpperTmpNo; }
+            set
+            {
+                if (_UpperTmpNo != value)
+                {
+                    _UpperTmpNo = value;
+                    UpperToothList[0] = value;
+                    RaisePropertyChanged("UpperTmp0");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp1;
+        public bool UpperTmp1
+        {
+            get {
+             
+                return _UpperTmp1; }
+            set
+            {
+                if (_UpperTmp1 != value)
+                {
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    currentPage.UserUpper.Visibility = Visibility.Visible;
+                    _UpperTmp1 = value;
+                    UpperToothList[1] = value;
+                    RaisePropertyChanged("UpperTmp1");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp2;
+        public bool UpperTmp2
+        {
+            get {
+             
+                return _UpperTmp2; }
+            set
+            {
+                if (_UpperTmp2 != value)
+                {
+                    _UpperTmp2 = value;
+                    UpperToothList[2] = value;
+                    RaisePropertyChanged("Points");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp3;
+        public bool UpperTmp3
+        {
+            get { return _UpperTmp3; }
+            set
+            {
+                if (_UpperTmp3 != value)
+                {
+                    _UpperTmp3 = value;
+                    UpperToothList[3] = value;
+                    RaisePropertyChanged("_UpperTmp3");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp4;
+        public bool UpperTmp4
+        {
+            get { return _UpperTmp4; }
+            set
+            {
+                if (_UpperTmp4 != value)
+                {
+                    _UpperTmp4 = value;
+                    UpperToothList[4] = value;
+                    RaisePropertyChanged("UpperTmp4");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp5;
+        public bool UpperTmp5
+        {
+            get { return _UpperTmp5; }
+            set
+            {
+                if (_UpperTmp5 != value)
+                {
+                    _UpperTmp5 = value;
+                    UpperToothList[5] = value;
+                    RaisePropertyChanged("UpperTmp5");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp6;
+        public bool UpperTmp6
+        {
+            get { return _UpperTmp6; }
+            set
+            {
+                if (_UpperTmp6 != value)
+                {
+                    _UpperTmp6 = value;
+                    UpperToothList[6] = value;
+                    RaisePropertyChanged("UpperTmp6");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp7;
+        public bool UpperTmp7
+        {
+            get { return _UpperTmp7; }
+            set
+            {
+                if (_UpperTmp7 != value)
+                {
+                    _UpperTmp7 = value;
+                    UpperToothList[7] = value;
+                    RaisePropertyChanged("UpperTmp7");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp8;
+        public bool UpperTmp8
+        {
+            get { return _UpperTmp8; }
+            set
+            {
+                if (_UpperTmp8 != value)
+                {
+                    _UpperTmp8 = value;
+                    UpperToothList[8] = value;
+                    RaisePropertyChanged("UpperTmp8");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp9;
+        public bool UpperTmp9
+        {
+            get { return _UpperTmp9; }
+            set
+            {
+                if (_UpperTmp9 != value)
+                {
+                    _UpperTmp9 = value;
+                    UpperToothList[9] = value;
+                    RaisePropertyChanged("UpperTmp9");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        #endregion
+
+        #region LowerTmp
+
+        private bool _LowerTmpNo;
+        public bool LowerTmpNo
+        {
+            get { return _LowerTmpNo; }
+            set
+            {
+                if (_LowerTmpNo != value)
+                {
+                    _LowerTmpNo = value;
+                    LowerToothList[0] = value;
+                    RaisePropertyChanged("LowerTmpNo");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp1;
+        public bool LowerTmp1
+        {
+            get
+            {
+                return _LowerTmp1; }
+            set
+            {
+                if (_LowerTmp1 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp1 = value;
+                    LowerToothList[1] = value;
+                    RaisePropertyChanged("LowerTmp1");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp2;
+        public bool LowerTmp2
+        {
+            get { return _LowerTmp2; }
+            set
+            {
+                if (_LowerTmp2 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp2 = value;
+                    LowerToothList[2] = value;
+                    RaisePropertyChanged("LowerTmp2");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp3;
+        public bool LowerTmp3
+        {
+            get { return _LowerTmp3; }
+            set
+            {
+                if (_LowerTmp3 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp3 = value;
+                    LowerToothList[3] = value;
+                    RaisePropertyChanged("LowerTmp3");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp4;
+        public bool LowerTmp4
+        {
+            get { return _LowerTmp4; }
+            set
+            {
+                if (_LowerTmp4 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp4 = value;
+                    LowerToothList[4] = value;
+                    RaisePropertyChanged("LowerTmp4");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp5;
+        public bool LowerTmp5
+        {
+            get { return _LowerTmp5; }
+            set
+            {
+                if (_LowerTmp5 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp5 = value;
+                    LowerToothList[5] = value;
+                    RaisePropertyChanged("LowerTmp5");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp6;
+        public bool LowerTmp6
+        {
+            get { return _LowerTmp6; }
+            set
+            {
+                if (_LowerTmp6 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp6 = value;
+                    LowerToothList[6] = value;
+                    RaisePropertyChanged("LowerTmp6");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp7;
+        public bool LowerTmp7
+        {
+            get { return _LowerTmp7; }
+            set
+            {
+                if (_LowerTmp7 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp7 = value;
+                    LowerToothList[7] = value;
+                    RaisePropertyChanged("LowerTmp7");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp8;
+        public bool LowerTmp8
+        {
+            get { return _LowerTmp8; }
+            set
+            {
+                if (_LowerTmp8 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp8 = value;
+                    LowerToothList[8] = value;
+                    RaisePropertyChanged("LowerTmp8");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp9;
+        public bool LowerTmp9
+        {
+            get { return _LowerTmp9; }
+            set
+            {
+                if (_LowerTmp9 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp9 = value;
+                    LowerToothList[9] = value;
+                    RaisePropertyChanged("LowerTmp9");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Points
+
+        // Upper
+        private ToothType _UpperPoints;
+        public ToothType UpperPoints
+        {
+            get { return _UpperPoints = GetAllPointsUpper(); }
+            set
+            {
+                _UpperPoints = value;
+                RaisePropertyChanged("UpperPoints");
+            }
+        }
+
+        private ToothType GetAllPointsUpper()
+        {
+            int idx_up = Idx_Templates(UpperToothList);
+            if (idx_up > 0) {
+                SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+
+                ToothType uppertooth = currentPage.ToothControl.UpperTooth[idx_up - 1];
+                ToothType sizechaged = new ToothType();
+
+                Point minPoint = Numerics.GetMinXY_Tooth(uppertooth);
+                Point maxPoint = Numerics.GetMaxXY_Tooth(uppertooth);
+
+                double nosewidth = ((LineGeometry)(currentPage.noseline_R.Data)).StartPoint.X - ((LineGeometry)(currentPage.noseline_L.Data)).StartPoint.X;
+
+                ratiox = nosewidth / (maxPoint.X - minPoint.X);
+
+                foreach (var temp in uppertooth)
+                {
+                    TeethType changed = new TeethType();
+
+                    foreach (var teethtemp in (TeethType)temp)
+                    {
+                        PointViewModel pt = teethtemp;
+                        pt.X *= ratiox;
+                        pt.Y *= ratiox;
+
+                        changed.Add(pt);
+                    }
+                    sizechaged.Add(changed);
+                }
+
+                return sizechaged;
+            }
+            return null;
+        }
+
+        // Lower
+        private ToothType _LowerPoints;
+        public ToothType LowerPoints
+        {
+            get { return _LowerPoints = GetAllPointsLower(); }
+        }
+
+        private ToothType GetAllPointsLower()
+        {
+            int idx_up = Idx_Templates(LowerToothList);
+            if (idx_up > 0)
+            {
+                SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                ToothType lowertooth = currentPage.ToothControl.LowerTooth[idx_up - 1];
+                ToothType sizechaged = new ToothType();
+
+                Point minPoint = Numerics.GetMinXY_Tooth(lowertooth);
+                Point maxPoint = Numerics.GetMaxXY_Tooth(lowertooth);
+
+                double nosewidth = ((LineGeometry)(currentPage.noseline_R.Data)).StartPoint.X - ((LineGeometry)(currentPage.noseline_L.Data)).StartPoint.X;
+
+                ratiox = nosewidth / ((maxPoint.X - minPoint.X) + (maxPoint.X - minPoint.X) / 2);
+
+                foreach (var temp in lowertooth)
+                {
+                    TeethType changed = new TeethType();
+
+                    foreach (var teethtemp in (TeethType)temp)
+                    {
+                        PointViewModel pt = teethtemp;
+                        pt.X *= ratiox;
+                        pt.Y *= ratiox;
+
+                        changed.Add(pt);
+                    }
+                    sizechaged.Add(changed);
+                }
+
+                return sizechaged;
+            }
+            return null;
+        }
+
+        private int Idx_Templates(List<bool> list)
+        {
+            int indexOfTemplates = -1;
+            foreach (bool selected in list)
+            {
+                if (selected)
+                {
+                    indexOfTemplates = list.IndexOf(selected);
+                    break;
+                }
+            }
+            return indexOfTemplates;
+        }
+
+        #endregion
+
+        #region IsClosedCurve
+        private const string IsClosedCurveName = "IsClosedCurve";
+        public bool IsClosedCurve
+        {
+            get { return true; }
+        }
+        #endregion
+
+        #region ColorTeeth
+        private const string ColorTeethName = "ColorTooth";
+        private bool _ColorTeeth;
+        public bool ColorTeeth
+        {
+            get { return _ColorTeeth; }
+            set
+            {
+                if (_ColorTeeth != value)
+                {
+                    _ColorTeeth = value;
+                    RaisePropertyChanged("ColorTeeth");
+                }
+            }
+        }
+        #endregion
+
+        #region ShowLength
+        private const string ShowLengthName = "ShowLength";
+        private bool _ShowLength;
+        public bool ShowLength
+        {
+            get { return _ShowLength; }
+            set {
+                if (_ShowLength != value)
+                {
+                    _ShowLength = value;
+                    RaisePropertyChanged("ShowLength");
+                }
+            }
+        }
+        #endregion
+
+        #region delete faceline
+        private bool _lineDelete;
+        public bool lineDelete
+        {
+            get {
+                return _lineDelete;
+            }
+            set
+            {
+                if (_lineDelete != value)
+                {
+                    _lineDelete = value;
+
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+
+                    if (_lineDelete == true)
+                    {
+                        currentPage.midline.Visibility = Visibility.Hidden;
+                        currentPage.noseline_L.Visibility = Visibility.Hidden;
+                        currentPage.noseline_R.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        currentPage.midline.Visibility = Visibility.Visible;
+                        currentPage.noseline_L.Visibility = Visibility.Visible;
+                        currentPage.noseline_R.Visibility = Visibility.Visible;
+                    }
+
+                    RaisePropertyChanged("lineDelete");
+                }
+            }
+        }
+        #endregion
+
+        #region show mouth line
+        private bool _MouthLineShow;
+        public bool MouthLineShow
+        {
+            get
+            {
+                return _MouthLineShow;
+            }
+            set
+            {
+                if (_MouthLineShow != value)
+                {
+                    _MouthLineShow = value;
+
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+
+                    if (_MouthLineShow == false)
+                    {
+                        currentPage.MouthCutLine.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        currentPage.MouthCutLine.Visibility = Visibility.Visible;
+                    }
+
+                    RaisePropertyChanged("MouthLineShow");
+                }
+            }
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="MaterialDesignColors.WpfExample.Domain.SampleMessageDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="200"
+             MaxWidth="400">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" x:Name="label" Content="회원정보가 없습니다" Width="148" FontSize="14" FontWeight="Bold" FontFamily="Malgun Gothic" Margin="10,0" Foreground="#DD0B1C34"/>
+
+        <Button Grid.Row="1" 
+                IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                HorizontalAlignment="Right"
+                Margin="0,5,36,5"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Width="90" Height="Auto">
+            CANCEL
+        </Button>
+    </Grid>
+</UserControl>
