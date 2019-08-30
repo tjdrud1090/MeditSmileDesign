@@ -13,6 +13,7 @@
              d:DesignHeight="860" d:DesignWidth="1280">
 
     <Canvas x:Name="CanvasInTooth">
+
         <local:WrapTooth x:Name="WrapToothInTooth" 
                          Points="{Binding ElementName=UpperToothControl, Path=Tooth_Points}"
                          Fill="{Binding Path=Fill, ElementName=UpperToothControl}"/>
@@ -31,5 +32,56 @@
             <local:Teeth x:Name="CentralIncisorR" Points="{Binding  ElementName=UpperToothControl, Path=Tooth_Points[0]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=UpperToothControl}"/>
         </Grid>
+        
+        <Image x:Name="MoveTop" Source="/image/DragArrow1.png" 
+               Visibility="Hidden" Width="10" Height="10" Cursor="Hand"
+               Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
+               Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
+               Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
+
+        <Path x:Name="SmileUpLine" Stroke="SkyBlue" StrokeThickness="0.7">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure x:Name="UpPathFigure">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment x:Name="UpArcSegment" SweepDirection="Counterclockwise" IsStroked="True"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        
+        <Path x:Name="SmileDownLine" Stroke="SkyBlue" StrokeThickness="0.7">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure x:Name="DownPathFigure">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment x:Name="DownArcSegment" SweepDirection="Counterclockwise" IsStroked="True"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+        <Canvas x:Name="Canvas_Smile">
+
+            <Ellipse x:Name="LeftSmileControl" Opacity="0" Style="{StaticResource SmileControlStyle}"
+                         Utils:MouseBehaviour.MouseDownCommand="{Binding MouseLeftDownForSmileLine}"/>
+            <Ellipse x:Name="MidSmileControl" Opacity="0" Style="{StaticResource SmileControlStyle}"
+                         Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForSmileLine}"/>
+            <Ellipse x:Name="RightSmileControl" Opacity="0" Style="{StaticResource SmileControlStyle}"
+                         Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForSmileLine}"/>
+        </Canvas>
     </Canvas>
 </UserControl>

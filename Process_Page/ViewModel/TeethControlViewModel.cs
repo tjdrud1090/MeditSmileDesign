@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Process_Page.ToothTemplate;
-using Process_Page.ToothTemplate.ArrowLine;
 using Process_Page.ToothTemplate.Utils;
 using Process_Page.Util;
 using Process_Page.Cards;
@@ -36,14 +26,16 @@ namespace Process_Page.ViewModel
 
         public TeethControlViewModel()
         {
-            UpperToothList = Enumerable.Repeat(false, 6).ToList();
-            LowerToothList = Enumerable.Repeat(false, 6).ToList();
+            UpperToothList = Enumerable.Repeat(false, 10).ToList();
+            LowerToothList = Enumerable.Repeat(false, 10).ToList();
         }
 
         #region ToothSelection
 
-        // Upper Tooth
         private List<bool> UpperToothList;
+        private List<bool> LowerToothList;
+
+        #region UpperTmp
 
         private bool _UpperTmpNo;
         public bool UpperTmpNo
@@ -147,9 +139,73 @@ namespace Process_Page.ViewModel
             }
         }
 
+        private bool _UpperTmp6;
+        public bool UpperTmp6
+        {
+            get { return _UpperTmp6; }
+            set
+            {
+                if (_UpperTmp6 != value)
+                {
+                    _UpperTmp6 = value;
+                    UpperToothList[6] = value;
+                    RaisePropertyChanged("UpperTmp6");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
 
-        // Lower Tooth
-        private List<bool> LowerToothList;
+        private bool _UpperTmp7;
+        public bool UpperTmp7
+        {
+            get { return _UpperTmp7; }
+            set
+            {
+                if (_UpperTmp7 != value)
+                {
+                    _UpperTmp7 = value;
+                    UpperToothList[7] = value;
+                    RaisePropertyChanged("UpperTmp7");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp8;
+        public bool UpperTmp8
+        {
+            get { return _UpperTmp8; }
+            set
+            {
+                if (_UpperTmp8 != value)
+                {
+                    _UpperTmp8 = value;
+                    UpperToothList[8] = value;
+                    RaisePropertyChanged("UpperTmp8");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        private bool _UpperTmp9;
+        public bool UpperTmp9
+        {
+            get { return _UpperTmp9; }
+            set
+            {
+                if (_UpperTmp9 != value)
+                {
+                    _UpperTmp9 = value;
+                    UpperToothList[9] = value;
+                    RaisePropertyChanged("UpperTmp9");
+                    RaisePropertyChanged("UpperPoints");
+                }
+            }
+        }
+
+        #endregion
+
+        #region LowerTmp
 
         private bool _LowerTmpNo;
         public bool LowerTmpNo
@@ -177,7 +233,7 @@ namespace Process_Page.ViewModel
             {
                 if (_LowerTmp1 != value)
                 {
-                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
                     currentPage.UserLower.Visibility = Visibility.Visible;
                     _LowerTmp1 = value;
                     LowerToothList[1] = value;
@@ -195,6 +251,8 @@ namespace Process_Page.ViewModel
             {
                 if (_LowerTmp2 != value)
                 {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
                     _LowerTmp2 = value;
                     LowerToothList[2] = value;
                     RaisePropertyChanged("LowerTmp2");
@@ -211,6 +269,8 @@ namespace Process_Page.ViewModel
             {
                 if (_LowerTmp3 != value)
                 {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
                     _LowerTmp3 = value;
                     LowerToothList[3] = value;
                     RaisePropertyChanged("LowerTmp3");
@@ -227,6 +287,8 @@ namespace Process_Page.ViewModel
             {
                 if (_LowerTmp4 != value)
                 {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
                     _LowerTmp4 = value;
                     LowerToothList[4] = value;
                     RaisePropertyChanged("LowerTmp4");
@@ -243,6 +305,8 @@ namespace Process_Page.ViewModel
             {
                 if (_LowerTmp5 != value)
                 {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
                     _LowerTmp5 = value;
                     LowerToothList[5] = value;
                     RaisePropertyChanged("LowerTmp5");
@@ -250,6 +314,80 @@ namespace Process_Page.ViewModel
                 }
             }
         }
+
+        private bool _LowerTmp6;
+        public bool LowerTmp6
+        {
+            get { return _LowerTmp6; }
+            set
+            {
+                if (_LowerTmp6 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp6 = value;
+                    LowerToothList[6] = value;
+                    RaisePropertyChanged("LowerTmp6");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp7;
+        public bool LowerTmp7
+        {
+            get { return _LowerTmp7; }
+            set
+            {
+                if (_LowerTmp7 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp7 = value;
+                    LowerToothList[7] = value;
+                    RaisePropertyChanged("LowerTmp7");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp8;
+        public bool LowerTmp8
+        {
+            get { return _LowerTmp8; }
+            set
+            {
+                if (_LowerTmp8 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp8 = value;
+                    LowerToothList[8] = value;
+                    RaisePropertyChanged("LowerTmp8");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        private bool _LowerTmp9;
+        public bool LowerTmp9
+        {
+            get { return _LowerTmp9; }
+            set
+            {
+                if (_LowerTmp9 != value)
+                {
+                    SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+                    currentPage.UserLower.Visibility = Visibility.Visible;
+                    _LowerTmp9 = value;
+                    LowerToothList[9] = value;
+                    RaisePropertyChanged("LowerTmp9");
+                    RaisePropertyChanged("LowerPoints");
+                }
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -271,7 +409,8 @@ namespace Process_Page.ViewModel
         {
             int idx_up = Idx_Templates(UpperToothList);
             if (idx_up > 0) {
-                SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
+
                 ToothType uppertooth = currentPage.ToothControl.UpperTooth[idx_up - 1];
                 ToothType sizechaged = new ToothType();
 
@@ -299,7 +438,6 @@ namespace Process_Page.ViewModel
 
                 return sizechaged;
             }
-                //return ((SmileDesign_Page)(Application.Current.MainWindow).Content).ToothControl.UpperTooth[idx_up - 1];
             return null;
         }
 
@@ -315,7 +453,7 @@ namespace Process_Page.ViewModel
             int idx_up = Idx_Templates(LowerToothList);
             if (idx_up > 0)
             {
-                SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+                SmileDesign_Page currentPage = Application.Current.MainWindow.Content as SmileDesign_Page;
                 ToothType lowertooth = currentPage.ToothControl.LowerTooth[idx_up - 1];
                 ToothType sizechaged = new ToothType();
 

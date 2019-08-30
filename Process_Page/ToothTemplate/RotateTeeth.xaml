@@ -6,12 +6,14 @@
              xmlns:local="clr-namespace:Process_Page.ToothTemplate"
              mc:Ignorable="d" 
              
+             xmlns:ViewModel="clr-namespace:Process_Page"
              xmlns:Utils="clr-namespace:Process_Page.Util"
+             
              Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForRotateTeeth}"
              Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForRotateTeeth}"
              Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForRotateTeeth}"
              d:DesignHeight="450" d:DesignWidth="800">
-
+ 
     <Canvas>
         <Rectangle x:Name="RotateNiddle" Visibility="Hidden" Width="1" Height="1">
             <Rectangle.Fill>
@@ -20,8 +22,12 @@
         </Rectangle>
 
         <Path x:Name="RotatePin" Stroke="CadetBlue" StrokeThickness="0.5" Fill="LightBlue" Visibility="Hidden">
+            <Path.DataContext>
+                <ViewModel:FaceAlign_PageViewModel/>
+            </Path.DataContext>
             <Path.Data>
-                <EllipseGeometry x:Name="Pin" Center="0,0" RadiusX="1" RadiusY="1"/>
+                <EllipseGeometry x:Name="Pin" Center="0,0"
+                                 RadiusX="{Binding pinHeadSize}"  RadiusY="{Binding pinHeadSize}"/>
             </Path.Data>
         </Path>
     </Canvas>

@@ -198,3 +198,25 @@ C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Cards\TeethTemplate
 C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Process_Page_Change.csprojAssemblyReference.cache
 C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Util\NumericUpDown.g.cs
 C:\Users\bit\Desktop\Process_Page (4)\Process_Page\obj\Debug\Util\NumericUpDown.baml
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Process_Page_Change.csprojAssemblyReference.cache
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Resource\MainColor.baml
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Resource\MainColorPrimary.baml
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Cards\ImageCanvas.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Cards\TeethTemplate_Step3.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Cards\TeethTuningControl.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\MainWindow.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\DrawTeeth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\LowerTooth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\RotateTeeth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\Teeth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\UpperTooth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\WrapTeeth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\ToothTemplate\WrapTooth.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Util\NumericUpDown.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\App.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Process_Page_Content.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Process_Page_MarkupCompile.cache
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Process_Page_MarkupCompile.lref
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Process_Page.exe
+C:\Users\bit\Desktop\MeditSmileDesign-ho-ho\Process_Page\obj\Debug\Process_Page.pdb

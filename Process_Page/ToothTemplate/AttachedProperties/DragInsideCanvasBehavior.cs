@@ -80,6 +80,7 @@ namespace Process_Page.ToothTemplate.AttachedProperties
                 if (!RegistredElements.ContainsKey(frameworkElement))
                 {
                     RegistredElements.Add(frameworkElement, new MyHandlersData());
+
                     RegistredElements[frameworkElement].MouseDown = (_, __) =>
                     {
                         var mv = ((SmileDesign_Page)(Application.Current.MainWindow.Content)) as SmileDesign_Page;
@@ -134,12 +135,7 @@ namespace Process_Page.ToothTemplate.AttachedProperties
                             var mouseDiffX = mousePosition.X - lastMousePosX;
                             var mouseDiffY = mousePosition.Y - lastMousePosY;
 
-                            Console.WriteLine("original framework element : " + x + ", " + y);
-
                             var main = ((SmileDesign_Page)(Application.Current.MainWindow.Content)) as SmileDesign_Page;
-                            //x + mouseDiffX >= 0 && mousePosition.X >= 0 && 
-                            //y + mouseDiffY >= 0 && mousePosition.Y >= 0 &&
-
                             if ((containerWidth <= 0 || (x + mouseDiffX <= containerWidth) && (mousePosition.X <= containerWidth)))
                             {
                                 x = x + mouseDiffX;
@@ -166,11 +162,6 @@ namespace Process_Page.ToothTemplate.AttachedProperties
                                     sys.SetValue(Canvas.TopProperty, p_sys.Y + mouseDiffY);
                                 }
                             }
-
-                            Console.WriteLine("framework element : " + x + ", " + y);
-                            Console.WriteLine("mouse Diff : " + mouseDiffX + ", " + mouseDiffY);
-                            Console.WriteLine("Mouse Poisition : " + mousePosition);
-                            Console.WriteLine();
 
                             lastMouseMoveTime = Environment.TickCount;
                             lastMousePosX = mousePosition.X;
@@ -202,7 +193,7 @@ namespace Process_Page.ToothTemplate.AttachedProperties
             var listbox_me = VisualTreeHelper.GetParent(listcanvas) as ListBox;
             Teeth me = ViewUtils.FindParent(listbox_me, Type.GetType("Process_Page.ToothTemplate.Teeth")) as Teeth;
 
-            var main = ((SmileDesign_Page)(Application.Current.MainWindow.Content)) as SmileDesign_Page;
+            var main = Application.Current.MainWindow.Content as SmileDesign_Page;
             int idx_me = main.ToothControl.dic[me.Name];
             int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
 

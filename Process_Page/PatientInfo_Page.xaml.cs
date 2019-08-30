@@ -19,9 +19,6 @@ using System.Windows.Shapes;
 
 namespace Process_Page
 {
-    /// <summary>
-    /// PatientInfo_Page.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class PatientInfo_Page : Page
     {
         public PatientInfo_Page()
