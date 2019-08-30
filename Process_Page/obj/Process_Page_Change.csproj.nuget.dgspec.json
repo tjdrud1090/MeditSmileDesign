@@ -36,7 +36,7 @@
           "dependencies": {
             "DlibDotNet": {
               "target": "Package",
-              "version": "[19.17.0.20190623, )"
+              "version": "[19.17.0.20190813, )"
             },
             "MaterialDesignColors": {
               "target": "Package",

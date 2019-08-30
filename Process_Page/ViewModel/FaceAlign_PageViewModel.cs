@@ -1,36 +1,26 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using MaterialDesignColors.WpfExample.Domain;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using Process_Page.Cards;
+using Process_Page.ToothTemplate;
+using Process_Page.ToothTemplate.Utils;
+using Process_Page.Util;
+using Process_Page.ViewModel;
+using Process_Page_Change.Util;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using System.Windows.Controls;
 using System.Windows.Shapes;
-using System.Windows;
-using System.ComponentModel;
 
-using Process_Page.Util;
-using Process_Page.Cards;
-
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight;
-using Process_Page.ToothTemplate;
-using Process_Page.ViewModel;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
-using MaterialDesignThemes.Wpf;
-using MaterialDesignColors;
-using MaterialDesignColors.WpfExample.Domain;
-using Process_Page_Change.Util;
-using Process_Page.ToothTemplate.Utils;
-
-namespace Process_Page
-{
-    using ToothType = ObservableCollection<ObservableCollection<PointViewModel>>;
+namespace Process_Page {
     using TeethType = ObservableCollection<PointViewModel>;
 
     public class FaceAlign_PageViewModel : ViewModelBase
