@@ -1,36 +1,26 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using MaterialDesignColors.WpfExample.Domain;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using Process_Page.Cards;
+using Process_Page.ToothTemplate;
+using Process_Page.ToothTemplate.Utils;
+using Process_Page.Util;
+using Process_Page.ViewModel;
+using Process_Page_Change.Util;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Microsoft.Win32;
-using System.Windows.Controls;
 using System.Windows.Shapes;
-using System.Windows;
-using System.ComponentModel;
 
-using Process_Page.Util;
-using Process_Page.Cards;
-
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight;
-using Process_Page.ToothTemplate;
-using Process_Page.ViewModel;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
-using MaterialDesignThemes.Wpf;
-using MaterialDesignColors;
-using MaterialDesignColors.WpfExample.Domain;
-using Process_Page_Change.Util;
-using Process_Page.ToothTemplate.Utils;
-
-namespace Process_Page
-{
-    using ToothType = ObservableCollection<ObservableCollection<PointViewModel>>;
+namespace Process_Page {
     using TeethType = ObservableCollection<PointViewModel>;
 
     public class FaceAlign_PageViewModel : ViewModelBase
@@ -83,6 +73,7 @@ namespace Process_Page
         #endregion
 
         #region Change Page Command
+
         //command binding
         private RelayCommand<object> _nextFlowClick;
         public RelayCommand<object> nextFlowClick
@@ -98,6 +89,7 @@ namespace Process_Page
                 _nextFlowClick = value;
             }
         }
+
         private RelayCommand<object> _prevFlowClick;
         public RelayCommand<object> prevFlowClick
         {
@@ -231,6 +223,7 @@ namespace Process_Page
                 }
             }
         }
+
         private Visibility _showControl1;
         public Visibility showControl1
         {
@@ -244,6 +237,7 @@ namespace Process_Page
                 }
             }
         }
+
         private Visibility _showControl2;
         public Visibility showControl2
         {
@@ -257,6 +251,7 @@ namespace Process_Page
                 }
             }
         }
+
         private Visibility _showControl3;
         public Visibility showControl3
         {
@@ -298,9 +293,11 @@ namespace Process_Page
                 }
             }
         }
+
         #endregion
 
         #region face_landmark line draw property
+
         public FaceDetector.face_point fp = new FaceDetector.face_point();
         public FaceDetector.face_point fp1 = new FaceDetector.face_point();
 
@@ -364,7 +361,6 @@ namespace Process_Page
             get { return _eyeline; }
             set { }
         }
-
 
         public LineGeometry lipline
         {
@@ -1622,7 +1618,7 @@ namespace Process_Page
             set { _mouseLeftUpForDragAndDropTeeth = value; }
         }
         public void ExecuteMouseLeftUpForDragAndDropTeeth(MouseEventArgs e)
-        {            
+        {
             int flag = 0;
             if (leftdown)
             {
@@ -1707,7 +1703,7 @@ namespace Process_Page
                 Mouse.Capture(null);
                 leftdown = false;
                 leftdown_with_ctrl = false;
-                //e.Handled = true;
+               // e.Handled = true;
             }
 
             dragging = false;
@@ -1737,7 +1733,9 @@ namespace Process_Page
             //ArrowLine me = e.Source as ArrowLine;
             //Ellipse me = e.Source as Ellipse;
             Image me = e.Source as Image;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+            Border me_border = wrap.FindName("Border_WrapTooth") as Border;
             foreach (Teeth del in SelectedList)
             {
                 RotateTeeth rotate_del = del.FindName("rotateTeeth") as RotateTeeth;
@@ -1781,7 +1779,9 @@ namespace Process_Page
             //ArrowLine me = e.Source as ArrowLine;
             //Ellipse me = e.Source as Ellipse;
             Image me = e.Source as Image;
-            WrapTooth wrap = ViewUtils.FindParent(me, (new WrapTooth()).GetType()) as WrapTooth;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+
             if (leftdown == true)
             {
                 Point curMouseDownPoint = e.GetPosition((IInputElement)e.Source);
@@ -1813,7 +1813,9 @@ namespace Process_Page
             //ArrowLine me = e.Source as ArrowLine;
             //Ellipse me = e.Source as Ellipse;
             Image me = e.Source as Image;
-            Border me_border = ViewUtils.FindParent(me, (new Border()).GetType()) as Border;
+            Canvas cv = me.Parent as Canvas;
+            WrapTooth wrap = cv.FindName("WrapToothInTooth") as WrapTooth;
+            Border me_border = wrap.FindName("Border_WrapTooth") as Border;
             me_border.BorderBrush = orgBrush2;
 
             leftdown = false;
@@ -2303,7 +2305,7 @@ namespace Process_Page
                         }
                     }
                     i++;
-                    
+
                     // Mirror Mode
                     if (main.ToothControl.mirror.IsChecked == true)
                     {
@@ -2757,7 +2759,7 @@ namespace Process_Page
             double deg = Numerics.Rad2Deg(rad);
 
             // make a list of be rotated
-            foreach(Teeth me in SelectedList)
+            foreach (Teeth me in SelectedList)
             {
                 if (rotatedlist.Contains(me) == false)
                 {
@@ -2772,7 +2774,7 @@ namespace Process_Page
 
             // set the anchor of rotate only when the rotate is first
             int i = 0;
-            foreach(Teeth me in rotatedlist)
+            foreach (Teeth me in rotatedlist)
             {
                 if (firstRotate[i])
                 {
@@ -2789,7 +2791,7 @@ namespace Process_Page
             }
 
             int j = 0;
-            foreach(Teeth me in rotatedlist)
+            foreach (Teeth me in rotatedlist)
             {
                 degrees[j] = deg + 90 + accAlangle[j];
 
@@ -2800,7 +2802,7 @@ namespace Process_Page
                     // me & own : different side
                     if (idx_me < 3 && idx_own >= 3 || idx_me >= 3 && idx_own < 3)
                         degrees[j] = -deg - 90 + accAlangle[j];
-                
+
                 if (degrees[j] <= -limitAngle || degrees[j] >= limitAngle)
                 {
                     j++;
@@ -2922,6 +2924,8 @@ namespace Process_Page
 
         private void ExecuteMouseLeftDownForAddPoints(MouseEventArgs e)
         {
+            if (isSizing) return;
+
             main = Application.Current.MainWindow.Content as SmileDesign_Page;
             if (main.ToothControl.EditPoints.IsChecked == false)
             {
@@ -2947,129 +2951,123 @@ namespace Process_Page
                 return;
             }
 
-            if (!isSizing)
+            if (SelectedList.Count != 1)
             {
-                WrapTooth wrap = e.Source as WrapTooth;
+                MessageBox.Show("편집할 치아를 선택해주세요!");
+                return;
+            }
 
-                Point curPoint = e.GetPosition(e.Source as IInputElement);
+            UserControl tooth = e.Source as UserControl;     // UpperTooth, LowerTooth
+            WrapTooth wrap = tooth.FindName("WrapToothInTooth") as WrapTooth;
 
-                // Find the 1st-nearest point from the curPoint
-                double min_dist1 = double.MaxValue;
-                PointViewModel nearest1 = null;
-                TeethType target1 = null;
-                foreach (TeethType teeth in wrap.Points)
+            Teeth me = SelectedList[0];
+            TeethType me_type = null;
+            //TeethType me_type = wrap.Points[main.ToothControl.dic[me.Name]] as TeethType;
+            int idx_me = main.ToothControl.dic[me.Name];
+            int j = 0;
+            foreach (TeethType tt in wrap.Points)
+            {
+                if (j == idx_me)
                 {
-                    foreach (PointViewModel point in teeth)
-                    {
-                        double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist1)
-                        {
-                            min_dist1 = dist;
-                            nearest1 = point;
-                            target1 = teeth;
-                        }
-                    }
-                }
-
-                // Find the 2nd-nearest point from the curPoint
-                double min_dist2 = double.MaxValue;
-                PointViewModel nearest2 = null;
-                TeethType target2 = null;
-                foreach (TeethType teeth in wrap.Points)
-                {
-                    foreach (PointViewModel point in teeth)
-                    {
-                        double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
-                        if (dist < min_dist2 && dist > min_dist1)
-                        {
-                            min_dist2 = dist;
-                            nearest2 = point;
-                            //nearest2 = new Point(point.X, point.Y);
-                            target2 = teeth;
-                        }
-                    }
-                }
-
-                if (target1 == target2)
-                {
-                    List<Point> tolist = new List<Point>();
-                    foreach (var p in target1)
-                        tolist.Add(new Point(p.X, p.Y));
-                    List<Point> segment = new List<Point>();
-
-                    //  [index - 1], [index], [index + 1] 순대로 list에 담기
-                    for (int i = 0; i < tolist.Count; i++)
-                    {
-                        if (tolist[i].X == nearest1.X && tolist[i].Y == nearest1.Y)     // tolist[i] == nearest1
-                        {
-                            if (i == 0)
-                            {
-                                segment.Add(tolist[tolist.Count - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[i + 1]);
-                            }
-                            else if (i == tolist.Count - 1)
-                            {
-                                segment.Add(tolist[i - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[0]);
-                            }
-                            else
-                            {
-                                segment.Add(tolist[i - 1]);
-                                segment.Add(tolist[i]);
-                                segment.Add(tolist[i + 1]);
-                            }
-                            break;
-                        }
-                    }
-
-                    Point control = InterpolationUtils.InterpolatePointWithBezierCurves(segment, true)[0].FirstControlPoint;
-
-                    // make tangent and normal line
-                    Numerics.Sign tangentline = Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
-                    Numerics.Sign normalline = Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, curPoint);
-
-                    double dst = float.MaxValue;
-                    double min_dst = float.MaxValue;
-                    int mem = 0;
-                    for (int i = 0; i < tolist.Count; i++)
-                    {
-                        // Among points, Find points on the same side
-                        if (Numerics.TangentLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == tangentline
-                            && Numerics.NormalLineTest(new Point(nearest1.X, nearest1.Y), control, tolist[i]) == normalline)
-                        {
-                            dst = Numerics.Distance(curPoint, tolist[i]);
-                            if (dst < min_dst)
-                            {
-                                min_dst = dst;
-                                mem = i;
-                            }
-                        }
-                    }
-
-                    // 접선: FirstControlPoint와 SecondControlPoint를 지나는 직선의 기울기를 가지면서, nearest Point를 지나는 직선이 됨
-                    int pos = nearest1.I < mem ? mem : nearest1.I;
-                    if (nearest1.I == 0 && nearest2.I == tolist.Count - 1 || nearest1.I == tolist.Count - 1 && nearest2.I == 0)
-                        target1.Add(new PointViewModel(curPoint.X, curPoint.Y, tolist.Count));
-                    else
-                    {
-                        target1.Insert(pos, new PointViewModel(curPoint.X, curPoint.Y, pos));
-                        foreach (var p in target1)
-                        {
-                            if (p.I == pos)
-                            {
-                                for (int i = 0; i < target1.Count - pos - 1; i++)
-                                    target1[i + pos + 1].I++;
-                                break;
-                            }
-                        }
-                    }
-                    RaisePropertyChanged("UpperPoints");
-                    RaisePropertyChanged("LowerPoints");
+                    me_type = tt;
+                    break;
                 }
             }
+
+            Point curPoint = e.GetPosition(e.Source as IInputElement);
+
+            double min_dist1 = double.MaxValue;
+            PointViewModel nearest1 = null;
+            foreach (PointViewModel point in me.Points)
+            {
+                double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
+                if (dist < min_dist1)
+                {
+                    min_dist1 = dist;
+                    nearest1 = point;
+                }
+            }
+
+            double min_dist2 = double.MaxValue;
+            PointViewModel nearest2 = null;
+            foreach (PointViewModel point in me.Points)
+            {
+                double dist = Numerics.Distance(curPoint, new Point(point.X, point.Y));
+                if (dist < min_dist2 && dist > min_dist1)
+                {
+                    min_dist2 = dist;
+                    nearest2 = point;
+                }
+            }
+
+            List<Point> me_list = Numerics.TeethToList(me);
+            var segment = new List<Point>();
+
+            if (nearest1.I == 0)
+            {
+                segment.Add(me_list[me_list.Count - 1]);
+                segment.Add(me_list[nearest1.I]);
+                segment.Add(me_list[nearest1.I + 1]);
+            }
+            else if (nearest1.I == me_list.Count - 1)
+            {
+                segment.Add(me_list[nearest1.I - 1]);
+                segment.Add(me_list[nearest1.I]);
+                segment.Add(me_list[0]);
+            }
+            else
+            {
+                segment.Add(me_list[nearest1.I - 1]);
+                segment.Add(me_list[nearest1.I]);
+                segment.Add(me_list[nearest1.I + 1]);
+            }
+
+            Point ctrl = InterpolationUtils.InterpolatePointWithBezierCurves(segment, true)[0].FirstControlPoint;
+
+            //make tangent and normal line
+            Numerics.Sign tangentline = Numerics.TangentLineTest(me_list[nearest1.I], ctrl, curPoint);
+            Numerics.Sign normalline = Numerics.NormalLineTest(me_list[nearest1.I], ctrl, curPoint);
+
+            double dst = float.MaxValue;
+            double min_dst = float.MaxValue;
+            int mem = 0;
+            for (int i = 0; i < me_list.Count; i++)
+            {
+                // Among points, Find points on the same side
+                if (Numerics.TangentLineTest(me_list[nearest1.I], ctrl, me_list[i]) == tangentline
+                    && Numerics.NormalLineTest(me_list[nearest1.I], ctrl, me_list[i]) == normalline)
+                {
+                    dst = Numerics.Distance(curPoint, me_list[i]);
+                    if (dst < min_dst)
+                    {
+                        min_dst = dst;
+                        mem = i;
+                    }
+                }
+            }
+
+            int pos = (nearest1.I < mem ? mem : nearest1.I);
+            if ((nearest1.I == 0 && nearest2.I == me_list.Count - 1) || (nearest1.I == me_list.Count - 1 && nearest2.I == 0))
+                me_type.Add(new PointViewModel(curPoint.X, curPoint.Y, me_list.Count));
+            else
+            {
+                me_type.Insert(pos, new PointViewModel(curPoint.X, curPoint.Y, pos));
+                foreach (var p in me_type)
+                {
+                    if (p.I == pos)
+                    {
+                        for (int i = 0; i < me_type.Count - pos - 1; i++)
+                            me_type[i + pos + 1].I++;
+                        break;
+                    }
+                }
+            }
+
+            RaisePropertyChanged("UpperPoints");
+            RaisePropertyChanged("LowerPoints");
+
         }
+
 
         #endregion
 
@@ -3132,13 +3130,10 @@ namespace Process_Page
                     }
                 }
             }
-
-            #endregion
-
-        
-
+        }
 
         #endregion
-        }
+
+        #endregion
     }
 }

@@ -30,10 +30,8 @@
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar"
                                             Grid.Row="1" Margin="456,0,442,0" Width="302" />
 
-
-
         <DockPanel>
-            <TextBox x:Name="IDtext" materialDesign:HintAssist.Hint="ID" FontWeight="Bold"   Height="Auto" Width="448" Margin="0,545,0,-164"/>
+            <TextBox x:Name="IDtext" materialDesign:HintAssist.Hint="ID" FontWeight="Bold" Height="Auto" Width="448" Margin="0,545,0,-164"/>
         </DockPanel>
         <DockPanel>
             <PasswordBox x:Name="PasswordBox" materialDesign:HintAssist.Hint="Password" FontWeight="Bold" Margin="0,640,0,-236"  Height="Auto" Width="448" />
@@ -46,9 +44,8 @@
 
         </DockPanel>
         <DockPanel>
-
             <Button Style="{StaticResource MaterialDesignOutlinedButton}" Content="회원가입"
-                Command="{Binding RunDialogCommand}"  BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5"  Click="Button_Click"  Margin="0,774,0,-378" Width="432" Height="Auto" />
+                Command="{Binding RunDialogCommand}"  BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5"  Click="Button_Click" Margin="0,774,0,-378" Width="432" Height="Auto" />
         </DockPanel>
 
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="2">

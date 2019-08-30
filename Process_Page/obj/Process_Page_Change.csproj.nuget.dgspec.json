@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj": {}
+    "C:\\Users\\bit\\Desktop\\MeditSmileDesign-ho-ho\\Process_Page\\Process_Page_Change.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj": {
+    "C:\\Users\\bit\\Desktop\\MeditSmileDesign-ho-ho\\Process_Page\\Process_Page_Change.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
+        "projectUniqueName": "C:\\Users\\bit\\Desktop\\MeditSmileDesign-ho-ho\\Process_Page\\Process_Page_Change.csproj",
         "projectName": "Process_Page_Change",
-        "projectPath": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\Process_Page_Change.csproj",
+        "projectPath": "C:\\Users\\bit\\Desktop\\MeditSmileDesign-ho-ho\\Process_Page\\Process_Page_Change.csproj",
         "packagesPath": "C:\\Users\\bit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bit\\Documents\\GitHub\\MeditSmileDesign\\Process_Page\\obj\\",
+        "outputPath": "C:\\Users\\bit\\Desktop\\MeditSmileDesign-ho-ho\\Process_Page\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
@@ -36,7 +36,7 @@
           "dependencies": {
             "DlibDotNet": {
               "target": "Package",
-              "version": "[19.17.0.20190623, )"
+              "version": "[19.17.0.20190813, )"
             },
             "MaterialDesignColors": {
               "target": "Package",

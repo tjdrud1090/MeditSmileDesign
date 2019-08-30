@@ -14,9 +14,9 @@
         <ImageBrush x:Key="color2" ImageSource="/Resource/th2.PNG" TileMode="Tile"/>
         <ImageBrush x:Key="color3" ImageSource="/Resource/th3.PNG" TileMode="Tile"/>
 
-        <SolidColorBrush x:Key="FillBrush" Color="LightCoral" Opacity="0.2"/>
-        <SolidColorBrush x:Key="Selected_StrokeBrush" Color="Coral" Opacity="1"/>
-        <SolidColorBrush x:Key="NonSelected_StrokeBrush" Color="MidnightBlue" Opacity="1"/>
+        <SolidColorBrush x:Key="FillBrush" Color="LightSeaGreen" Opacity="0.3"/>
+        <SolidColorBrush x:Key="Selected_StrokeBrush" Color="LightSeaGreen" Opacity="1"/>
+        <SolidColorBrush x:Key="NonSelected_StrokeBrush" Color="White" Opacity="1"/>
     </UserControl.Resources>
 
     <Canvas>

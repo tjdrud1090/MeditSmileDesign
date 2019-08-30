@@ -7,25 +7,78 @@
              
              xmlns:ar="clr-namespace:Process_Page.ToothTemplate.ArrowLine"
              xmlns:Util="clr-namespace:Process_Page.Util"
-             xmlns:ViewModel="clr-namespace:Process_Page"
+             
+             x:Name="WrapTeethControl"
              
              d:designWidth="1280" d:designHeight="860">
 
 
     <Border x:Name="Border_WrapTeeth" 
-            BorderThickness="{Binding drawTeethThickness}" BorderBrush="LightSalmon" Opacity="0">
+            BorderThickness="{Binding drawTeethThickness}" BorderBrush="LightGreen" Opacity="0">
         <Grid>
             <!--<Grid.DataContext>
                 <ViewModel:FaceAlign_PageViewModel/>
             </Grid.DataContext>-->
-            <Rectangle x:Name="Rectangle_WrapTeeth" Cursor="Hand" Stroke="LightSalmon" Opacity="0" 
+            <Rectangle x:Name="Rectangle_WrapTeeth" Cursor="Hand" Stroke="LightGreen" Opacity="0" 
                        Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTeeth}"
                        Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTeeth}"
                        Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTeeth}">
                 <Rectangle.Fill>
-                    <SolidColorBrush Color="LightBlue" Opacity="0"/>
+                    <SolidColorBrush Color="Transparent" Opacity="0"/>
                 </Rectangle.Fill>
             </Rectangle>
+
+            <!--<Canvas>
+                <Ellipse x:Name="ResizeControl_TopLeft"
+                     Canvas.Left="0" Canvas.Top="0"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+                <Ellipse x:Name="ResizeControl_TopRight"
+                         Canvas.Right="0" Canvas.Top="0"
+                         Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                         Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                         Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                         Style="{StaticResource ResizeControlStyle}"/>
+                <Ellipse x:Name="ResizeControl_BottomLeft"
+                         Canvas.Left="0" Canvas.Bottom="0"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+                <Ellipse x:Name="ResizeControl_BottomRight"
+                         Canvas.Right="0" Canvas.Bottom="0"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+
+                <Ellipse x:Name="ResizeControl_Top"
+                         Canvas.Left="{Binding ElementName=WrapTeethControl, Path=Horizontal_Mid}" Canvas.Top="0"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+                <Ellipse x:Name="ResizeControl_Bottom"
+                         Canvas.Left="{Binding ElementName=WrapTeethControl, Path=Horizontal_Mid}" Canvas.Bottom="0"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+                <Ellipse x:Name="ResizeControl_Left"
+                         Canvas.Left="0" Canvas.Top="{Binding ElementName=WrapTeethControl }"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+                <Ellipse x:Name="ResizeControl_Right"
+                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"
+                     Util:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTeeth}"
+                     Util:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTeeth}"
+                     Style="{StaticResource ResizeControlStyle}"/>
+            </Canvas>-->
+
 
             <Border x:Name="Border_Top" Cursor="SizeNS"
                     Util:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTeeth}"

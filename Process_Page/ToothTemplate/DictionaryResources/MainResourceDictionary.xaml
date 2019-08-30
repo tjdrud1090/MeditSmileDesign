@@ -18,7 +18,7 @@
             </Storyboard>
             <Storyboard x:Key="OnMouseLeave1">
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.Fill)" Storyboard.TargetName="ellipse">
-                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Brushes.CornflowerBlue}"/>
+                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Brushes.LightGray}"/>
                 </ObjectAnimationUsingKeyFrames>
             </Storyboard>
         </DataTemplate.Resources>
@@ -26,9 +26,9 @@
             <Grid.DataContext>
                 <ProcessPage:FaceAlign_PageViewModel/>
             </Grid.DataContext>
-            <Ellipse  x:Name="ellipse" Fill="CornflowerBlue" HorizontalAlignment="Left" VerticalAlignment="Top"
-                      Width="{Binding emphaDotSize}" Height="{Binding emphaDotSize}"
-                      RenderTransformOrigin="0.5,0.5">
+            <Ellipse x:Name="ellipse" Fill="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top"
+                     Width="{Binding emphaDotSize}" Height="{Binding emphaDotSize}"
+                     RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -68,6 +68,14 @@
     <Style x:Key="TeethBorderStyle" TargetType="Border" >
         <Setter Property="Opacity" Value="0"/>
         <Setter Property="Background" Value="Gray"/>
+    </Style>
+
+    <Style x:Key="ResizeControlStyle" TargetType="Ellipse">
+        <Setter Property="Stroke" Value="Green"></Setter>
+        <Setter Property="StrokeThickness" Value="1"></Setter>
+        <Setter Property="Fill" Value="LightGreen"></Setter>
+        <Setter Property="Width" Value="3"></Setter>
+        <Setter Property="Height" Value="3"></Setter>
     </Style>
 
     <Style x:Key="SmileControlStyle" TargetType="Ellipse">

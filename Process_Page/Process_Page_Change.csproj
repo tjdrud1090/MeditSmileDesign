@@ -182,9 +182,6 @@
     <Compile Include="ToothTemplate\Teeth.xaml.cs">
       <DependentUpon>Teeth.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToothTemplate\Tooth.xaml.cs">
-      <DependentUpon>Tooth.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ToothTemplate\Utils\InterpolationUtils.cs" />
     <Compile Include="ToothTemplate\Utils\Numerics.cs" />
     <Compile Include="ToothTemplate\Utils\ViewUtils.cs" />
@@ -313,10 +310,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToothTemplate\Tooth.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ToothTemplate\UpperTooth.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -367,7 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DlibDotNet">
-      <Version>19.17.0.20190623</Version>
+      <Version>19.17.0.20190813</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
       <Version>1.2.0</Version>
