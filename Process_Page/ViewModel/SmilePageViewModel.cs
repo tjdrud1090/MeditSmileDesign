@@ -38,6 +38,7 @@ namespace Process_Page.ViewModel
 
     public class SmilePageViewModel : ViewModelBase
     {
+        public int check = 0;
         SmileDesign_Page main;
 
         // page간 중간 정보 객체
@@ -93,6 +94,37 @@ namespace Process_Page.ViewModel
             FaceAlign_Page page = new FaceAlign_Page();
             System.Windows.Application.Current.MainWindow.Content = page;
         }
+
+        private RelayCommand<object> _Magnifybutton;
+        public RelayCommand<object> Magnifybutton
+        {
+            get
+            {
+                if (_Magnifybutton == null)
+                    return _Magnifybutton = new RelayCommand<object>(param => this.Magnifyclick());
+                return _Magnifybutton;
+            }
+            set
+            {
+                _Magnifybutton = value;
+            }
+        }
+
+        public void Magnifyclick()
+        {
+            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            if (check == 0)
+            {
+                currentPage.MagnifiyingGlass.Visibility = Visibility.Visible;
+                check = 1;
+            }
+            else if (check == 1)
+            {
+                currentPage.MagnifiyingGlass.Visibility = Visibility.Hidden;
+                check = 0;
+            }
+        }
+
         #endregion
 
         #region Visibility Set
@@ -384,15 +416,21 @@ namespace Process_Page.ViewModel
             }
             set { _SizeChangedWheel = value; }
         }
-
+       
+            
         private void ExecuteMouseWheel(MouseWheelEventArgs e)
         {
+          SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            currentPage.MagnifiyingGlass.ZoomFactor = 0.5;
             if (e.Delta > 0)
-            {
+             {
                 if (_ViewScale < 7)
                 {
                     _ViewScale += 0.1;
+
                     RaisePropertyChanged("ViewScale");
+                    currentPage.MagnifiyingGlass.ZoomFactor = 0.5;
+
                 }
             }
             else
@@ -401,12 +439,12 @@ namespace Process_Page.ViewModel
                 {
                     _ViewScale -= 0.1;
                     RaisePropertyChanged("ViewScale");
+                    currentPage.MagnifiyingGlass.ZoomFactor = 0.5;
                 }
             }
         }
         #endregion
 
-        //이미지 Drag시 face line 조정
         #region MouseEvent
 
         private bool captured = false;
@@ -655,6 +693,7 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
+
         #region Set face ZIndex
         private bool clickedRight = false;
         private UserControl currentclicked;
@@ -761,34 +800,6 @@ namespace Process_Page.ViewModel
             Path redo_path = new Path();
             rewrite = undo.Pop();
 
-            //if (rewrite.Name.Equals("eye_L"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = eye_L.CloneCurrentValue();
-            //    eye_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.StartPoint = eye_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("eye_R"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = eye_R.CloneCurrentValue();
-            //    eye_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.EndPoint = eye_R.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_L"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = mouth_L.CloneCurrentValue();
-            //    mouth_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.StartPoint = mouth_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_R"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = mouth_R.CloneCurrentValue();
-            //    mouth_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.EndPoint = mouth_R.Center;
-            //}
             if (rewrite.Name.Equals("midline"))
             {
                 redo_path.Name = rewrite.Name;
@@ -827,34 +838,6 @@ namespace Process_Page.ViewModel
             Path rewrite = new Path();
             Path undo_path = new Path();
             rewrite = redo.Pop();
-            //if (rewrite.Name.Equals("eye_L"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = eye_L.CloneCurrentValue();
-            //    eye_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.StartPoint = eye_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("eye_R"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = eye_R.CloneCurrentValue();
-            //    eye_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.EndPoint = eye_R.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_L"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = mouth_L.CloneCurrentValue();
-            //    mouth_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.StartPoint = mouth_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_R"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = mouth_R.CloneCurrentValue();
-            //    mouth_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.EndPoint = mouth_R.Center;
-            //}
 
             if (rewrite.Name.Equals("midline"))
             {
@@ -2200,7 +2183,7 @@ namespace Process_Page.ViewModel
 
             #endregion
 
-        #endregion
+            #endregion
         }
     }
 }

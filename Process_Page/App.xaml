@@ -14,14 +14,10 @@
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary Source="Resource/MainColor.xaml" />
                         <ResourceDictionary Source="ToothTemplate/DictionaryResources/MainResourceDictionary.xaml"/>
-                        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                            xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
-                            <FontFamily x:Key="MeditFont">pack://application:,,,/;./Fonts/#ALGER</FontFamily>
-                        </ResourceDictionary>
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
   </Application.Resources>
 </Application>

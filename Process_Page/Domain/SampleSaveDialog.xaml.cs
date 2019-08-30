@@ -109,5 +109,14 @@ namespace MaterialDesignColors.WpfExample.Domain
 
 
         }
+
+        private void clickclose(object sender, RoutedEventArgs e)
+        {
+            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            currentPage.FrontalFaceImage.Visibility = Visibility.Visible;
+            currentPage.GagFaceImage.Visibility = Visibility.Visible;
+            currentPage.UserLower.Visibility = Visibility.Visible;
+            currentPage.UserUpper.Visibility = Visibility.Visible;
+        }
     }
 }

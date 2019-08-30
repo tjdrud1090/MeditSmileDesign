@@ -12,7 +12,8 @@
     
     <Border x:Name="Border_WrapTooth" BorderThickness="1" BorderBrush="Transparent" Opacity="1">
         <Grid x:Name="Grid_WrapTooth">
-            <Border x:Name="Border_Top" Cursor="SizeNS" Opacity="0.5" Visibility="Hidden"
+
+                <Border x:Name="Border_Top" Cursor="SizeNS" Opacity="0.5" Visibility="Hidden"
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForResizeTooth}"
                     MouseBehaviors:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForResizeTooth}"
                     MouseBehaviors:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForResizeTooth}"
@@ -26,6 +27,12 @@
                 </Border.Background>
             </Border>
 
+            <Rectangle>
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            
             <Arrow:ArrowLine x:Name="MoveTop" 
                     Visibility="Hidden" Stroke="SkyBlue" StrokeThickness="2" Fill="MidnightBlue" Cursor="Hand"
                     ArrowEnds="Start" ArrowLength="5" IsArrowClosed="True"

@@ -28,11 +28,17 @@ using MaterialDesignColors.WpfExample.Domain;
 using Process_Page_Change.Util;
 using Process_Page.ToothTemplate.Utils;
 using Process_Page.ToothTemplate.ArrowLine;
+using Process_Page.Domain;
+using System.Xml.Serialization;
+
+using IOText = System.IO;
+using System.Xml;
 
 namespace Process_Page.ViewModel
 {
     public class FaceAlign_PageViewModel : ViewModelBase
     {
+     
         #region constructor
         public FaceAlign_PageViewModel()
         {
@@ -73,7 +79,6 @@ namespace Process_Page.ViewModel
 
             RaisePropertyChanged("FrontalRefVisiblity");
             RaisePropertyChanged("GagRefVisiblity");
-
             RaisePropertyChanged("RotateControlVisiblity");
         }
         #endregion
@@ -93,7 +98,57 @@ namespace Process_Page.ViewModel
                 _NextPageClick = value;
             }
         }
-        
+
+        //  Manual
+
+        private RelayCommand<object> _Teeth_point_manual;
+        public RelayCommand<object> Teeth_point_manual
+        {
+            get
+            {
+                if (_Teeth_point_manual == null)
+                    return _Teeth_point_manual = new RelayCommand<object>(param => this.teethManual());
+                return _Teeth_point_manual;
+            }
+            set
+            {
+                _Teeth_point_manual = value;
+            }
+        }
+        public void teethManual()
+        {
+            ExecuteRunDialoga(0);
+        }
+
+        private async void ExecuteRunDialoga(object o)
+        {
+            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            var view = new Manual1
+            {
+                DataContext = new FaceAlign_PageViewModel()
+            };
+
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandlerr);
+
+            //check the result...
+            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
+        }
+        private void ClosingEventHandlerr(object sender, DialogClosingEventArgs eventArgs)
+        {
+            Console.WriteLine("You can intercept the closing event, and cancel here.");
+        }
+
+
+
+
+
+
+
+
+
+
+
         private RelayCommand<object> _PrePageClick;
         public RelayCommand<object> PrePageClick
         {
@@ -108,8 +163,12 @@ namespace Process_Page.ViewModel
                 _PrePageClick = value;
             }
         }
+       
+           
 
-        List<string> flowname = new List<string>();
+
+
+            List<string> flowname = new List<string>();
         // 단계 : Face Line coordinates(0) => Face Align & Measurement(1)
 
         public void NextFlowClicked()
@@ -134,8 +193,10 @@ namespace Process_Page.ViewModel
                 case 2:
                     if (RefernceCount < 4)
                     {
+                        // 메시지 추가
                         return;
                     }
+                    //SaveXML();
                     SetnewPage();
                     break;
                 default:
@@ -145,6 +206,7 @@ namespace Process_Page.ViewModel
 
         public void SetnewPage()
         {
+
             System.Windows.Application.Current.MainWindow.UpdateLayout();
             var mainWnd = ((MainWindow)System.Windows.Application.Current.MainWindow) as MainWindow;
             var current = mainWnd.Content as FaceAlign_Page;
@@ -725,7 +787,7 @@ namespace Process_Page.ViewModel
 
             double angle = Math.Abs(angle1) + Math.Abs(angle2);
 
-            double rotate = (Math.Atan(angle)) * (180 / Math.PI);
+            double rotate = (Math.Atan(angle)) * (180 / Math.PI);       //angle
             _FrontalAngle = -rotate;
 
             RaisePropertyChanged("FrontalScale");
@@ -803,7 +865,6 @@ namespace Process_Page.ViewModel
             get { return _TransGagCenter; }
             set { }
         }
-
         // Rotate Control Center
         private Point _RotateControlCenter;
         public Point RotateControlCenter
@@ -876,12 +937,9 @@ namespace Process_Page.ViewModel
         private double orginal_height;
         private Point origMouseDownPoint;
 
-        #region control offset
         // Frontal Image angle offset
         double offset_frontalangle;
         private double _TransfrontalAngle;
-
-        #endregion
 
         private RelayCommand<object> _mouseMoveCommand;
         public RelayCommand<object> MouseMoveCommand
@@ -959,14 +1017,6 @@ namespace Process_Page.ViewModel
                     Center = new Point(_GagCenter.X + diffX, _GagCenter.Y + diffY);
                     _GagCenter = Center;
                     RaisePropertyChanged("GagCenter");
-
-                    //Center = new Point(_ToothUpperCenter.X + diffX, _ToothUpperCenter.Y + diffY);
-                    //_ToothUpperCenter = Center;
-                    //RaisePropertyChanged("ToothUpperCenter");
-
-                    //Center = new Point(_ToothLowerCenter.X + diffX, _ToothLowerCenter.Y + diffY);
-                    //_ToothLowerCenter = Center;
-                    //RaisePropertyChanged("ToothLowerCenter");
 
                     orginal_width = curMouseDownPoint.X;
                     orginal_height = curMouseDownPoint.Y;
@@ -1096,7 +1146,7 @@ namespace Process_Page.ViewModel
                     RaisePropertyChanged("TransCenter");
                     RefernceCount++;
                 }
-                else if(RefernceCount == 3)
+                else if (RefernceCount == 3)
                 {
                     _FrontalteethR.Center = origMouseDownPoint;
                     RaisePropertyChanged("FrontalteethR");
@@ -1337,7 +1387,6 @@ namespace Process_Page.ViewModel
         }
 
         #endregion
-
         #endregion
 
         #region Set face ZIndex
@@ -1362,10 +1411,8 @@ namespace Process_Page.ViewModel
                 if (e.Source.GetType() == typeof(ImageCanvas))
                 {
                     currentclicked = ((UserControl)(e.Source));
-                    if (!currentclicked.Name.Equals("GagFaceImage"))
+                    if (!currentclicked.Name.Equals("FrontalFaceImage"))
                         return;
-                    int currentZIndex = Canvas.GetZIndex(currentclicked);
-                    Canvas.SetZIndex(currentclicked, currentZIndex - 1);
 
                     currentclicked.Opacity = 0.5;
 
@@ -1446,34 +1493,6 @@ namespace Process_Page.ViewModel
             Path redo_path = new Path();
             rewrite = undo.Pop();
 
-            //if (rewrite.Name.Equals("eye_L"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = eye_L.CloneCurrentValue();
-            //    eye_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.StartPoint = eye_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("eye_R"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = eye_R.CloneCurrentValue();
-            //    eye_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.EndPoint = eye_R.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_L"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = mouth_L.CloneCurrentValue();
-            //    mouth_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.StartPoint = mouth_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_R"))
-            //{
-            //    redo_path.Name = rewrite.Name;
-            //    redo_path.Data = mouth_R.CloneCurrentValue();
-            //    mouth_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.EndPoint = mouth_R.Center;
-            //}
             if (rewrite.Name.Equals("midline"))
             {
                 redo_path.Name = rewrite.Name;
@@ -1500,47 +1519,15 @@ namespace Process_Page.ViewModel
 
         }
 
-
-
         public void redo_it()
         {
             if (redo.Count == 0)
             {
-                //draw_faceline();
                 return;
             }
             Path rewrite = new Path();
             Path undo_path = new Path();
             rewrite = redo.Pop();
-            //if (rewrite.Name.Equals("eye_L"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = eye_L.CloneCurrentValue();
-            //    eye_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.StartPoint = eye_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("eye_R"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = eye_R.CloneCurrentValue();
-            //    eye_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    eyeline.EndPoint = eye_R.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_L"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = mouth_L.CloneCurrentValue();
-            //    mouth_L.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.StartPoint = mouth_L.Center;
-            //}
-            //else if (rewrite.Name.Equals("mouth_R"))
-            //{
-            //    undo_path.Name = rewrite.Name;
-            //    undo_path.Data = mouth_R.CloneCurrentValue();
-            //    mouth_R.Center = ((EllipseGeometry)rewrite.Data).Center;
-            //    lipline.EndPoint = mouth_R.Center;
-            //}
-
             if (rewrite.Name.Equals("midline"))
             {
                 undo_path.Name = rewrite.Name;
@@ -1563,49 +1550,105 @@ namespace Process_Page.ViewModel
                 noseline_R.EndPoint = ((LineGeometry)rewrite.Data).EndPoint;
             }
             undo.Push(undo_path);
-
         }
         #endregion
 
-        #region save
-        private RelayCommand<object> _Savecommand;
-        public RelayCommand<object> Savecommand
+        #region save_program
+
+        private string XML_PATH = @".\save\wat_setup.xml";
+        public  SaveInfo MySetup = new SaveInfo();
+
+        public void Set_SaveInfo()
         {
-            get
-            {
-                if (_Savecommand == null)
-                    return _Savecommand = new RelayCommand<object>(param => this.Savejonopen());
-                return _Savecommand;
+            MySetup.GagFacePoints = this.GagFacePoints;
+            MySetup.FrontalFacePoints = this.FrontalFacePoints;
+
+            // 보정 후 점
+           // MySetup._FrontalPoints = this.FrontalPoints;
+           //MySetup._GagPoints = this.GagPoints;
+           // MySetup._FrontalMouthPoints = this.FrontalMouthPoints;
+
+            // face line
+            MySetup._midline = this.midline;
+            MySetup._noseline_L = this.noseline_L;
+            MySetup._noseline_R = this.noseline_R;
+            MySetup._eyeline = this.eyeline;
+            MySetup._lipline = this.lipline;
+
+            // align reference teeth points
+            MySetup._teethL = this.teethL;
+            MySetup._teethR = this.teethR;
+            MySetup._FrontalteethL = this.FrontalteethL;
+            MySetup._FrontalteethR = this.FrontalteethR;
+
+            // scale wheelmouse
+            MySetup._ViewScale = this.ViewScale;
+            MySetup._WheelMouseCenter = this.WheelMouseCenter;
+
+
+            // Frontal Face Canvas Center
+            MySetup._FrontalCenter = this.FrontalCenter;
+            MySetup._FrontalAngle = this.FrontalAngle;
+            MySetup._FrontalScale = this.FrontalScale;
+
+            // Gag Image
+            MySetup._GagCenter = this.GagCenter;
+            MySetup._GagAngle = this.GagAngle;
+            MySetup._GagScale = this.GagScale;
+
+            // Transform Center
+            MySetup._TransCenter = this.TransCenter;
+            MySetup._TransGagCenter = this.TransGagCenter;
+
+            // Rotate Control Center
+            MySetup._RotateControlCenter=this.RotateControlCenter;
             }
-            set
+
+        public void LoadXML()
+        {
+            try
             {
-                _Savecommand = value;
+                XmlSerializer deserializer = new XmlSerializer(typeof(SaveInfo));
+                IOText.TextReader textReader = new IOText.StreamReader(XML_PATH);
+
+                MySetup = (SaveInfo)deserializer.Deserialize(textReader);
+                if (MySetup == null) MySetup = new SaveInfo();
+                textReader.Close();
+            }
+            catch
+            {
+                MySetup = new SaveInfo();
+            }
+
+            //txbID.Text = MySetup.MyID.ToString();
+            //this.textBox1.Text = MySetup.MyString;
+
+        }
+
+        public void SaveXML()
+        {
+            //MySetup.MyID = Convert.ToInt32(txbID.Text);
+            //MySetup.MyString = this.textBox1.Text;
+
+            try
+            {
+                Set_SaveInfo();
+                XmlWriterSettings ws = new XmlWriterSettings();
+                ws.NewLineHandling = NewLineHandling.Entitize;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(SaveInfo));
+                using (XmlWriter wr = XmlWriter.Create(XML_PATH, ws))
+                {
+                    serializer.Serialize(wr, MySetup);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("write2에러:" + ex.Message);
             }
         }
 
-        private void Savejonopen()
-        {
-            ExecuteRunDialog(0);
-        }
-
-        private async void ExecuteRunDialog(object o)
-        {
-            //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new SampleSaveDialog
-            {
-                DataContext = new SampleSaveDialogViewModel()
-            };
-
-            //show the dialog
-            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
-
-            //check the result...
-            Console.WriteLine("Dialog was closed, the CommandParameter used to close it was: " + (result ?? "NULL"));
-        }
-        private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            Console.WriteLine("You can intercept the closing event, and cancel here.");
-        }
         #endregion
     }
 }

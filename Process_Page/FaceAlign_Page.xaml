@@ -53,7 +53,7 @@
                                    Canvas.Left="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.X}"
                                    Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalCenter.Y}">
                 </local:ImageCanvas>
-                
+
                 <local:ImageCanvas x:Name="GagFaceImage"
                                    FacePoints="{Binding ElementName=FaceAlignPage, Path=DataContext.GagPoints}"
                                    ImageSource="{Binding ElementName=FaceAlignPage, Path=DataContext.GagFaceSource}"
@@ -77,14 +77,14 @@
                               ></Path>
                 <Path Name="FrontalTeethR" Data="{Binding FrontalteethR}" Stroke="LightSkyBlue" StrokeThickness="2" Fill="Black"
                           Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.FrontalRefVisiblity}"
-                              ></Path>
+                              >
+                </Path>
 
                 <MouseBehaviours:RotationControl
                     Visibility="{Binding ElementName=FaceAlignPage, Path=DataContext.RotateControlVisiblity}"
                     Canvas.Left="{Binding ElementName=FaceAlignPage, Path=DataContext.RotateControlCenter.X}"
                     Canvas.Top="{Binding ElementName=FaceAlignPage, Path=DataContext.RotateControlCenter.Y}">
                 </MouseBehaviours:RotationControl>
-
                 <Canvas.RenderTransform>
                     <ScaleTransform CenterX="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.X}" 
                                     CenterY="{Binding ElementName=FaceAlignPage, Path=DataContext.WheelMouseCenter.Y}"
@@ -128,7 +128,7 @@
                 </Canvas>
             </Canvas>
         </Grid>
-        
+
         <!--Menu Bar-->
         <materialDesign:ColorZone Grid.Row="0" Grid.ColumnSpan="3" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                             Mode="PrimaryMid" DockPanel.Dock="Top" Height="53">
@@ -235,5 +235,19 @@
         <local:layoutTemplate x:Name="layoutcontrol" Grid.Row="4" Grid.Column="1"
                                   VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                   Visibility="Visible"/>
+
+
+
+        <Button
+    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+    Height="50"
+    materialDesign:ButtonAssist.CornerRadius="25 25 0 0"
+            Command="{Binding Teeth_point_manual}"
+    ToolTip="조작법 설명" Margin="0,104,0,0" Grid.Row="4" Background="#FF21FF0B" Foreground="#DD000000" FontWeight="Bold" FontSize="18">
+            <TextBlock
+      Text="Manual" />
+        </Button>
+        <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="5" Grid.ColumnSpan="3" >
+        </materialDesign:DialogHost>
     </Grid>
 </Page>

@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-
+using Wpoint = System.Windows.Point;
 namespace Process_Page
 {
     using ToothList = ObservableCollection<ObservableCollection<ObservableCollection<PointViewModel>>>;
-
+    [System.Xml.Serialization.XmlInclude(typeof(Wpoint))]
+    [System.Xml.Serialization.XmlInclude(typeof(PointViewModel))]
     public class SaveInfo
     {
+       
         /*==========================================================
          * 두 페이지는 ToothTemplate 부분 이 외의 모든 부분을 공유
          ===========================================================*/
@@ -26,13 +28,9 @@ namespace Process_Page
         public FaceDetector.face_point FrontalFacePoints = new FaceDetector.face_point();
 
         // 보정 후 점
-        public ObservableCollection<Point> _FrontalPoints;
-        public ObservableCollection<Point> _GagPoints;
-        public ObservableCollection<PointViewModel> _FrontalMouthPoints;
-
-        //image original
-        public BitmapImage FrontalFaceImage;
-        public BitmapImage GagFaceImage;
+        //public ObservableCollection<Wpoint> _FrontalPoints;
+        //public ObservableCollection<Wpoint> _GagPoints;
+        //public ObservableCollection<PointViewModel> _FrontalMouthPoints;
 
         // face line
         public LineGeometry _midline = new LineGeometry();
@@ -48,37 +46,43 @@ namespace Process_Page
         public EllipseGeometry _FrontalteethR = new EllipseGeometry();
 
         // scale wheelmouse
-        private double _ViewScale;
-        private Point _WheelMouseCenter;
+        public double _ViewScale;
+        public Wpoint _WheelMouseCenter;
 
         #region Align Property
         // Frontal Face Canvas Center
-        private Point _FrontalCenter;
-        private double _FrontalAngle;
-        private double _FrontalScale;
+        public Wpoint _FrontalCenter;
+        public double _FrontalAngle;
+        public double _FrontalScale;
 
         // Gag Image
-        private Point _GagCenter;
-        private double _GagAngle;
-        private double _GagScale;
+        public Wpoint _GagCenter;
+        public double _GagAngle;
+        public double _GagScale;
 
         // Transform Center
-        private Point _TransCenter;
-        private Point _TransGagCenter;
+        public Wpoint _TransCenter;
+        public Wpoint _TransGagCenter;
 
         // Rotate Control Center
-        private Point _RotateControlCenter;
+        public Wpoint _RotateControlCenter;
         #endregion
 
         #endregion
 
         #region Smile design page info
         // Tooth Control Position
-        private Point _ToothUpperCenter;
-        private Point _ToothLowerCenter;
+        public Wpoint _ToothUpperCenter;
+        public Wpoint _ToothLowerCenter;
 
         // Tooth Templates
         public ToothList UpperTooth, LowerTooth;
         #endregion
+
+        public SaveInfo()
+        {
+
+        }
+
     }
 }
