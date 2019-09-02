@@ -15,8 +15,9 @@ namespace Process_Page.ViewModel
 {
     class SampleSaveDialogViewModel : ViewModelBase
     {
-        public static int firstcheck =0;
+        public static int firstcheck = 0;
         public static BitmapImage bi = new BitmapImage();
+        public static BitmapImage prebi = new BitmapImage();
         public static BitmapImage upbi = new BitmapImage();
         public static BitmapImage Lowbi = new BitmapImage();
         public int i = 0;
@@ -28,6 +29,16 @@ namespace Process_Page.ViewModel
             }
             set { }
         }
+        public ImageSource prefinalimage
+        {
+            get
+            {
+                return prebi;
+            }
+            set { }
+        }
+
+
         public ImageSource upperimage
         {
             get
@@ -45,6 +56,32 @@ namespace Process_Page.ViewModel
             set { }
         }
 
+        public double _chageheight;
+        public double chageheight
+        {
+            get
+            {
+                return _chageheight;
+            }
+            set { }
+        }
+
+        public double _changeslider;
+        public double changeslider
+        {
+            get { return _changeslider; }
+            set
+            {
+                if (_changeslider != value)
+                {
+                    _changeslider = value;
+                    _chageheight = _changeslider;
+                    RaisePropertyChanged("chageheight");
+                    RaisePropertyChanged("changeslider");
+
+                }
+            }
+        }
 
         private bool _checkteeth = true;
         public bool checkteeth
@@ -221,7 +258,7 @@ namespace Process_Page.ViewModel
             using (FileStream stm = File.OpenWrite(@"./finalimage/" + PatientInfo.Patient_Info.Name + ".png"))
                 SmileDesign_Page.jpgEncoder.Save(stm);
 
-            if (firstcheck==0)
+            if (firstcheck == 0)
             {
                 using (FileStream stm1 = File.OpenWrite(@"./finalimage/" + PatientInfo.Patient_Info.Name + "up" + ".png"))
                     SmileDesign_Page.jpgupEncoder.Save(stm1);
@@ -233,12 +270,13 @@ namespace Process_Page.ViewModel
                     SmileDesign_Page.jpgdownEncoder.Save(stm2);
                 firstcheck = 1;
             }
-           
-             
-              
 
-           
+
+
+
+
         }
+
 
 
     }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Process_Page\\Process_Page_Change.csproj": {}
+    "C:\\Users\\bit-user\\Desktop\\Process_Page\\Process_Page_Change.csproj": {}
   },
   "projects": {
-    "D:\\Process_Page\\Process_Page_Change.csproj": {
+    "C:\\Users\\bit-user\\Desktop\\Process_Page\\Process_Page_Change.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Process_Page\\Process_Page_Change.csproj",
+        "projectUniqueName": "C:\\Users\\bit-user\\Desktop\\Process_Page\\Process_Page_Change.csproj",
         "projectName": "Process_Page_Change",
-        "projectPath": "D:\\Process_Page\\Process_Page_Change.csproj",
+        "projectPath": "C:\\Users\\bit-user\\Desktop\\Process_Page\\Process_Page_Change.csproj",
         "packagesPath": "C:\\Users\\bit-user\\.nuget\\packages\\",
-        "outputPath": "D:\\Process_Page\\obj\\",
+        "outputPath": "C:\\Users\\bit-user\\Desktop\\Process_Page\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
@@ -36,7 +36,7 @@
           "dependencies": {
             "DlibDotNet": {
               "target": "Package",
-              "version": "[19.17.0.20190623, )"
+              "version": "[19.17.0.20190813, )"
             },
             "Extended.Wpf.Toolkit": {
               "target": "Package",

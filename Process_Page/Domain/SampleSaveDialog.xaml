@@ -25,9 +25,22 @@
             </Button>
         </StackPanel>
         <Image x:Name="image"
-               Source="{Binding finalimage}" Margin="0,50,288,135" Stretch="Uniform" />
+               Source="{Binding finalimage}" Margin="0,25,0,154"  Stretch="UniformToFill" HorizontalAlignment="Left" Width="612" />
+        <Image x:Name="preimage"  
+               Source="{Binding prefinalimage}"  Stretch="UniformToFill"  Width="{Binding chageheight}" Margin="0,25,0,154" HorizontalAlignment="Left" />
         <Image x:Name="upimage" HorizontalAlignment="Left" Height="284" Margin="617,50,0,0" VerticalAlignment="Top" Width="273" Source="{Binding upperimage}"/>
         <Image x:Name="downimage" HorizontalAlignment="Left" Height="305" Margin="617,360,0,0" VerticalAlignment="Top" Width="273" Source="{Binding Lowerimage}"/>
+        <Slider
+  TickFrequency="5"
+  Orientation="Horizontal"
+  TickPlacement="BottomRight"
+  Minimum="0"
+  Maximum="{Binding ElementName=image, Path=ActualWidth}"
+  Value="{Binding changeslider}"
+  IsSelectionRangeEnabled="True" Margin="0,651,283,0" Height="48" VerticalAlignment="Top" />
+
+
+
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="2">
 
         </materialDesign:DialogHost>

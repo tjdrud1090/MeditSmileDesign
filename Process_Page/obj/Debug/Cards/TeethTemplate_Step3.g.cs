@@ -10,6 +10,8 @@
 //------------------------------------------------------------------------------
 
 using Process_Page.Cards;
+using Process_Page.Util;
+using Process_Page_Change.Cards;
 using System;
 using System.Diagnostics;
 using System.Windows;

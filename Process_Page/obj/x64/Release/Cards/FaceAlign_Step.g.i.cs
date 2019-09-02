@@ -63,7 +63,7 @@ namespace Process_Page.Cards {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Process_Page_Change;component/cards/facealign_step.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Process_Page;component/cards/facealign_step.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Cards\FaceAlign_Step.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

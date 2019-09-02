@@ -10,7 +10,7 @@ namespace Process_Page.ViewModel
 {
     public class PointViewModel : ViewModelBase
     {
-        public PointViewModel(double x, double y, int s)
+        public PointViewModel(double x, double y, int i)
         {
             this.x = x;
             this.y = y;

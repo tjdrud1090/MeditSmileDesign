@@ -3,13 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
       xmlns:local="clr-namespace:Process_Page.Cards"
-      xmlns:MouseBehaviours="clr-namespace:Process_Page.Util"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:View="clr-namespace:Process_Page.ToothTemplate"
       xmlns:Utils="clr-namespace:Process_Page.Util"
       xmlns:wpfx1="http://schemas.xceed.com/wpf/xaml/toolkit"
-      mc:Ignorable="d" 
       x:Name="SmileDesignPage"
       d:DesignHeight="900" d:DesignWidth="1200"
       Title="SmileDesignPage">
@@ -39,42 +38,17 @@
 
         <!--실제 이미지 조정 부분 : face align, tooth template 조정-->
         <Grid Name="CanvasView" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="20"
-              MouseBehaviours:MouseBehaviour.MouseWheelCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.SizeChangedWheel}">
+              Utils:MouseBehaviour.MouseWheelCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.SizeChangedWheel}">
             <Canvas x:Name="Image_Canvas" Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
                     Height="{Binding ElementName=CanvasView, Path=ActualHeight}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
-                    MouseBehaviours:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}"
-                    MouseBehaviours:MouseBehaviour.MouseRightButtonDownCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightDown}"
-                    MouseBehaviours:MouseBehaviour.MouseRightButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightUp}"
-                    MouseBehaviours:KeyBoardBehaviors.KeyboardDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.keyboardDown}">
+                    Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
+                    Utils:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
+                    Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}"
+                    Utils:MouseBehaviour.MouseRightButtonDownCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightDown}"
+                    Utils:MouseBehaviour.MouseRightButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.RightUp}"
+                    Utils:KeyBoardBehaviors.KeyboardDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.keyboardDown}">
                 <Canvas x:Name="cap_canvas" Width="1000" Height="1000">
-                    <local:ImageCanvas x:Name="GagFaceImage"
-                                   FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.GagPoints}"
-                                   ImageSource="{Binding ElementName=SmileDesignPage, Path=DataContext.GagFaceSource}"
-                                   RotateAngle="{Binding ElementName=SmileDesignPage, Path=DataContext.GagAngle}"
-                                   TransformCenter="{Binding ElementName=SmileDesignPage, Path=DataContext.TransGagCenter}"
-                                   ScaleXY="1"
-                                   Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.GagCenter.X}"
-                                   Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.GagCenter.Y}">
-                </local:ImageCanvas>
-                    <Grid x:Name="Uppercanvas" Width="1000" Height="1000"
-                          Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothLowerCenter.X}"
-                          Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothLowerCenter.Y}">
-                        <View:LowerTooth x:Name="UserLower" Tooth_Points="{Binding ElementName=ToothControl, Path=DataContext.LowerPoints}"
-                                Visibility="Hidden"
-                                ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
-                                Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:LowerTooth>
-                </Grid>
-                    <Grid x:Name="Lowcanvas" Width="1000" Height="1000"
-                                 Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothUpperCenter.X}"
-                                 Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothUpperCenter.Y}">
-                        <View:UpperTooth x:Name="UserUpper" Tooth_Points="{Binding ElementName=ToothControl, Path=DataContext.UpperPoints}"
-                               Visibility="Hidden"
-                                ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
-                                Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:UpperTooth>
-                    </Grid>
-                 <local:ImageCanvas x:Name="FrontalFaceImage"
+                    <local:ImageCanvas x:Name="FrontalFaceImage"
                                    FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalPoints}"
                                    ImageSource="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalFaceSource}"
                                    RotateAngle="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalAngle}"
@@ -83,7 +57,35 @@
                                    ScaleXY="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalScale}"
                                    Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.X}"
                                    Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.FrontalCenter.Y}">
-                </local:ImageCanvas>
+                    </local:ImageCanvas>
+
+                    <local:ImageCanvas x:Name="GagFaceImage"
+                                   FacePoints="{Binding ElementName=SmileDesignPage, Path=DataContext.GagPoints}"
+                                   ImageSource="{Binding ElementName=SmileDesignPage, Path=DataContext.GagFaceSource}"
+                                   RotateAngle="{Binding ElementName=SmileDesignPage, Path=DataContext.GagAngle}"
+                                   TransformCenter="{Binding ElementName=SmileDesignPage, Path=DataContext.TransGagCenter}"
+                                   ScaleXY="1"
+                                   Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.GagCenter.X}"
+                                   Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.GagCenter.Y}">
+                    </local:ImageCanvas>
+                    <Grid x:Name="Lowcanvas" Width="1000" Height="1000"
+                          Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothLowerCenter.X}"
+                          Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothLowerCenter.Y}">
+                        <View:LowerTooth x:Name="UserLower" Tooth_Points="{Binding ElementName=ToothControl, Path=DataContext.LowerPoints}"
+                                         Visibility="Hidden"
+                                         ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
+                                         Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:LowerTooth>
+                    </Grid>
+                    <Grid x:Name="Uppercanvas" Width="1000" Height="1000"
+                                 Canvas.Left="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothUpperCenter.X}"
+                                 Canvas.Top="{Binding ElementName=SmileDesignPage, Path=DataContext.ToothUpperCenter.Y}">
+                        <View:UpperTooth x:Name="UserUpper" Tooth_Points="{Binding ElementName=ToothControl, Path=DataContext.UpperPoints}"
+                                         Visibility="Hidden"
+                                         ShowLengths="{Binding ElementName=ToothControl, Path=DataContext.ShowLength}"
+                                         Fill="{Binding ElementName=ToothControl, Path=DataContext.ColorTeeth}"></View:UpperTooth>
+                    </Grid>
+
+                  
                 </Canvas>
 
                 <!-- Mouth Control Draw -->
@@ -118,20 +120,20 @@
             <Canvas x:Name="Draw_Canvas" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
                     Height="{Binding ElementName=CanvasView, Path=ActualHeight}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
-                    MouseBehaviours:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
-                    MouseBehaviours:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}">
+                    Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding ElementName=SmileDesignPage, Path=DataContext.LeftDown}"
+                    Utils:MouseBehaviour.MouseMoveCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.MouseMoveCommand}"
+                    Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding  ElementName=SmileDesignPage, Path=DataContext.LeftUp}">
 
                 <Canvas x:Name="Faceline_layer0"
                     Width="{Binding ElementName=CanvasView, Path=ActualWidth}"
                     Height="{Binding ElementName=CanvasView, Path=ActualHeight}">
-                    <Path Name="midline" Data="{Binding midline}" Stroke="Black" StrokeThickness="1" Fill="Black"
+                    <Path Name="midline" Data="{Binding midline}" Stroke="Black" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=SmileDesignPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="noseline_L" Data="{Binding noseline_L}" Stroke="Red" StrokeThickness="1" Fill="Black"
+                    <Path Name="noseline_L" Data="{Binding noseline_L}" Stroke="Red" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=SmileDesignPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
-                    <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="1" Fill="Black"
+                    <Path Name="noseline_R" Data="{Binding noseline_R}" Stroke="Green" StrokeThickness="{Binding alignLineThickness}" Fill="Black"
                            Visibility="{Binding ElementName=SmileDesignPage, Path=DataContext.FaceLineVisiblity}"
                               ></Path>
                 </Canvas>
@@ -150,9 +152,9 @@
             <DockPanel>
                 <materialDesign:PopupBox  DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Width="42" Foreground="White" HorizontalAlignment="Left" Height="22" >
                     <StackPanel >
-                        <Button Content="로그아웃" Click="Button_Click" />
+                        <Button Content="로그아웃" Click="LoginClicked" />
                         <Separator/>
-                        <Button Content="끝내기" Click="Button_Click_1" />
+                        <Button Content="끝내기" Click="EndProgram" />
                     </StackPanel>
                 </materialDesign:PopupBox>
 
@@ -246,7 +248,7 @@
                                   VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
                                   Visibility="Visible"/>
 
-        <Button x:Name="SaveButton" Click="Button1_Click" Content="save" Grid.Column="0" Grid.Row="5" 
+        <Button x:Name="SaveButton" Click="Save_Clicked" Content="save" Grid.Column="0" Grid.Row="5" 
                 HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20"
                 Command="{Binding Savecommand}" />
 
@@ -258,7 +260,14 @@
                         Margin="19,17,0,80" Grid.Column="1" Grid.Row="2" Height="30" Width="30">
             <materialDesign:PackIcon Kind="Magnify" />
         </Button>
-
+        <Button
+            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+            Grid.Row="4" Background="#FF21FF0B" Foreground="#DD000000" FontWeight="Bold" FontSize="18" Height="50"
+            materialDesign:ButtonAssist.CornerRadius="25 25 0 0"
+            Command="{Binding smile_manual}"
+            ToolTip="조작법 설명" Margin="0,169,0,0">
+            <TextBlock Text="Manual" />
+        </Button>
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="5" Grid.ColumnSpan="3" >
         </materialDesign:DialogHost>
 

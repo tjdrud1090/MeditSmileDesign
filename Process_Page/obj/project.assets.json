@@ -11,7 +11,7 @@
           "lib/net47/CommonServiceLocator.dll": {}
         }
       },
-      "DlibDotNet/19.17.0.20190623": {
+      "DlibDotNet/19.17.0.20190813": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/DlibDotNet.dll": {}
@@ -59,6 +59,18 @@
           "runtimes/win-x64/native/DlibDotNetNativeDnn.dll": {
             "assetType": "native",
             "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/.keepfolder": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/DlibDotNetNative.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          },
+          "runtimes/win-x86/native/DlibDotNetNativeDnn.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
           }
         }
       },
@@ -203,7 +215,7 @@
           "lib/net47/CommonServiceLocator.dll": {}
         }
       },
-      "DlibDotNet/19.17.0.20190623": {
+      "DlibDotNet/19.17.0.20190813": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/DlibDotNet.dll": {}
@@ -339,7 +351,7 @@
           "lib/net47/CommonServiceLocator.dll": {}
         }
       },
-      "DlibDotNet/19.17.0.20190623": {
+      "DlibDotNet/19.17.0.20190813": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/DlibDotNet.dll": {}
@@ -480,13 +492,18 @@
           "lib/net47/CommonServiceLocator.dll": {}
         }
       },
-      "DlibDotNet/19.17.0.20190623": {
+      "DlibDotNet/19.17.0.20190813": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/DlibDotNet.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/DlibDotNet.dll": {}
+        },
+        "native": {
+          "runtimes/win-x86/native/.keepfolder": {},
+          "runtimes/win-x86/native/DlibDotNetNative.dll": {},
+          "runtimes/win-x86/native/DlibDotNetNativeDnn.dll": {}
         },
         "build": {
           "build/DlibDotNet.props": {},
@@ -625,17 +642,17 @@
         "lib/netstandard2.0/CommonServiceLocator.dll"
       ]
     },
-    "DlibDotNet/19.17.0.20190623": {
-      "sha512": "CTueESMVFCIsWqtB5+n+C+Ie1ldYLswvuwihh3z6UM6f93XTBoAxUuxGwmAjF4CFnxDyEIV38A+NTczw4hxoJg==",
+    "DlibDotNet/19.17.0.20190813": {
+      "sha512": "TuQY0rtuH7lAkQxrOtpho+Qg7Ocj0OroRNiR4CjU2+k2Xl5fkTlj3KF+urmEvfZLGdboEypxgmF2YHLcDn6HVA==",
       "type": "package",
-      "path": "dlibdotnet/19.17.0.20190623",
+      "path": "dlibdotnet/19.17.0.20190813",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.txt",
         "build/DlibDotNet.props",
         "build/DlibDotNet.targets",
-        "dlibdotnet.19.17.0.20190623.nupkg.sha512",
+        "dlibdotnet.19.17.0.20190813.nupkg.sha512",
         "dlibdotnet.nuspec",
         "lib/netstandard2.0/DlibDotNet.dll",
         "licenses/dlib.txt",
@@ -656,7 +673,11 @@
         "runtimes/win-x64/lib/.keepfolder",
         "runtimes/win-x64/native/.keepfolder",
         "runtimes/win-x64/native/DlibDotNetNative.dll",
-        "runtimes/win-x64/native/DlibDotNetNativeDnn.dll"
+        "runtimes/win-x64/native/DlibDotNetNativeDnn.dll",
+        "runtimes/win-x86/lib/.keepfolder",
+        "runtimes/win-x86/native/.keepfolder",
+        "runtimes/win-x86/native/DlibDotNetNative.dll",
+        "runtimes/win-x86/native/DlibDotNetNativeDnn.dll"
       ]
     },
     "Extended.Wpf.Toolkit/3.5.0": {
@@ -1055,7 +1076,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
-      "DlibDotNet >= 19.17.0.20190623",
+      "DlibDotNet >= 19.17.0.20190813",
       "Extended.Wpf.Toolkit >= 3.5.0",
       "MaterialDesignColors >= 1.2.0",
       "MaterialDesignThemes >= 2.6.0",
@@ -1070,11 +1091,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Process_Page\\Process_Page_Change.csproj",
+      "projectUniqueName": "C:\\Users\\bit-user\\Desktop\\Process_Page\\Process_Page_Change.csproj",
       "projectName": "Process_Page_Change",
-      "projectPath": "D:\\Process_Page\\Process_Page_Change.csproj",
+      "projectPath": "C:\\Users\\bit-user\\Desktop\\Process_Page\\Process_Page_Change.csproj",
       "packagesPath": "C:\\Users\\bit-user\\.nuget\\packages\\",
-      "outputPath": "D:\\Process_Page\\obj\\",
+      "outputPath": "C:\\Users\\bit-user\\Desktop\\Process_Page\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -1099,7 +1120,7 @@
         "dependencies": {
           "DlibDotNet": {
             "target": "Package",
-            "version": "[19.17.0.20190623, )"
+            "version": "[19.17.0.20190813, )"
           },
           "Extended.Wpf.Toolkit": {
             "target": "Package",

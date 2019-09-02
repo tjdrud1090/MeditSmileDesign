@@ -123,7 +123,7 @@ namespace Process_Page.ToothTemplate
             Point max = new Point(Numerics.GetMaxX_Teeth(points).X, Numerics.GetMaxY_Teeth(points).Y);
 
             Left = (max.X + min.X) / 2;
-            Top = min.Y - ((max.Y - min.Y) / 4);
+            Top = min.Y - 10;
             Canvas.SetLeft(RotatePin, Left);
             Canvas.SetTop(RotatePin, Top);
         }

@@ -189,6 +189,18 @@ namespace Process_Page.Util
             return control;
         }
 
+        public BitmapImage LoadImage(string filename)
+        {
+            BitmapImage Load = new BitmapImage();
+
+            var input = new Mat();
+            input = Cv2.ImRead(filename, ImreadModes.AnyColor);
+            Load = Mat2Bmp(input);
+            Load.DecodePixelHeight = 1100;
+
+            return Load;
+        }
+
         //image mat -> array2d
         public Array2D<RgbPixel> Mat2array2D(Mat mat_image)
         {

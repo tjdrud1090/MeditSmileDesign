@@ -13,6 +13,8 @@ namespace Process_Page.ToothTemplate.Utils
     using TeethType = ObservableCollection<PointViewModel>;
     class Numerics
     {
+        #region Basic Comparison
+
         public const double Epsilon = 0.00001;
 
         public static bool FloatEquals(float f1, float f2) { return Math.Abs(f1 - f2) < Epsilon; }
@@ -42,8 +44,9 @@ namespace Process_Page.ToothTemplate.Utils
             return (degree * Math.PI) / 180;
         }
 
+        #endregion
 
-
+        #region Find Line
 
         public static double Distance(Point p, Point q)
         {
@@ -95,72 +98,9 @@ namespace Process_Page.ToothTemplate.Utils
             return (degree * Math.PI) / 180;
         }
 
-        #region Get max point
-        public static Point GetMaxPointTeeth(Teeth t)
-        {
-            double maxX = double.MinValue;
-            double maxY = double.MinValue;
-            foreach (PointViewModel point in t.Points)
-            {
-                if (point.X > maxX)
-                    maxX = point.X;
-                if (point.Y > maxY)
-                    maxY = point.Y;
-            }
-            return new Point(maxX, maxY);
-        }
-
-        public static Point GetMinPointTeeth(Teeth t)
-        {
-            double minX = double.MaxValue;
-            double minY = double.MaxValue;
-            foreach (PointViewModel point in t.Points)
-            {
-                if (point.X < minX)
-                    minX = point.X;
-                if (point.Y < minY)
-                    minY = point.Y;
-            }
-            return new Point(minX, minY);
-        }
-
-        public static Point GetMaxPoint(WrapTooth t)
-        {
-            double maxX = double.MinValue;
-            double maxY = double.MinValue;
-            foreach (TeethType pts in t.Points)
-            {
-                foreach (PointViewModel point in pts)
-                {
-                    if (point.X > maxX)
-                        maxX = point.X;
-                    if (point.Y > maxY)
-                        maxY = point.Y;
-                }
-            }
-            return new Point(maxX, maxY);
-        }
-
-        public static Point GetMinPoint(WrapTooth t)
-        {
-            double minX = double.MaxValue;
-            double minY = double.MaxValue;
-            foreach (TeethType pts in t.Points)
-            {
-                foreach (PointViewModel point in pts)
-                {
-                    if (point.X < minX)
-                        minX = point.X;
-                    if (point.Y < minY)
-                        minY = point.Y;
-                }
-            }
-            return new Point(minX, minY);
-        }
         #endregion
 
-        #region Get Points for Tooth
-
+        #region MaxMin for Tooth
 
         public static Point GetMinXY_Tooth(IEnumerable pts)
         {
@@ -199,7 +139,7 @@ namespace Process_Page.ToothTemplate.Utils
 
         #endregion
 
-        #region Get Points for Teeth
+        #region MaxMin for Teeth
 
         public static Point GetMinX_Teeth(List<Point> pts)
         {
@@ -239,6 +179,8 @@ namespace Process_Page.ToothTemplate.Utils
 
         #endregion
 
+        #region Convert to List
+
         public static List<Point> TeethToList(Teeth teeth)
         {
             List<Point> list = new List<Point>();
@@ -261,5 +203,7 @@ namespace Process_Page.ToothTemplate.Utils
             }
             return list;
         }
+
+        #endregion
     }
 }

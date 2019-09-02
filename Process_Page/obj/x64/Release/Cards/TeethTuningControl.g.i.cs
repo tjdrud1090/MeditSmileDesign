@@ -52,7 +52,7 @@ namespace Process_Page.Cards {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Process_Page_Change;component/cards/teethtuningcontrol.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Process_Page;component/cards/teethtuningcontrol.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Cards\TeethTuningControl.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

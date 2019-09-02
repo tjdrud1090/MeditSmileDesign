@@ -71,7 +71,7 @@ namespace Process_Page.TranslationDemo {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Process_Page_Change;component/translationdemo/slider1.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Process_Page;component/translationdemo/slider1.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\TranslationDemo\Slider1.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
