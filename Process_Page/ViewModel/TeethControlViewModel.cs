@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Media;
 using GalaSoft.MvvmLight;
 using Process_Page.ToothTemplate.Utils;
+using Process_Page.Util;
+using Process_Page.Cards;
 
 namespace Process_Page.ViewModel
 {
@@ -153,8 +155,6 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp6 != value)
                 {
-                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp6 = value;
                     UpperToothList[6] = value;
                     RaisePropertyChanged("UpperTmp6");
@@ -171,8 +171,6 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp7 != value)
                 {
-                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp7 = value;
                     UpperToothList[7] = value;
                     RaisePropertyChanged("UpperTmp7");
@@ -189,8 +187,6 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp8 != value)
                 {
-                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp8 = value;
                     UpperToothList[8] = value;
                     RaisePropertyChanged("UpperTmp8");
@@ -207,8 +203,6 @@ namespace Process_Page.ViewModel
             {
                 if (_UpperTmp9 != value)
                 {
-                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
-                    currentPage.UserUpper.Visibility = Visibility.Visible;
                     _UpperTmp9 = value;
                     UpperToothList[9] = value;
                     RaisePropertyChanged("UpperTmp9");
@@ -589,5 +583,35 @@ namespace Process_Page.ViewModel
         }
         #endregion
 
+        #region show mouth line
+        private bool _MouthLineShow;
+        public bool MouthLineShow
+        {
+            get
+            {
+                return _MouthLineShow;
+            }
+            set
+            {
+                if (_MouthLineShow != value)
+                {
+                    _MouthLineShow = value;
+
+                    SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+
+                    if (_MouthLineShow == false)
+                    {
+                        currentPage.MouthCutLine.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        currentPage.MouthCutLine.Visibility = Visibility.Visible;
+                    }
+
+                    RaisePropertyChanged("MouthLineShow");
+                }
+            }
+        }
+        #endregion
     }
 }

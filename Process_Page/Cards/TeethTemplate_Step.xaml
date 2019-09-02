@@ -92,7 +92,7 @@
                         </StackPanel>
                     </Expander>
                 </Grid>
-                
+                <CheckBox Grid.Row="4" Content="Show Mouth Line" IsChecked="{Binding MouthLineShow}" Margin="10"></CheckBox>
             </Grid>
         </materialDesign:Card>
     </Grid>

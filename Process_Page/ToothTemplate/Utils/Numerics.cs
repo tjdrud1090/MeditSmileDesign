@@ -203,7 +203,6 @@ namespace Process_Page.ToothTemplate.Utils
             }
             return list;
         }
-       
         #endregion
     }
 }

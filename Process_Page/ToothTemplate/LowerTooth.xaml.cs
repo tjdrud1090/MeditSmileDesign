@@ -49,6 +49,7 @@ namespace Process_Page.ToothTemplate
             if (e.NewValue == null) return;
 
             lower.DrawMover();
+            lower.DrawHoHoLine();
         }
 
         #region PropertyChanged
@@ -81,13 +82,19 @@ namespace Process_Page.ToothTemplate
             UnRegisterCollectionItemPropertyChanged(e.OldItems);
 
             DrawMover();
+            DrawHoHoLine();
         }
 
         private void OnPointPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "X" || e.PropertyName == "Y")
+            {
                 DrawMover();
+                DrawHoHoLine();
+            }
         }
+        #endregion
+
         #endregion
 
         #endregion
@@ -125,6 +132,31 @@ namespace Process_Page.ToothTemplate
             Canvas.SetLeft(MoveTop, left);
             Canvas.SetTop(MoveTop, top);
             MoveTop.Visibility = Visibility.Visible;
+        }
+
+
+        private void DrawHoHoLine()
+        {
+
+            Point MaxPoint = Numerics.GetMaxXY_Tooth(Tooth_Points);
+            Point MinPoint = Numerics.GetMinXY_Tooth(Tooth_Points);
+
+            double unitDistance = (MaxPoint.Y - MinPoint.Y) / 3;
+            DownPathFigure.StartPoint = new Point(MinPoint.X - 2 * unitDistance, MaxPoint.Y - unitDistance);
+            DownArcSegment.Point = new Point(MaxPoint.X + 2 * unitDistance, MaxPoint.Y - unitDistance);
+
+            UpPathFigure.StartPoint = new Point(MinPoint.X - 2 * unitDistance, MinPoint.Y - unitDistance);
+            UpArcSegment.Point = new Point(MaxPoint.X + 2 * unitDistance, MinPoint.Y - unitDistance); ;
+
+            double temp = 2 * (System.Math.Abs(MinPoint.X / 2 + MaxPoint.X / 2 - DownPathFigure.StartPoint.X)) / 1.7320508075688772935;//3^0.5
+            DownArcSegment.Size = new Size(1.5 * temp, temp);
+            UpArcSegment.Size = new Size(1.5 * temp, temp);
+
+            LeftSmileControl_up.Center = UpPathFigure.StartPoint;
+            RightSmileControl_up.Center = UpArcSegment.Point;
+
+            LeftSmileControl_down.Center = DownPathFigure.StartPoint;
+            RightSmileControl_down.Center = DownArcSegment.Point;
         }
     }
 }

@@ -73,6 +73,7 @@ namespace Process_Page.ToothTemplate
                     fr.Visibility = Visibility.Visible;
 
                 wrap.SetWrapToothRect();
+                wrap.DrawHoHoLine();
             }
             else
             {
@@ -114,6 +115,48 @@ namespace Process_Page.ToothTemplate
                     DrawTeeth draw = teeth.FindName("drawTeeth") as DrawTeeth;
                     draw.path.Fill = wrap.Fill ? draw.FindResource(wrap.fillImgName) as ImageBrush : null;
                 }
+            }
+        }
+
+        #endregion
+
+        #region NotifyPropertyChanged
+
+        private void RegisterCollectionItemPropertyChanged(IEnumerable collection)
+        {
+            if (collection == null)
+                return;
+            foreach (TeethType points in collection)
+            {
+                foreach (INotifyPropertyChanged point in points)
+                    point.PropertyChanged += OnPointPropertyChanged;
+            }
+        }
+
+        private void UnRegisterCollectionItemPropertyChanged(IEnumerable collection)
+        {
+            if (collection == null)
+                return;
+            foreach (TeethType points in collection)
+            {
+                foreach (INotifyPropertyChanged point in points)
+                    point.PropertyChanged -= OnPointPropertyChanged;
+            }
+        }
+
+        private void OnPointCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RegisterCollectionItemPropertyChanged(e.NewItems);
+            UnRegisterCollectionItemPropertyChanged(e.OldItems);
+            SetWrapToothRect();
+            DrawHoHoLine();
+        }
+
+        private void OnPointPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "X" || e.PropertyName == "Y") {
+                SetWrapToothRect();
+                DrawHoHoLine();
             }
         }
 

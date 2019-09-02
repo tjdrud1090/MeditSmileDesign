@@ -17,6 +17,85 @@
                          Points="{Binding  ElementName=LowerToothControl, Path=Tooth_Points}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
 
+        <Image x:Name="MoveTop" Source="/image/DragArrow1.png" 
+               Visibility="Hidden" Width="7" Height="7" Cursor="Hand"
+               Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
+               Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
+               Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
+        
+        <Path x:Name="SmileUpLine" Stroke="SkyBlue" StrokeThickness="0.7">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure x:Name="UpPathFigure">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment x:Name="UpArcSegment" SweepDirection="Counterclockwise" IsStroked="True"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+        <Path x:Name="SmileDownLine" Stroke="SkyBlue" StrokeThickness="0.7">
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure x:Name="DownPathFigure">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <ArcSegment x:Name="DownArcSegment" SweepDirection="Counterclockwise" IsStroked="True"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+        <Path x:Name="UpSmile_Left" Fill="LawnGreen" Stroke="DarkOliveGreen" StrokeThickness="0.5"
+              Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForSmileLine}"
+              Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForSmileLine}"
+              Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForSmileLine}">
+            <Path.Data>
+                <EllipseGeometry x:Name="LeftSmileControl_up" RadiusX="1" RadiusY="1"/>
+            </Path.Data>
+        </Path>
+
+        <Path x:Name="UpSmile_Right" Fill="LawnGreen" Stroke="DarkOliveGreen" StrokeThickness="0.5"
+              Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForSmileLine}"
+              Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForSmileLine}"
+              Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForSmileLine}">
+            <Path.Data>
+                <EllipseGeometry x:Name="RightSmileControl_up" RadiusX="1" RadiusY="1"/>
+            </Path.Data>
+        </Path>
+
+        <Path x:Name="DownSmile_Left" Fill="LawnGreen" Stroke="DarkOliveGreen" StrokeThickness="0.5"
+              Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForSmileLine}"
+              Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForSmileLine}"
+              Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForSmileLine}">
+            <Path.Data>
+                <EllipseGeometry x:Name="LeftSmileControl_down" RadiusX="1" RadiusY="1"/>
+
+            </Path.Data>
+        </Path>
+
+        <Path x:Name="DownSmile_Right" Fill="LawnGreen" Stroke="DarkOliveGreen" StrokeThickness="0.5"
+              Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForSmileLine}"
+              Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForSmileLine}"
+              Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForSmileLine}">
+            <Path.Data>
+                <EllipseGeometry x:Name="RightSmileControl_down" RadiusX="1" RadiusY="1"/>
+            </Path.Data>
+        </Path>
+
         <Grid Name="GridInTooth">
             <local:Teeth x:Name="CanineL" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[2]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
@@ -36,14 +115,14 @@
             <local:Teeth x:Name="CanineR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[5]}" 
                          ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
                          Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
+            <local:Teeth x:Name="LateralIncisorR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[4]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
+                         Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
+            <local:Teeth x:Name="CanineR" Points="{Binding ElementName=LowerToothControl, Path=Tooth_Points[5]}" 
+                         ShowLengthXY="{Binding Path=ShowLengths, ElementName=LowerToothControl}"
+                         Fill="{Binding Path=Fill, ElementName=LowerToothControl}"/>
             
         </Grid>
-        
-        <Image x:Name="MoveTop" Source="/image/DragArrow1.png" 
-               Visibility="Hidden" Width="7" Height="7" Cursor="Hand"
-               Utils:MouseBehaviour.MouseLeftButtonDownCommand="{Binding MouseLeftDownForDragAndDropTooth}"
-               Utils:MouseBehaviour.MouseMoveCommand="{Binding MouseMoveForDragAndDropTooth}"
-               Utils:MouseBehaviour.MouseLeftButtonUpCommand="{Binding MouseLeftUpForDragAndDropTooth}"/>
         
     </Canvas>
 </UserControl>

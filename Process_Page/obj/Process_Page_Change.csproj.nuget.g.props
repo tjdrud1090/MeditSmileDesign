@@ -5,9 +5,9 @@
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">D:\ho-ho\WPF\MeditSmileDesign\Process_Page\obj\project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\bit\.nuget\packages\</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\bit-user\.nuget\packages\</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.0.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.2.0</NuGetToolVersion>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -17,6 +17,7 @@
     <Import Project="$(NuGetPackageRoot)dlibdotnet\19.17.0.20190813\build\DlibDotNet.props" Condition="Exists('$(NuGetPackageRoot)dlibdotnet\19.17.0.20190813\build\DlibDotNet.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMvvmLight Condition=" '$(PkgMvvmLight)' == '' ">C:\Users\bit\.nuget\packages\mvvmlight\5.4.1.1</PkgMvvmLight>
+    <PkgMvvmLight Condition=" '$(PkgMvvmLight)' == '' ">C:\Users\bit-user\.nuget\packages\mvvmlight\5.4.1.1</PkgMvvmLight>
+    <PkgExtended_Wpf_Toolkit Condition=" '$(PkgExtended_Wpf_Toolkit)' == '' ">C:\Users\bit-user\.nuget\packages\extended.wpf.toolkit\3.5.0</PkgExtended_Wpf_Toolkit>
   </PropertyGroup>
 </Project>

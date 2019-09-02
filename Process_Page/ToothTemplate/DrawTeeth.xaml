@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              
-             xmlns:ViewModel="clr-namespace:Process_Page"
+             xmlns:ViewModel="clr-namespace:Process_Page.ViewModel"
              
              mc:Ignorable="d" 
              x:Name="DrawTeethControl"
@@ -21,10 +21,9 @@
 
     <Canvas>
         <Canvas.DataContext>
-            <ViewModel:FaceAlign_PageViewModel/>
+            <ViewModel:SmilePageViewModel/>
         </Canvas.DataContext>
-        <Path x:Name="path" 
-              Stroke="{Binding PathColor, ElementName=DrawTeethControl}" 
+        <Path x:Name="path" Stroke="{Binding PathColor, ElementName=DrawTeethControl}" 
               StrokeThickness="{Binding drawTeethThickness}"/>
     </Canvas>
 

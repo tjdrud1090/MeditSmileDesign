@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Process_Page.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -72,7 +73,6 @@ namespace Process_Page
 
             using (drawingContext)
             {
-                //drawingContext.PushTransform(new ScaleTransform(scale, scale));
                 drawingContext.DrawRectangle(sourceBrush, null, new Rect(new Point(0, 0), new Point(actualWidth, actualHeight)));
             }
             renderTarget.Render(drawingVisual);

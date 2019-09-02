@@ -84,6 +84,7 @@ namespace Process_Page.ToothTemplate.AttachedProperties
                     RegistredElements[frameworkElement].MouseDown = (_, __) =>
                     {
                         var mv = ((SmileDesign_Page)(Application.Current.MainWindow.Content)) as SmileDesign_Page;
+
                         if (mv.ToothControl.EditPoints.IsChecked == true)
                         {
                             // Remove

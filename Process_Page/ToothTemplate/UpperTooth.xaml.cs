@@ -1,6 +1,5 @@
 ﻿using Process_Page.ToothTemplate.Utils;
 using Process_Page.ViewModel;
-using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -8,8 +7,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Process_Page.ToothTemplate {
-
+namespace Process_Page.ToothTemplate 
+{
     using TeethType = ObservableCollection<PointViewModel>;
 
     public partial class UpperTooth : UserControl
@@ -48,6 +47,42 @@ namespace Process_Page.ToothTemplate {
             {
                 (e.NewValue as INotifyCollectionChanged).CollectionChanged += upper.OnPointCollectionChanged;
                 upper.RegisterCollectionItemPropertyChanged(e.NewValue as IEnumerable);
+            }
+
+            if (e.OldValue is INotifyCollectionChanged)
+            {
+                (e.OldValue as INotifyCollectionChanged).CollectionChanged -= upper.OnPointCollectionChanged;
+                upper.UnRegisterCollectionItemPropertyChanged(e.OldValue as IEnumerable);
+            }
+
+            if (e.NewValue == null) return;
+
+            upper.DrawMover();
+            upper.DrawHoHoLine();
+        }       
+
+        #region PropertyChanged
+
+        private void RegisterCollectionItemPropertyChanged(IEnumerable collection)
+        {
+            if (collection == null)
+                return;
+
+            foreach (TeethType points in collection)
+            {
+                foreach (INotifyPropertyChanged point in points)
+                    point.PropertyChanged += OnPointPropertyChanged;
+            }
+        }
+
+        private void UnRegisterCollectionItemPropertyChanged(IEnumerable collection)
+        {
+            if (collection == null)
+                return;
+            foreach (TeethType points in collection)
+            {
+                foreach (INotifyPropertyChanged point in points)
+                    point.PropertyChanged -= OnPointPropertyChanged;
             }
 
             if (e.OldValue is INotifyCollectionChanged)

@@ -4,13 +4,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaterialDesignColors.WpfExample.Domain;
 using Process_Page_Change.Util;
 
-namespace Process_Page
+namespace Process_Page.ViewModel
 {
     public class DialogsViewModel : INotifyPropertyChanged
     {
@@ -38,6 +41,7 @@ namespace Process_Page
         public static BitmapImage infoupFileName;
         public static BitmapImage infoLFileName;
         public static BitmapImage infoRFileName;
+
         public DialogsViewModel()
         {
 
@@ -173,16 +177,26 @@ namespace Process_Page
             OnPropertyChanged("SelectedLfile");
             OnPropertyChanged("SelectedRfile");
 
-
-
-
-
         }
 
         public ICommand ChangePageCommand { get; }
+
         public void nextPage(object obj)
         {
-            SmileDesign_Page page = new SmileDesign_Page();
+            // 만약 selected된 객체가 없으면 message 띄워주기
+            if (Selected == null)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(500);
+                }).ContinueWith(t =>
+                {
+                    ((PatientInfo_Page)(Application.Current.MainWindow.Content)).MainSnackbar.MessageQueue.Enqueue("선택된 정보가 없습니다.");
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+                return;
+            }
+
+            FaceAlign_Page page = new FaceAlign_Page();
             System.Windows.Application.Current.MainWindow.Content = page;
         }
 
@@ -234,14 +248,6 @@ namespace Process_Page
             Sample4Content = null;
         }
 
-        //private void AcceptSample4Dialog(object obj)
-        //{
-        //    //pretend to do something for 3 seconds, then close
-        //    Sample4Content = new SampleProgressDialog();
-        //    Task.Delay(TimeSpan.FromSeconds(3))
-        //        .ContinueWith((t, _) => IsSample4DialogOpen = false, null,
-        //            TaskScheduler.FromCurrentSynchronizationContext());
-        //}
 
         #endregion
 
