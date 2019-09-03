@@ -9,14 +9,14 @@
              
              x:Name="TeethControl"
              d:DesignHeight="860" d:DesignWidth="1280">
+    
     <Canvas x:Name="Canvas_Teeth">
 
         <local:RotateTeeth x:Name="rotateTeeth"
             Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
         <local:DrawTeeth x:Name="drawTeeth"
-            Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            IsClosedCurve="{Binding IsClosedCurve}"/>
+            Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
         <local:WrapTeeth x:Name="wrapTeeth"
             Points="{Binding Points, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -31,5 +31,7 @@
                 </ControlTemplate>
             </ListBox.Template>
         </ListBox>
+        
     </Canvas>
+    
 </UserControl>

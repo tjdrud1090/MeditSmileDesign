@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using Process_Page.ToothTemplate.Utils;
 
 namespace Process_Page.ViewModel
 {
     public class PointViewModel : ViewModelBase
     {
-        public PointViewModel(double x, double y, int s)
+        public PointViewModel(double x, double y, int i)
         {
             this.x = x;
             this.y = y;

@@ -55,7 +55,7 @@ namespace Process_Page.Cards.TranslationControl {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Process_Page_Change;component/cards/translationcontrol/slider1.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Process_Page;component/cards/translationcontrol/slider1.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Cards\TranslationControl\slider1.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

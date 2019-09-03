@@ -4,6 +4,6 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)dlibdotnet\19.17.0.20190623\build\DlibDotNet.targets" Condition="Exists('$(NuGetPackageRoot)dlibdotnet\19.17.0.20190623\build\DlibDotNet.targets')" />
+    <Import Project="$(NuGetPackageRoot)dlibdotnet\19.17.0.20190813\build\DlibDotNet.targets" Condition="Exists('$(NuGetPackageRoot)dlibdotnet\19.17.0.20190813\build\DlibDotNet.targets')" />
   </ImportGroup>
 </Project>

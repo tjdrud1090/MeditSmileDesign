@@ -27,14 +27,6 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-
-    <Page.DataContext>
-        <local:DialogsViewModel/>
-    </Page.DataContext>
-
-
-
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -53,13 +45,8 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-     
-
-
-
         <materialDesign:DialogHost Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="top" Margin="10,10,0,0" 
                                    Width="560" Height="940" IsOpen="{Binding IsSample4DialogOpen}" DialogContent="{Binding Sample4Content}"/>
-
 
         <GroupBox
              Header="Patient List"

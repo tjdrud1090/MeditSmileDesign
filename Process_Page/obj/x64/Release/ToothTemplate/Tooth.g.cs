@@ -116,7 +116,7 @@ namespace Process_Page.ToothTemplate {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Process_Page_Change;component/toothtemplate/tooth.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Process_Page;component/toothtemplate/tooth.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\ToothTemplate\Tooth.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

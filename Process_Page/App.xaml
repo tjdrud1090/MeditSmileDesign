@@ -7,16 +7,18 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />-->
 
                 <!--Tooth Dictionary-->
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
                         <ResourceDictionary Source="Resource/MainColor.xaml" />
+                        <ResourceDictionary Source="Resource/Themes.xaml" />
                         <ResourceDictionary Source="ToothTemplate/DictionaryResources/MainResourceDictionary.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="MyriadPro">/Process_Page;component/Fonts/#Myriad Pro</FontFamily>
 
         </ResourceDictionary>
   </Application.Resources>

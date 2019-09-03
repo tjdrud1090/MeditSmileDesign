@@ -114,5 +114,16 @@ namespace Process_Page.ToothTemplate.Utils
                     return fr;
             return null;
         }
+
+        public static Teeth FindSymmetric(Teeth me, Dictionary<string, int> dic)
+        {
+            Grid parent = FindParent(me, (new Grid()).GetType()) as Grid;
+            int idx_me = dic[me.Name];
+            int idx_you = idx_me + (idx_me >= 0 && idx_me < 3 ? +3 : -3);
+            var myKey = dic.FirstOrDefault(p => p.Value == idx_you).Key;
+
+            Teeth you = parent.FindName(myKey) as Teeth;
+            return you;
+        }
     }
 }

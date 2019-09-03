@@ -8,12 +8,12 @@
              d:DesignHeight="100" d:DesignWidth="400">
 
 
-    <Grid Background="White">
+    <!--<Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <ComboBox Grid.Row="0" Margin="10,0,10,0"></ComboBox>
         <ComboBox Grid.Row="1" Margin="10,0,10,0"></ComboBox>
-    </Grid>
+    </Grid>-->
 </UserControl>

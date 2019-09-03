@@ -151,6 +151,7 @@ namespace Process_Page.ToothTemplate
         }
 
         #region PropertyChanged
+
         private void RegisterCollectionItemPropertyChanged(IEnumerable collection)
         {
             if (collection == null)
@@ -180,6 +181,7 @@ namespace Process_Page.ToothTemplate
             if (e.PropertyName == "X" || e.PropertyName == "Y")
                 SetWrapTeethRectAndLine();
         }
+
         #endregion
 
         #region DrawRect
@@ -187,7 +189,7 @@ namespace Process_Page.ToothTemplate
         public double Top;
         public double Left;
 
-        readonly double padding = 8;
+        readonly double padding = 0.5;
         private void DrawRect(Point min, Point max)
         {
             // Grid의 크기 설정
@@ -199,35 +201,19 @@ namespace Process_Page.ToothTemplate
 
             Canvas.SetLeft(this, Left);
             Canvas.SetTop(this, Top);
-
-            //Canvas cv = this.Parent as Canvas;
-            //Slider slider = null;
-            //foreach (var ctrl in cv.Children)
-            //{
-            //    if (ctrl is Slider)
-            //    {
-            //        slider = ctrl as Slider;
-            //        break;
-            //    }
-            //}
-
-            //if (slider != null)
-            //{
-            //    Canvas.SetLeft(slider, Left);
-            //    Canvas.SetTop(slider, Top);
-            //}
         }
 
         #endregion
 
         #region DrawLine
 
+        private double pad = 10;
         private void DrawLineXY(Point min, Point max)
         {
             double widthRect = max.X - min.X;
             double heightRect = max.Y - min.Y;
-            Point startHorizontal = new Point(min.X, min.Y + heightRect / 2);
-            Point endHorizontal = new Point(max.X, min.Y + heightRect / 2);
+            Point startHorizontal = new Point(min.X, min.Y + heightRect + pad);
+            Point endHorizontal = new Point(max.X, min.Y + heightRect + pad);
             Point startVertical = new Point(min.X + widthRect / 2, min.Y);
             Point endVertical = new Point(min.X + widthRect / 2, max.Y);
 
@@ -244,10 +230,14 @@ namespace Process_Page.ToothTemplate
 
             // infomation of length
             double leftH, topH, leftV, topV;
-            double padding = 10;
+            double padding = 0;
+
+            //measure_page = Application.Current.MainWindow.Content as Measure_Page;
+            //double pixcellength = measure_page.getmeasure();
+            double pixcellength = 1;
 
             // for length of Horizontal Line
-            lengthH.Content = widthRect.ToString("N2");
+            lengthH.Content = (widthRect * pixcellength).ToString("N2");
             leftH = lineH.X1 + widthRect / 2 + padding / 2;
             topH = lineH.Y1 + padding / 2;
 
@@ -255,7 +245,7 @@ namespace Process_Page.ToothTemplate
             Canvas.SetTop(lengthH, topH);
 
             // for length of Vertical Line
-            lengthV.Content = heightRect.ToString("N2");
+            lengthV.Content = (heightRect * pixcellength).ToString("N2");
             leftV = lineV.X1 + padding / 2;
             topV = lineV.Y1 + heightRect / 2 - (padding * 3);
 

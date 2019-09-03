@@ -8,44 +8,35 @@
              mc:Ignorable="d" 
              xmlns:utils="clr-namespace:Process_Page.Util"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             d:DesignHeight="450" d:DesignWidth="400">
+             d:DesignHeight="250" d:DesignWidth="345">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <materialDesign:Card  Margin="10">
-            <Viewbox Stretch="Uniform">
-                <Grid Margin="20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Viewbox Grid.Row="0" Stretch="Uniform" Margin="20,0">
-                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                            Style="{StaticResource MaterialDesignHeadlineTextBlock}">
-                            <TextBlock.Text>Measurement</TextBlock.Text>
-                        </TextBlock>
-                    </Viewbox>
 
-                    <Separator Grid.Row="1" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="8,0,8,0"></Separator>
 
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"></ColumnDefinition>
-                            <ColumnDefinition Width="auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Viewbox Grid.Column="0" Margin="10">
-                            <TextBlock Text="Measure (mm) : "
-                                Style="{StaticResource MaterialDesignHeadlineTextBlock}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        </Viewbox>
-                        <Viewbox Grid.Column="1" Stretch="Uniform">
-                            <!--<utils:NumericUpDown HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5" Width="115"></utils:NumericUpDown>-->
-                                <!--<ComboBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Width="115"></ComboBox>-->
-                        </Viewbox>
-                    </Grid>
-                    <Button Grid.Row="3" Margin="50,20" Content="측 정"></Button>
-                </Grid>
-            </Viewbox>
-        </materialDesign:Card>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Measure (mm) : " FontSize="20"
+                           Style="{StaticResource MaterialDesignHeadlineTextBlock}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+
+        <utils:NumericUpDown Grid.Row="1" x:Name="TeethActualSize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                     Value="8.0" Minimum="5" Maximum="10.0" StepValue="0.01" Margin="0,0,0,5" Grid.RowSpan="3"/>
+
+        <Button Grid.Row="2"  Content="측 정" FontFamily="{DynamicResource MyriadPro}"  Click="SetMeasurement" Margin="10,15,10,0"/>
+
+        <Separator Grid.Row="3" Style="{StaticResource MaterialDesignDarkSeparator}" Margin="0"></Separator>
+
+        <Button Grid.Row="4" Margin="10,0,10,0" Content="Teeth Selected" 
+                          FontSize="18" Click="TeethPointSelect_Checked"></Button>
     </Grid>
+
+
+
 </UserControl>

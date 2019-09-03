@@ -10,7 +10,7 @@
     <Grid>
         <materialDesign:Card Margin="10">
             <Grid>
-                <Button Name="Clear" Content="Clear" Margin="20"></Button>
+                <Button Name="Clear" Content="Clear" Margin="20" FontFamily="{DynamicResource MyriadPro}"></Button>
             </Grid>
         </materialDesign:Card>
     </Grid>

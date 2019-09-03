@@ -1,14 +1,70 @@
-﻿<UserControl x:Class="Process_Page_Change.Cards.layoutTemplate"
+﻿<UserControl x:Class="Process_Page.Cards.layoutTemplate"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Process_Page_Change.Cards"
+             xmlns:local="clr-namespace:Process_Page.Cards"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              x:Name="layouttemplate"
-               d:DesignHeight="200" d:DesignWidth="900">
+               d:DesignHeight="133" d:DesignWidth="900">
+
     <UserControl.Resources>
+        <DataTemplate x:Key="DataTemplate1">
+            <Grid Height="90" Width="85">
+                <Image x:Name="image"  Source="{Binding layoutfile}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="261"/>
+            <ColumnDefinition Width="Auto" MinWidth="449"/>
+        </Grid.ColumnDefinitions>
+
+
+        <materialDesign:DrawerHost Margin="49,30,-136,59" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="103" Width="807" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <materialDesign:DrawerHost.BottomDrawerContent>
+                <StackPanel Orientation="Horizontal" Background="Transparent">
+                    <Button Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Bottom}"
+                        Grid.Row="1" Grid.Column="0"
+                        VerticalAlignment="Center" Margin="0,0,0,0">
+                        CLOSE THIS
+                    </Button>
+                    <ListBox x:Name="patient"  ItemTemplate="{DynamicResource DataTemplate1}"
+                              RenderTransformOrigin="0.5,0.5" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                              SelectedItem="{Binding ElementName=layouttemplate, Path=Selected}">
+                        <ListBox.ItemsPanel >
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </StackPanel>
+            </materialDesign:DrawerHost.BottomDrawerContent>
+
+
+            <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,510,61">
+                <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Bottom}" 
+                        Grid.Row="0" Grid.Column="0" Margin="0,0,241,0">
+                    <materialDesign:PackIcon Kind="ArrowDown" Height="30" Width="98" RenderTransformOrigin="0.582,-0.259" />
+                </Button>
+
+
+            </StackPanel>
+        </materialDesign:DrawerHost>
+    </Grid>
+
+
+    <!--<UserControl.Resources>
         <DataTemplate x:Key="DataTemplate1">
             <Grid Height="90" Width="85">
                 <Image x:Name="image"  Source="{Binding layoutfile}"/>
@@ -47,5 +103,5 @@
                 </Grid>
             </Border>
         </materialDesign:DialogHost>
-    </Grid>
+    </Grid>-->
 </UserControl>

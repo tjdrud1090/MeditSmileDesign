@@ -18,22 +18,35 @@
 
             </Button>
             <Button IsCancel="True" Margin="8,3,0,4" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Content="{materialDesign:PackIcon CloseOutline}" Width="48" ToolTip="취소">
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Content="{materialDesign:PackIcon CloseOutline}" Width="48" ToolTip="취소" Click="clickclose">
                 <Button.CommandParameter>
                     <system:Boolean>False</system:Boolean>
                 </Button.CommandParameter>
             </Button>
         </StackPanel>
-        <Image x:Name="image" Width="{Binding ElementName=SavePage, Path=ActualWidth}"
-               Height="700"
-               Source="{Binding finalimage}" Margin="0" Stretch="UniformToFill" />
+        <Image x:Name="image"
+               Source="{Binding finalimage}" Margin="0,25,0,154"  Stretch="UniformToFill" HorizontalAlignment="Left" Width="612" />
+        <Image x:Name="preimage"  
+               Source="{Binding prefinalimage}"  Stretch="UniformToFill"  Width="{Binding chageheight}" Margin="0,25,0,154" HorizontalAlignment="Left" />
+        <Image x:Name="upimage" HorizontalAlignment="Left" Height="284" Margin="617,50,0,0" VerticalAlignment="Top" Width="273" Source="{Binding upperimage}"/>
+        <Image x:Name="downimage" HorizontalAlignment="Left" Height="305" Margin="617,360,0,0" VerticalAlignment="Top" Width="273" Source="{Binding Lowerimage}"/>
+        <Slider
+  TickFrequency="5"
+  Orientation="Horizontal"
+  TickPlacement="BottomRight"
+  Minimum="0"
+  Maximum="{Binding ElementName=image, Path=ActualWidth}"
+  Value="{Binding changeslider}"
+  IsSelectionRangeEnabled="True" Margin="0,651,283,0" Height="48" VerticalAlignment="Top" />
+
 
 
         <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}" Grid.RowSpan="2">
+
         </materialDesign:DialogHost>
-        <CheckBox x:Name="checkline" Margin="616,704,150,35" IsChecked="{Binding checkfaceline}">face line</CheckBox>
+
         <CheckBox x:Name="checkupteeth" Margin="326,704,440,35" IsChecked="{Binding checkteeth}">Upper tooth</CheckBox>
-        <CheckBox x:Name="checkdownteeth" Margin="471,704,295,35" IsChecked="{Binding checkdownfaceline}">Lower tooth</CheckBox>
+        <CheckBox x:Name="checkdownteeth" Margin="471,704,150,35" IsChecked="{Binding checkdownfaceline}">Lower tooth</CheckBox>
         <CheckBox x:Name="checksmile" Margin="181,704,585,35" IsChecked="{Binding checksmile}">Smile image</CheckBox>
         <CheckBox x:Name="checkopener" Margin="36,704,730,35" IsChecked="{Binding checkopener}">Opener image</CheckBox>
     </Grid>

@@ -58,7 +58,7 @@ namespace MaterialDesignColors.WpfExample.Domain
         {
             SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
             //currentPage.Faceline_layer0.Visibility = Visibility.Hidden;
-            Snapshot(currentPage.image_view, 1, 100);
+            Snapshot(currentPage.CanvasView, 1, 100);
 
         }
 
@@ -108,6 +108,15 @@ namespace MaterialDesignColors.WpfExample.Domain
             }
 
 
+        }
+
+        private void clickclose(object sender, RoutedEventArgs e)
+        {
+            SmileDesign_Page currentPage = (System.Windows.Application.Current.MainWindow.Content) as SmileDesign_Page;
+            currentPage.FrontalFaceImage.Visibility = Visibility.Visible;
+            currentPage.GagFaceImage.Visibility = Visibility.Visible;
+            currentPage.UserLower.Visibility = Visibility.Visible;
+            currentPage.UserUpper.Visibility = Visibility.Visible;
         }
     }
 }

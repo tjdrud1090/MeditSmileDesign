@@ -4,31 +4,35 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Process_Page.Util"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Style TargetType="{x:Type local:NumericUpDown}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type local:NumericUpDown}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <RepeatButton Grid.Row="0" Name="Part_UpButton"/>
-                                <ContentPresenter Grid.Row="1"></ContentPresenter>
-                                <RepeatButton Grid.Row="2" Name="Part_DownButton"/>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid>
-        
+             d:DesignHeight="120" d:DesignWidth="250" KeyDown="Numeric_KeyDown">
+
+    <Grid Margin="0,0,0,80">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" ></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <TextBox Name="Measurement" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="20" Text="0" FontWeight="Bold"
+                 LostFocus="Measurement_LostFocus" BorderThickness="0"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Background="Transparent">
+        </TextBox>
+
+
+        <Button x:Name="Up" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}" Click="_UpButton_Click" Height="Auto" Margin="10,0,10,0">
+            <materialDesign:PackIcon Kind="ArrowUp" Height="22" Width="13" Foreground="#FF004457" HorizontalAlignment="Center" />
+        </Button>
+        <Button x:Name="Down" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Style="{DynamicResource MaterialDesignRaisedAccentButton}" Click="_DownButton_Click" Height="Auto" Margin="10,0,10,0">
+            <materialDesign:PackIcon Kind="ArrowDown" Height="22" Width="13" Foreground="#FF004457" HorizontalAlignment="Center" />
+        </Button>
     </Grid>
+
 </UserControl>
